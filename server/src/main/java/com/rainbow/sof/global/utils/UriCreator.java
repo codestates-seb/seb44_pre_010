@@ -1,4 +1,4 @@
-package com.rainbow.sof.utils;
+package com.rainbow.sof.global.utils;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
