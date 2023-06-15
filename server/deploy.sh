@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 BUILD_JAR=$(ls /var/lib/jenkins/workspace/pre-project/server/build/libs/sof-0.0.1-SNAPSHOT.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 
