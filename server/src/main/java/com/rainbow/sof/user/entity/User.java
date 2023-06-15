@@ -1,43 +1,43 @@
 package com.rainbow.sof.user.entity;
 
 
+import com.rainbow.sof.domain.question.domain.Question;
+import com.rainbow.sof.global.common.BaseTimeEntity;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
-@Entity
-@Setter
+@Entity(name = "USERS")
+@Builder
 @NoArgsConstructor
-public class User {
+@AllArgsConstructor
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
 
-    @Column
+    @Column(nullable = false)
     private String password;
     @Email
-    @Column
+    @Column(nullable = false, updatable = false, unique = true)
     private String email;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
     @Enumerated(value = EnumType.STRING)
-    @Column
+    @Column(nullable = false)
     private Status status = Status.USER_ACTIVE;
 
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "LAST_MODIFIED_AT")
-    private LocalDateTime modifiedAt;
+//    @OneToMany(mappedBy = "USERS")
+//    private List<Question> questionList;
 
     public enum Status{
         USER_ACTIVE("활성상태"),
@@ -48,18 +48,6 @@ public class User {
         Status(String status) {
             this.status = status;
         }
-    }
-
-
-
-    public User(long userId, String password, String email, String name, Status status, LocalDateTime createdAt, LocalDateTime modifiedAt) {
-        this.userId = userId;
-        this.password = password;
-        this.email = email;
-        this.name = name;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
     }
 
 
