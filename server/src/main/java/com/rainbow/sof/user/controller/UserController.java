@@ -1,10 +1,10 @@
 package com.rainbow.sof.user.controller;
 
 
+import com.rainbow.sof.global.utils.UriCreator;
 import com.rainbow.sof.user.dto.singleDto.*;
 import com.rainbow.sof.user.repository.UserRepository;
 import com.rainbow.sof.user.service.UserService;
-import com.rainbow.sof.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
