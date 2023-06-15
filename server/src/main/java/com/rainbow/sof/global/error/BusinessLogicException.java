@@ -1,4 +1,4 @@
-package com.rainbow.sof.exception;
+package com.rainbow.sof.global.error;
 
 import lombok.Getter;
 
