@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@Builder
+@Setter
 @NoArgsConstructor
-public class Member {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long memberId;
+    private long userId;
 
     @Column
     private String password;
@@ -52,8 +52,8 @@ public class Member {
 
 
 
-    public Member(long memberId, String password, String email, String name, Status status, LocalDateTime createdAt, LocalDateTime modifiedAt) {
-        this.memberId = memberId;
+    public User(long userId, String password, String email, String name, Status status, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+        this.userId = userId;
         this.password = password;
         this.email = email;
         this.name = name;
