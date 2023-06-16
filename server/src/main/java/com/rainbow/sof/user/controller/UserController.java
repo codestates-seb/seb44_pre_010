@@ -27,9 +27,10 @@ public class UserController {
     private final static String USER_DEFAULT_URL = "/api/v1/users";
 
     @PostMapping("/signup")
-    public ResponseEntity<?> postSignup(@Valid @RequestBody UserDto.SignUpPost signUpPost){
+    public ResponseEntity postSignup(@Valid @RequestBody UserDto.SignUpPost signUpPost){
         User user = mapper.userSignupPostToUser(signUpPost);
-        URI location = UriCreator.createUri(USER_DEFAULT_URL, user.getUserId());
+        User createUser=service.createUser(user);
+        URI location = UriCreator.createUri(USER_DEFAULT_URL, createUser.getUserId());
         return ResponseEntity.created(location).build();
     }
 
