@@ -15,15 +15,16 @@ import java.util.List;
 
 @Getter
 @Entity(name = "USERS")
-@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
-    public User(long userId, String password, String email, String name, Status status, List<Question> questionList) {
+
+    @Builder
+    public User(long userId, String password, String email, String name, List<Question> questionList) {
         this.userId = userId;
         this.password = password;
         this.email = email;
         this.name = name;
-        this.status = Status.USER_ACTIVE;
         this.questionList = questionList;
     }
 
@@ -43,7 +44,7 @@ public class User extends BaseTimeEntity {
 //    @Builder.Default
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    private Status status;
+    private Status status =Status.USER_ACTIVE;
 
     @OneToMany(mappedBy = "user")
     private List<Question> questionList;
