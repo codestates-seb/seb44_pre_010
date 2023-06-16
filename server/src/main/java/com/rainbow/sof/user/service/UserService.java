@@ -24,10 +24,23 @@ public class UserService {
         return repository.save(user);
     }
 
+    public void deleteUser(long userId){
+        User user = findVerifiedUser(userId);
+
+        repository.delete(user);
+    }
+
+    private User findVerifiedUser(long userId) {
+        Optional<User> findUser = repository.findById(userId);
+        return findUser.orElseThrow(
+                ()-> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
+        );
+    }
+
     private void verifyExistsEmail(String email) {
         Optional<User> findUsers = repository.findByEmail(email);
         if (findUsers.isPresent()){
-            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
+            throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
         }
     }
 
