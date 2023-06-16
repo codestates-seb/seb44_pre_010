@@ -21,6 +21,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
@@ -42,7 +44,7 @@ public class UserControllerTest {
 
     private User testUserEntity;
 
-    @BeforeEach가
+    @BeforeEach
     public void initTest(){
         this.testUserEntity = User.builder()
                 .userId(1L)
@@ -70,6 +72,14 @@ public class UserControllerTest {
                 .content(userContext))
 
                 .andExpect(MockMvcResultMatchers.status().isCreated());
+    }
+
+    @Test
+    @DisplayName("회원 탈퇴 테스트")
+    public void deleteUserTest() throws Exception{
+        doNothing().when(service).deleteUser(Mockito.anyLong());
+        mockMvc.perform(MockMvcRequestBuilders.delete(User_ORIGIN_URI+"/users/1"))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
 }
