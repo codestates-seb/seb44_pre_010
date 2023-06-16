@@ -16,9 +16,19 @@ import java.util.List;
 @Getter
 @Entity(name = "USERS")
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
+    public User(long userId, String password, String email, String name, Status status) {
+        this.userId = userId;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+    }
+
+    public void updateStatus(Status status) {
+        this.status = status;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
@@ -32,6 +42,7 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String name;
 
+    @Builder.Default
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Status status = Status.USER_ACTIVE;
@@ -43,6 +54,7 @@ public class User extends BaseTimeEntity {
         USER_ACTIVE("활성상태"),
         USER_QUIT("임시 탈퇴 상태");
 
+        @Getter
         private final String status;
 
         Status(String status) {
