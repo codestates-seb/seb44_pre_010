@@ -51,7 +51,6 @@ public class UserControllerTest {
                 .name("홍길동")
                 .email("test@test.com")
                 .password("q12341234")
-                .status(User.Status.USER_ACTIVE)
                 .build();
         this.userContext = gson.toJson(UserDto.SignUpPost.builder()
                 .name("홍길동").
