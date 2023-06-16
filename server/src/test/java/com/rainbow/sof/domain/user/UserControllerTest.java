@@ -21,8 +21,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.BDDMockito.given;
-import static org.springframework.web.servlet.function.ServerResponse.status;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 public class UserControllerTest {
@@ -44,18 +42,18 @@ public class UserControllerTest {
 
     private User testUserEntity;
 
-    @BeforeEach
+    @BeforeEach가
     public void initTest(){
         this.testUserEntity = User.builder()
                 .userId(1L)
                 .name("홍길동")
                 .email("test@test.com")
-                .password("12341234")
+                .password("q12341234")
                 .status(User.Status.USER_ACTIVE)
                 .build();
         this.userContext = gson.toJson(UserDto.SignUpPost.builder()
                 .name("홍길동").
-                password("12341234").
+                password("q12341234").
                 email("test@test.com").
                 build());
     }
