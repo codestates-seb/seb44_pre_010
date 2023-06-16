@@ -1,5 +1,6 @@
 package com.rainbow.sof.user.dto.singleDto;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.Email;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 public class UserDto {
 
     @Getter
+    @Builder
     public static class SignUpPost{
 
         @NotBlank
@@ -25,6 +27,7 @@ public class UserDto {
     }
 
     @Getter
+    @Builder
     public static class LoginPost{
 
         @NotBlank
@@ -36,12 +39,14 @@ public class UserDto {
     }
 
     @Getter
+    @Builder
     public static class Patch{
         @NotBlank
         private String name;
     }
 
     @Getter
+    @Builder
     public static class Response{
         private long memberId;
         private String name;
