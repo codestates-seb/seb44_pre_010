@@ -1,5 +1,13 @@
+import { Outlet } from 'react-router-dom';
+import Header from './components/layouts/Header.jsx';
+
 function App() {
-  return <div>Hi</div>;
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
 }
 
 export default App;
