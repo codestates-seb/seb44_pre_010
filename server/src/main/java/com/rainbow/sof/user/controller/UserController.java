@@ -1,10 +1,11 @@
 package com.rainbow.sof.user.controller;
 
 
+import com.rainbow.sof.global.utils.UriCreator;
 import com.rainbow.sof.user.dto.singleDto.*;
-import com.rainbow.sof.user.repository.UserRepository;
+import com.rainbow.sof.user.entity.User;
+import com.rainbow.sof.user.mapper.UserMapper;
 import com.rainbow.sof.user.service.UserService;
-import com.rainbow.sof.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,13 +22,14 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository repository;
+    private final UserMapper mapper;
     private final UserService service;
+    private final static String USER_DEFAULT_URL = "/api/v1/users";
 
     @PostMapping("/signup")
     public ResponseEntity<?> postSignup(@Valid @RequestBody UserDto.SignUpPost signUpPost){
-
-        URI location = UriCreator.createUri("",1);
+        User user = mapper.userSignupPostToUser(signUpPost);
+        URI location = UriCreator.createUri(USER_DEFAULT_URL, user.getUserId());
         return ResponseEntity.created(location).build();
     }
 
