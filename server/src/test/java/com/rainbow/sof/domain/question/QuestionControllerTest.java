@@ -25,13 +25,16 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
 
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -143,7 +146,7 @@ public class QuestionControllerTest {
         //when
         ResultActions actions =
                 mockMvc.perform(
-                                get(QUESTION_DEFAULT_URL + "/{id}",question.getQuestionId())
+                                get(QUESTION_DEFAULT_URL + "/{question-id}",question.getQuestionId())
                                         .accept(MediaType.APPLICATION_JSON)
                         )
                         //then
@@ -159,7 +162,7 @@ public class QuestionControllerTest {
                                                 ResourceSnippetParameters.builder()
                                                         .description("질문 상세 조회")
                                                         .pathParameters(
-                                                                parameterWithName("id").description("질문 식별자")
+                                                                parameterWithName("question-id").description("질문 식별자")
                                                         )
                                                         .requestFields()
                                                         .responseFields(
@@ -215,7 +218,7 @@ public class QuestionControllerTest {
         //when
         ResultActions actions =
                 mockMvc.perform(
-                                patch(QUESTION_DEFAULT_URL + "/{id}",1)
+                                patch(QUESTION_DEFAULT_URL + "/{question-id}",1)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .content(jsonData)
                         )
@@ -229,7 +232,7 @@ public class QuestionControllerTest {
                                                 ResourceSnippetParameters.builder()
                                                         .description("질문 수정")
                                                         .pathParameters(
-                                                                parameterWithName("id").description("질문 식별자")
+                                                                parameterWithName("question-id").description("질문 식별자")
                                                         )
                                                         .requestFields(
                                                                 fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
@@ -240,6 +243,26 @@ public class QuestionControllerTest {
                                         )
                                 )
                         );
+
+    }
+
+    @Test
+    @DisplayName("Question이 삭제된다.(삭제)")
+    void deleteQuestion() throws Exception {
+        //given
+        doNothing().when(service).deleteQuestion(Mockito.anyLong());
+        // when
+        mockMvc.perform(
+                        delete(QUESTION_DEFAULT_URL+"/{question-id}",1L)
+                // then
+                ).andExpect(status().isNoContent())
+                .andDo(MockMvcRestDocumentationWrapper.document("질문 삭제 예제",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("question-id").description("질문 식별자")
+                        )
+                ));
 
     }
 

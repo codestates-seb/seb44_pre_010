@@ -48,4 +48,10 @@ public class QuestionController {
         URI location = UriCreator.createUri(QUESTION_DEFAULT_URL, question.getQuestionId());
         return ResponseEntity.created(location).build();
     }
+
+    @DeleteMapping("/questions/{id}")
+    public ResponseEntity deleteQuestion(@PathVariable("id") @Positive long id){
+        questionService.deleteQuestion(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
