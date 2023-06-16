@@ -177,4 +177,70 @@ public class QuestionControllerTest {
                         );
 
     }
+
+    @Test
+    @DisplayName("Question이 수정된다.(수정)")
+    void patchQuestion() throws Exception {
+        //given
+        String title = "이것은 제목입니다만. 제목이요 제목 제목제목ddddd제목제20자리 넘나요?";
+        String content = "이것은 내용dddddd입니다만. 내용이요. 내용";
+        QuestionDto.Patch request = QuestionDto.Patch.builder()
+                .title(title)
+                .content(content)
+                .build();
+
+        String jsonData = gson.toJson(request);
+
+        given(mapper.questionDtoPatchToQuestion(Mockito.any(QuestionDto.Patch.class))).willReturn(Question.builder().build());
+
+        Question question = Question.builder()
+                .questionId(1L)
+                .view(0)
+                .content(content)
+                .title(title)
+                .build();
+
+        QuestionDto.Response response = QuestionDto.Response.builder()
+                .title(title)
+                .content(content)
+                .view(0)
+                .questionId(1L)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .build();
+
+        given(service.updateQuestion(Mockito.anyLong(),Mockito.any(Question.class))).willReturn(question);
+        given(mapper.questionToQuestionDtoResponse(Mockito.any(Question.class))).willReturn(response);
+
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                                patch(QUESTION_DEFAULT_URL + "/{id}",1)
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content(jsonData)
+                        )
+                        //then
+                        .andExpect(status().isCreated())
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("질문 수정 예제",
+                                        preprocessRequest(prettyPrint()),
+                                        preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("질문 수정")
+                                                        .pathParameters(
+                                                                parameterWithName("id").description("질문 식별자")
+                                                        )
+                                                        .requestFields(
+                                                                fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
+                                                                fieldWithPath("content").type(JsonFieldType.STRING).description("질문 세부내용")
+                                                        )
+                                                        .responseFields()
+                                                        .build()
+                                        )
+                                )
+                        );
+
+    }
+
 }

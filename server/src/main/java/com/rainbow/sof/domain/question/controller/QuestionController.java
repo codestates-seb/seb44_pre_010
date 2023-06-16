@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.net.URI;
 
 @Slf4j
@@ -33,10 +34,18 @@ public class QuestionController {
     }
 
     @GetMapping("/questions/{id}")
-    public ResponseEntity saveQuestion(@PathVariable("id") long id){
+    public ResponseEntity getQuestion(@PathVariable("id") @Positive long id){
         Question question = questionService.findQuestion(id);
 
         return new ResponseEntity(
                 new SingleResponseDto<>(questionMapper.questionToQuestionDtoResponse(question)), HttpStatus.OK);
+    }
+
+    @PatchMapping("/questions/{id}")
+    public ResponseEntity patchQuestion(@PathVariable("id") @Positive long id
+                                            ,@RequestBody @Valid QuestionDto.Patch request){
+        Question question = questionService.updateQuestion(id, questionMapper.questionDtoPatchToQuestion(request));
+        URI location = UriCreator.createUri(QUESTION_DEFAULT_URL, question.getQuestionId());
+        return ResponseEntity.created(location).build();
     }
 }

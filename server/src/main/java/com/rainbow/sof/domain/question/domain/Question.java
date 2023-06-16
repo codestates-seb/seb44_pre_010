@@ -30,4 +30,12 @@ public class Question extends BaseTimeEntity {
     /*@ManyToOne
     @JoinColumn(name = "USER_ID")
     private User suer;*/
+
+    public void updateTitle(String title){
+        this.title = title;
+    }
+
+    public void updateContent(String content){
+        this.title = content;
+    }
 }
