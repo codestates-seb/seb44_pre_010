@@ -18,15 +18,13 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
-    public User(long userId, String password, String email, String name, Status status) {
+    public User(long userId, String password, String email, String name, Status status, List<Question> questionList) {
         this.userId = userId;
         this.password = password;
         this.email = email;
         this.name = name;
-    }
-
-    public void updateStatus(Status status) {
-        this.status = status;
+        this.status = Status.USER_ACTIVE;
+        this.questionList = questionList;
     }
 
     @Id
@@ -42,13 +40,13 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String name;
 
-    @Builder.Default
+//    @Builder.Default
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    private Status status = Status.USER_ACTIVE;
+    private Status status;
 
-//    @OneToMany(mappedBy = "USERS")
-//    private List<Question> questionList;
+    @OneToMany(mappedBy = "user")
+    private List<Question> questionList;
 
     public enum Status{
         USER_ACTIVE("활성상태"),
@@ -62,5 +60,7 @@ public class User extends BaseTimeEntity {
         }
     }
 
-
+    public void updateStatus(Status status) {
+        this.status = status;
+    }
 }
