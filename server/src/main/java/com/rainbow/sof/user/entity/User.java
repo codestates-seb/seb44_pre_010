@@ -1,48 +1,59 @@
 package com.rainbow.sof.user.entity;
 
 
+import com.rainbow.sof.domain.question.domain.Question;
+import com.rainbow.sof.global.common.BaseTimeEntity;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
-@Entity
-@Setter
-@NoArgsConstructor
-public class User {
+@Entity(name = "USERS")
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class User extends BaseTimeEntity {
+
+    @Builder
+    public User(long userId, String password, String email, String name, List<Question> questionList) {
+        this.userId = userId;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.questionList = questionList;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
 
-    @Column
+    @Column(nullable = false)
     private String password;
     @Email
-    @Column
+    @Column(nullable = false, updatable = false, unique = true)
     private String email;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
+//    @Builder.Default
     @Enumerated(value = EnumType.STRING)
-    @Column
-    private Status status = Status.USER_ACTIVE;
+    @Column(nullable = false)
+    private Status status =Status.USER_ACTIVE;
 
-    @CreatedDate
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "LAST_MODIFIED_AT")
-    private LocalDateTime modifiedAt;
+    @OneToMany(mappedBy = "user")
+    private List<Question> questionList;
 
     public enum Status{
         USER_ACTIVE("활성상태"),
         USER_QUIT("임시 탈퇴 상태");
 
+        @Getter
         private final String status;
 
         Status(String status) {
@@ -50,17 +61,7 @@ public class User {
         }
     }
 
-
-
-    public User(long userId, String password, String email, String name, Status status, LocalDateTime createdAt, LocalDateTime modifiedAt) {
-        this.userId = userId;
-        this.password = password;
-        this.email = email;
-        this.name = name;
+    public void updateStatus(Status status) {
         this.status = status;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
     }
-
-
 }
