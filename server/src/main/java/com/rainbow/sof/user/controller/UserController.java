@@ -25,9 +25,10 @@ public class UserController {
     private final UserMapper mapper;
     private final UserService service;
     private final static String USER_DEFAULT_URL = "/api/v1/users";
+    private final static String DELETE_ACTION_URL = "/signup";
 
     @PostMapping("/signup")
-    public ResponseEntity postSignup(@Valid @RequestBody UserDto.SignUpPost signUpPost){
+    public ResponseEntity<?> postSignup(@Valid @RequestBody UserDto.SignUpPost signUpPost){
         User user = mapper.userSignupPostToUser(signUpPost);
         User createUser=service.createUser(user);
         URI location = UriCreator.createUri(USER_DEFAULT_URL, createUser.getUserId());
@@ -62,6 +63,13 @@ public class UserController {
                                        @RequestBody UserDto.Patch patch){
 
         return ResponseEntity.ok("responseBody");
+    }
+
+    @DeleteMapping("/users/{user-id}")
+    public ResponseEntity<?> deleteUser(@Valid @PathVariable("user-id") @Positive long id){
+        service.deleteUser(id);
+        URI location = UriCreator.createUri(DELETE_ACTION_URL);
+        return ResponseEntity.noContent().location(location).build();
     }
 
 
