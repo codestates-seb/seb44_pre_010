@@ -6,6 +6,7 @@ import com.rainbow.sof.global.error.ExceptionCode;
 import com.rainbow.sof.user.entity.User;
 import com.rainbow.sof.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +17,11 @@ import java.util.Optional;
 @Transactional
 public class UserService {
     private final UserRepository repository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public User createUser(User user){
         verifyExistsEmail(user.getEmail());
-//        String passwordEncode = passwordEncoder.encode(user.getPassword());
+        String passwordEncode = passwordEncoder.encode(user.getPassword());
         return repository.save(user);
     }
 
