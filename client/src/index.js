@@ -21,10 +21,10 @@ const router = createBrowserRouter([
       { path: 'questions', element: <Questions /> },
       { path: 'tags', element: <Tags /> },
       { path: 'mypage', element: <MyPage /> },
-      { path: 'login', element: <Login /> },
-      { path: 'signup', element: <SignUp /> },
     ],
   },
+  { path: '/login', element: <Login /> },
+  { path: '/signup', element: <SignUp /> },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
