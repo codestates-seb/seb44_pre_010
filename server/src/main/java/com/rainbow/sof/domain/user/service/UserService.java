@@ -1,8 +1,11 @@
 package com.rainbow.sof.domain.user.service;
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD:server/src/main/java/com/rainbow/sof/user/service/UserService.java
 =======
+=======
+>>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
 import com.rainbow.sof.domain.user.entity.User;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
@@ -57,5 +60,8 @@ public class UserService {
 
 
 
+<<<<<<< HEAD
 >>>>>>> bd5190a0cc61cd37e6af235b1c215bbc2c8e86f1:server/src/main/java/com/rainbow/sof/domain/user/service/UserService.java
+=======
+>>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
 }
