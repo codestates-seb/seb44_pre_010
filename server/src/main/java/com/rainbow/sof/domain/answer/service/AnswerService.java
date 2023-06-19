@@ -19,28 +19,38 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
 
-    public Answer createAnswer(Answer answerPostDtoToAnswer) {
-        //TODO: Users, question 이 있는지 확인하는 로직 추가
+    public Answer createAnswer(long  questionId, Answer answer) {
+        //TODO: User 가 있는지 확인하는 로직 추가
+        findVerifiedQuestion(questionId);
 
-        return answerRepository.save(answerPostDtoToAnswer);
+        return answerRepository.save(answer);
     }
 
-    public Answer updateAnswer(long answerId, Answer request) {
-
-        Answer findAnswer = findVerifiedAnswer(answerId);
+    public Answer updateAnswer(long questionId, long answerId, Answer request) {
+        Answer findAnswer = findVerifiedAnswer(answerId, questionId);
 
         Optional.ofNullable(request.getContent())
                 .ifPresent(findAnswer::updateContent);
 
-        return findVerifiedAnswer(answerId);
+        return findVerifiedAnswer(answerId, questionId);
     }
 
-    public Answer findAnswer(long answerId) {
-        return findVerifiedAnswer(answerId);
+    public void deleteAnswer(long questionId, long answerId) {
+        Answer findAnswer = findVerifiedAnswer(answerId, questionId);
+
+        answerRepository.delete(findAnswer);
+    }
+
+    public Question findVerifiedQuestion(long questionId) {
+        return questionRepository.findById(questionId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
+    }
+
+    public Answer findAnswer(long answerId, long questionId) {
+        return findVerifiedAnswer(answerId, questionId);
     }
 
     @Transactional(readOnly = true)
-    public Answer findVerifiedAnswer(long answerId) {
-        return answerRepository.findById(answerId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+    public Answer findVerifiedAnswer(long answerId, long questionId) {
+        return answerRepository.findByIdAndQuestionId(answerId, questionId);
     }
 }

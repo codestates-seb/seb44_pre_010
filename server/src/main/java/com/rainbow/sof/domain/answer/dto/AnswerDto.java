@@ -37,9 +37,9 @@ public class AnswerDto {
         @Size(min = 30, max = 220, message = "답변 세부내용은 30자 이상이어야 합니다.")
         private String content;
 
-        public void addQuestionId(long questionId) {
-            this.questionId = questionId;
-        }
+//        public void addQuestionId(long questionId) {
+//            this.questionId = questionId;
+//        }
     }
 
     @Builder
