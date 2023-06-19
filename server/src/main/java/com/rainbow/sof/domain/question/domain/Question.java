@@ -3,6 +3,7 @@ package com.rainbow.sof.domain.question.domain;
 import com.rainbow.sof.domain.answer.domain.Answer;
 import com.rainbow.sof.domain.user.entity.User;
 import com.rainbow.sof.global.common.BaseTimeEntity;
+import com.rainbow.sof.domain.user.entity.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 

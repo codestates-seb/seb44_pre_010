@@ -71,6 +71,7 @@ public class QuestionControllerTest {
         QuestionDto.Post request = QuestionDto.Post.builder()
                 .title(title)
                 .content(content)
+                .userId(1)
                 .build();
 
         String jsonData = gson.toJson(request);
@@ -113,6 +114,7 @@ public class QuestionControllerTest {
                                                 ResourceSnippetParameters.builder()
                                                         .description("질문 등록")
                                                         .requestFields(
+                                                                fieldWithPath("userId").type(JsonFieldType.NUMBER).description("작성자 아이디"),
                                                                 fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
                                                                 fieldWithPath("content").type(JsonFieldType.STRING).description("질문 세부내용")
                                                         )
