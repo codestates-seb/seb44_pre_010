@@ -1,4 +1,4 @@
-package com.rainbow.sof.domain.question.user.dto.DataDto;
+package com.rainbow.sof.domain.user.dto.DataDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

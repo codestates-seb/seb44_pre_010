@@ -1,4 +1,4 @@
-package com.rainbow.sof.domain.question.user.dto.UserToJoinDto;
+package com.rainbow.sof.domain.user.dto.UserToJoinDto;
 
 
 import com.rainbow.sof.domain.question.dto.QuestionDto;

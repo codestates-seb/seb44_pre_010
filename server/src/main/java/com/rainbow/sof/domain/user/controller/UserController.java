@@ -1,13 +1,13 @@
-package com.rainbow.sof.domain.question.user.controller;
+package com.rainbow.sof.domain.user.controller;
 
 
-import com.rainbow.sof.domain.question.user.dto.singleDto.UserDto;
-import com.rainbow.sof.domain.question.user.entity.User;
-import com.rainbow.sof.domain.question.user.mapper.UserMapper;
-import com.rainbow.sof.domain.question.user.service.UserService;
+import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
+import com.rainbow.sof.domain.user.entity.User;
+import com.rainbow.sof.domain.user.mapper.UserMapper;
+import com.rainbow.sof.domain.user.service.UserService;
 import com.rainbow.sof.global.utils.UriCreator;
-import com.rainbow.sof.domain.question.user.dto.DataDto.UserDataResponse;
-import com.rainbow.sof.domain.question.user.dto.UserToJoinDto.MyPageResponseDto;
+import com.rainbow.sof.domain.user.dto.DataDto.UserDataResponse;
+import com.rainbow.sof.domain.user.dto.UserToJoinDto.MyPageResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

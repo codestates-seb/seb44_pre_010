@@ -2,10 +2,10 @@ package com.rainbow.sof.domain.user;
 
 
 import com.google.gson.Gson;
-import com.rainbow.sof.user.dto.singleDto.UserDto;
-import com.rainbow.sof.user.entity.User;
-import com.rainbow.sof.user.mapper.UserMapper;
-import com.rainbow.sof.user.service.UserService;
+import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
+import com.rainbow.sof.domain.user.entity.User;
+import com.rainbow.sof.domain.user.mapper.UserMapper;
+import com.rainbow.sof.domain.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

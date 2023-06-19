@@ -1,9 +1,9 @@
-package com.rainbow.sof.domain.question.user.mapper;
+package com.rainbow.sof.domain.user.mapper;
 
 import com.rainbow.sof.domain.question.dto.QuestionDto;
-import com.rainbow.sof.domain.question.user.entity.User;
-import com.rainbow.sof.domain.question.user.dto.UserToJoinDto.MyPageResponseDto;
-import com.rainbow.sof.domain.question.user.dto.singleDto.UserDto;
+import com.rainbow.sof.domain.user.entity.User;
+import com.rainbow.sof.domain.user.dto.UserToJoinDto.MyPageResponseDto;
+import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

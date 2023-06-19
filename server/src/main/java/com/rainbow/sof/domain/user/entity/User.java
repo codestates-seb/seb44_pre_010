@@ -1,4 +1,4 @@
-package com.rainbow.sof.domain.question.user.entity;
+package com.rainbow.sof.domain.user.entity;
 
 
 import com.rainbow.sof.domain.question.domain.Question;

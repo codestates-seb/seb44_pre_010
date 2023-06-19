@@ -1,10 +1,10 @@
-package com.rainbow.sof.domain.question.user.service;
+package com.rainbow.sof.domain.user.service;
 
 
-import com.rainbow.sof.domain.question.user.entity.User;
+import com.rainbow.sof.domain.user.entity.User;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
-import com.rainbow.sof.domain.question.user.repository.UserRepository;
+import com.rainbow.sof.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

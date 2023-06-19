@@ -1,4 +1,4 @@
-package com.rainbow.sof.domain.question.user.dto.singleDto;
+package com.rainbow.sof.domain.user.dto.singleDto;
 
 import lombok.Builder;
 import lombok.Getter;

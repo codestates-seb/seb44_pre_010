@@ -1,4 +1,4 @@
-package com.rainbow.sof.domain.question.user.config;
+package com.rainbow.sof.domain.user.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
