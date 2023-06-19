@@ -1,3 +1,5 @@
+@import './styles/global.css';
+
 html,
 body,
 div,
@@ -121,4 +123,17 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }

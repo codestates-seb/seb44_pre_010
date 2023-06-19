@@ -47,7 +47,6 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	runtimeOnly 'com.h2database:h2'
 
 	//스프링 시큐리티 + jwt
 	implementation 'org.springframework.boot:spring-boot-starter-security'
