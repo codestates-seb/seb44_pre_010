@@ -25,10 +25,21 @@ public class AnswerController {
     private final AnswerMapper answerMapper;
 
     @PostMapping("/{question-id}/answers")
-    public ResponseEntity saveAnswer(@PathVariable("question-id") @Positive long questionId,
+    public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
                                      @Valid @RequestBody AnswerDto.Post request) {
         request.addQuestionId(questionId);
         Answer answer = answerService.createAnswer(answerMapper.answerDtoPostToAnswer(request));
+        URI location = UriCreator.createUri(ANSWER_DEFAULT_URL, answer.getAnswerId());
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @PatchMapping("/{question-id}/answers/{answer-id}")
+    public ResponseEntity patchAnswer(@PathVariable("question-id") @Positive long questionId,
+                                      @PathVariable("answer-id") @Positive long answerId,
+                                      @Valid @RequestBody AnswerDto.Patch request) {
+        request.addQuestionId(questionId);
+        Answer answer = answerService.updateAnswer(answerId, answerMapper.answerDtoPatchToAnswer(request));
         URI location = UriCreator.createUri(ANSWER_DEFAULT_URL, answer.getAnswerId());
 
         return ResponseEntity.created(location).build();

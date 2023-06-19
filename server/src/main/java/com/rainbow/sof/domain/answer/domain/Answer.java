@@ -27,4 +27,8 @@ public class Answer extends BaseTimeEntity {
 //    @ManyToOne
 //    @JoinColumn(name = "USER_ID")
 //    private Users users;
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }
