@@ -1,5 +1,11 @@
+import Topquestions from './pages/Topquestions';
+
 function App() {
-  return <div>Hi</div>;
+  return (
+    <div>
+      <Topquestions />
+    </div>
+  );
 }
 
 export default App;
