@@ -30,14 +30,10 @@ public class UserDto {
     }
 
     @Getter
-    @Builder
-    public static class LoginPost{
+    public static class CreationLoginDto{
 
-        @NotBlank
+        @Email(message = "Is Not email format")
         private String username;
-
-        @NotBlank
-        @Size(min = 8)
         private String password;
     }
 

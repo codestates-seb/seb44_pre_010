@@ -9,6 +9,7 @@ import com.rainbow.sof.global.utils.UriCreator;
 import com.rainbow.sof.domain.user.dto.DataDto.UserDataResponse;
 import com.rainbow.sof.domain.user.dto.UserToJoinDto.MyPageResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -38,12 +39,12 @@ public class UserController {
     }
 
 
-    @PostMapping("/login")
-    public ResponseEntity<?> postLogin(@Valid @RequestBody UserDto.LoginPost loginPost){
-
-        URI location = UriCreator.createUri("",1);
-        return ResponseEntity.ok().location(location).build();
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> postLogin(@Valid @RequestBody UserDto.CreationLoginDto loginPost){
+//        User findUser = service.findByUserFromEmail(loginPost.getUsername());
+//        URI location = UriCreator.createUri("",1);
+//        return ResponseEntity.ok().location(location).build();
+//    }
 
 //    @PostMapping("/logout")
 //    public ResponseEntity<?> postLogin(){
@@ -56,7 +57,8 @@ public class UserController {
     public ResponseEntity<?> getUserData(@Valid @PathVariable("user-id") @Positive long id){
         User user = service.findVerifiedUser(id);
         MyPageResponseDto myPageDto= mapper.userToMyPageDto(user);
-        return ResponseEntity.ok(UserDataResponse.builder().data(myPageDto).build());
+        UserDataResponse response=UserDataResponse.builder().data(myPageDto).build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PatchMapping("/users/{user-id}")
