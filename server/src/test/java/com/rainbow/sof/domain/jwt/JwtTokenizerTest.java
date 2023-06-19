@@ -1,7 +1,7 @@
 package com.rainbow.sof.domain.jwt;
 
 
-import com.rainbow.sof.user.auth.jwt.JwtTokenizer;
+import com.rainbow.sof.domain.question.user.auth.jwt.JwtTokenizer;
 import io.jsonwebtoken.io.Decoders;
 import org.junit.jupiter.api.*;
 
