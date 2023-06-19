@@ -78,7 +78,7 @@ function Topquestions() {
               <div>
                 <ul>
                   <li>Cort Ammon</li>
-                  <li>10.2K</li>
+                  <li>10.3K</li>
                   <li>answered yesterday</li>
                 </ul>
               </div>
