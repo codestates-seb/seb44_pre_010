@@ -1,10 +1,15 @@
-package com.rainbow.sof.user.config;
+package com.rainbow.sof.domain.user.config;
 
-import lombok.Builder;
+import com.rainbow.sof.domain.user.auth.filter.CustomFilterConfigurer;
+import com.rainbow.sof.domain.user.auth.filter.JwtAuthenticationFilter;
+import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
+import com.rainbow.sof.domain.user.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -13,11 +18,18 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfiguration {
+    private final JwtTokenizer jwtTokenizer;
+
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer) {
+        this.jwtTokenizer = jwtTokenizer;
+    }
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -26,16 +38,22 @@ public class SecurityConfiguration {
                 .and()
                 .csrf().disable()
                 .cors(withDefaults())
-                .formLogin()
-                .loginPage("/user/login")
-                .permitAll()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .formLogin().disable()
                 .httpBasic().disable()
+                .apply(customFilterConfigurer())
+                .and()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
+                        .antMatchers(HttpMethod.POST, "/login").permitAll()
                         .anyRequest().permitAll());
         return http.build();
     }
 
+    @Bean
+    public CustomFilterConfigurer customFilterConfigurer(){
+        return new CustomFilterConfigurer(jwtTokenizer);
+    }
     @Bean
     public PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -45,11 +63,23 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:3000");
+
 //        configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
+        configuration.setAllowedHeaders(
+                List.of("Authorization","X-AUTH-TOKEN")
+        );
+
+        configuration.setExposedHeaders(
+                Arrays.asList("Content-Type","X-AUTH-TOKEN","Authorization")
+        );
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+
+
+
 }

@@ -1,9 +1,11 @@
-//import { Outlet } from 'react-router-dom';
+// import { Outlet } from 'react-router-dom';
 
-//import styled from 'styled-components';
-//import Header from './components/layouts/Header.jsx';
-//import Footer from './components/layouts/Footer.jsx';
+// import styled from 'styled-components';
+// import Header from './components/layouts/Header.jsx';
+// import Footer from './components/layouts/Footer.jsx';
 import Topquestions from './pages/Topquestions.jsx';
+// import SideMenu from './components/layouts/SideMenu.jsx';
+// import MainContent from './components/layouts/MainContent.jsx';
 
 // const MainWrapper = styled.main`
 //   max-width: 1264px;
@@ -17,11 +19,14 @@ function App() {
   return (
     <>
       {/* <Header /> */}
+      {/* {/* <MainWrapper> */}
+      {/* <SideMenu />  */}
       <Topquestions />
-      {/* <MainWrapper>
-        <Outlet />
-      </MainWrapper> */}
-      {/* <Footer /> */}
+      {/* <MainContent>
+          <Outlet />
+        </MainContent> */}
+      {/* </MainWrapper>
+      <Footer /> */}
     </>
   );
 }

@@ -46,6 +46,7 @@ public class QuestionControllerTest {
         QuestionDto.Post request = QuestionDto.Post.builder()
                 .title(title)
                 .content(content)
+                .userId(1)
                 .build();
 
         String jsonData = gson.toJson(request);
@@ -79,7 +80,28 @@ public class QuestionControllerTest {
                                         .content(jsonData)
                         )
                         //then
+<<<<<<< HEAD
                         .andExpect(status().isCreated());
+=======
+                        .andExpect(status().isCreated())
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("질문 등록 예제",
+                                        preprocessRequest(prettyPrint()),
+                                        preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("질문 등록")
+                                                        .requestFields(
+                                                                fieldWithPath("userId").type(JsonFieldType.NUMBER).description("작성자 아이디"),
+                                                                fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
+                                                                fieldWithPath("content").type(JsonFieldType.STRING).description("질문 세부내용")
+                                                        )
+                                                        .responseFields()
+                                                        .build()
+                                        )
+                                )
+                        );
+>>>>>>> bd5190a0cc61cd37e6af235b1c215bbc2c8e86f1
 
     }
 }

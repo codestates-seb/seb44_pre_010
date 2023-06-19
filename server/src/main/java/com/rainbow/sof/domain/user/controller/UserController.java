@@ -1,0 +1,77 @@
+package com.rainbow.sof.domain.user.controller;
+
+
+<<<<<<< HEAD:server/src/main/java/com/rainbow/sof/user/controller/UserController.java
+import com.rainbow.sof.user.dto.singleDto.*;
+import com.rainbow.sof.user.repository.UserRepository;
+import com.rainbow.sof.user.service.UserService;
+import com.rainbow.sof.utils.UriCreator;
+=======
+import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
+import com.rainbow.sof.domain.user.entity.User;
+import com.rainbow.sof.domain.user.mapper.UserMapper;
+import com.rainbow.sof.domain.user.service.UserService;
+import com.rainbow.sof.global.utils.UriCreator;
+import com.rainbow.sof.domain.user.dto.DataDto.UserDataResponse;
+import com.rainbow.sof.domain.user.dto.UserToJoinDto.MyPageResponseDto;
+>>>>>>> bd5190a0cc61cd37e6af235b1c215bbc2c8e86f1:server/src/main/java/com/rainbow/sof/domain/user/controller/UserController.java
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import java.net.URI;
+import java.security.Principal;
+
+@RestController
+@RequestMapping("/api/v1")
+@Validated
+@RequiredArgsConstructor
+public class UserController {
+
+    private final UserRepository repository;
+    private final UserService service;
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> postSignup(@Valid @RequestBody UserDto.SignUpPost signUpPost){
+
+        URI location = UriCreator.createUri("",1);
+        return ResponseEntity.created(location).build();
+    }
+
+
+//    @PostMapping("/login")
+//    public ResponseEntity<?> postLogin(@Valid @RequestBody UserDto.CreationLoginDto loginPost){
+//        User findUser = service.findByUserFromEmail(loginPost.getUsername());
+//        URI location = UriCreator.createUri("",1);
+//        return ResponseEntity.ok().location(location).build();
+//    }
+
+//    @PostMapping("/logout")
+//    public ResponseEntity<?> postLogin(){
+//
+//        URI location = UriCreator.createUri("",1);
+//        return ResponseEntity.ok().location(location).build();
+//    }
+
+    @GetMapping("/users/{user-id}")
+    public ResponseEntity<?> getUserData(@Valid @PathVariable("user-id") @Positive long id){
+        User user = service.findVerifiedUser(id);
+        MyPageResponseDto myPageDto= mapper.userToMyPageDto(user);
+        UserDataResponse response=UserDataResponse.builder().data(myPageDto).build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PatchMapping("/users/{user-id}")
+    public ResponseEntity<?> patchUser(Principal principal,
+                                         @Valid @PathVariable("user-id") @Positive long id,
+                                       @RequestBody UserDto.Patch patch){
+
+        return ResponseEntity.ok("responseBody");
+    }
+
+
+}

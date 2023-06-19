@@ -1,4 +1,4 @@
-package com.rainbow.sof.user.auth.jwt;
+package com.rainbow.sof.domain.user.auth.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -80,7 +80,7 @@ public class JwtTokenizer {
     }
 
     //토큰의 만료시간설정
-    private Date getTokenExpiration(int ExpirationMinutes) {
+    public Date getTokenExpiration(int ExpirationMinutes) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE,ExpirationMinutes);
 
