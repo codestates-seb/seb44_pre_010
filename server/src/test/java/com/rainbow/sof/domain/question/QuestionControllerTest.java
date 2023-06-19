@@ -19,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,10 +27,12 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.description;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -184,7 +187,7 @@ public class QuestionControllerTest {
         //when
         ResultActions actions =
                 mockMvc.perform(
-                                get(QUESTION_DEFAULT_URL + "/{question-id}",question.getQuestionId())
+                                get(QUESTION_DEFAULT_URL + "/{question-id}", question.getQuestionId())
                                         .accept(MediaType.APPLICATION_JSON)
                         )
                         //then
@@ -262,13 +265,13 @@ public class QuestionControllerTest {
                 .modifiedAt(LocalDateTime.now())
                 .build();
 
-        given(service.updateQuestion(Mockito.anyLong(),Mockito.any(Question.class))).willReturn(question);
+        given(service.updateQuestion(Mockito.anyLong(), Mockito.any(Question.class))).willReturn(question);
         given(mapper.questionToQuestionDtoResponse(Mockito.any(Question.class))).willReturn(response);
 
         //when
         ResultActions actions =
                 mockMvc.perform(
-                                patch(QUESTION_DEFAULT_URL + "/{question-id}",1)
+                                patch(QUESTION_DEFAULT_URL + "/{question-id}", 1)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .content(jsonData)
                         )
@@ -303,16 +306,180 @@ public class QuestionControllerTest {
         doNothing().when(service).deleteQuestion(Mockito.anyLong());
         // when
         mockMvc.perform(
-                        delete(QUESTION_DEFAULT_URL+"/{question-id}",1L)
-                // then
+                        delete(QUESTION_DEFAULT_URL + "/{question-id}", 1L)
+                        // then
                 ).andExpect(status().isNoContent())
                 .andDo(MockMvcRestDocumentationWrapper.document("질문 삭제 예제",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        pathParameters(
-                                parameterWithName("question-id").description("질문 식별자")
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint()),
+                                resource(
+                                        ResourceSnippetParameters.builder()
+                                                .description("질문 삭제 예제")
+                                                .pathParameters(
+                                                        parameterWithName("question-id").description("질문 식별자")
+                                                )
+                                                .build()
+                                )
                         )
-                ));
+                );
+
+    }
+
+    @Test
+    @DisplayName("Top Question 리스트를 가져온다.")
+    void getQuestions() throws Exception {
+        String title = "내용입니다내용입니다.내용입니다내용입니다.내용입니다내용입니다.";
+        String content = "제목입니다.제목입니다.제목제목입니다.제목입니다.제목제목입니다.제목입니다.제목제목입니다.제목입니다.제목";
+        //given
+        UserDto.QuestionResponse user = UserDto.QuestionResponse.builder()
+                .userId(1L)
+                .name("테스트용")
+                .build();
+
+        QuestionDto.ListResponse response = QuestionDto.ListResponse.builder()
+                .title(title)
+                .content(content)
+                .view(0)
+                .user(user)
+                .questionId(1L)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .answerCnt(0)
+                .build();
+        QuestionDto.ListResponse response2 = QuestionDto.ListResponse.builder()
+                .title(title)
+                .content(content)
+                .view(5)
+                .user(user)
+                .questionId(2L)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .answerCnt(0)
+                .build();
+
+        given(service.findQuestions()).willReturn(new ArrayList<>());
+        given(mapper.questionToQuestionDtoResponseList(Mockito.anyList())).willReturn(List.of(response, response2));
+        given(answerService.getAnswerCnt(Mockito.anyLong())).willReturn(0L);
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                                get(QUESTION_DEFAULT_URL)
+                                        .accept(MediaType.APPLICATION_JSON)
+                        )
+                        //then
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.data.size()").value(2))
+                        .andExpect(jsonPath("$.data[1].view").value(5))
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("질문 리스트 조회(Top Question) 예제",
+                                        preprocessRequest(prettyPrint()),
+                                        preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("질문 리스트 조회(Top Question)")
+                                                        .requestFields()
+                                                        .responseFields(
+                                                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                                                fieldWithPath("data.[].user").type(JsonFieldType.OBJECT).description("회원 정보"),
+                                                                fieldWithPath("data.[].user.userId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                                                fieldWithPath("data.[].user.name").type(JsonFieldType.STRING).description("회원 닉네임"),
+                                                                fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("질문 제목"),
+                                                                fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("질문 내용"),
+                                                                fieldWithPath("data.[].view").type(JsonFieldType.NUMBER).description("조회수"),
+                                                                fieldWithPath("data.[].answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                                                fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성일"),
+                                                                fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정일")
+                                                        )
+                                                        .build()
+                                        )
+                                )
+                        );
+
+    }
+
+    @Test
+    @DisplayName("페이지 네이션이 적용된 리스트를 가져온다.")
+    void getPageQuestions() throws Exception {
+        String title = "내용입니다내용입니다.내용입니다내용입니다.내용입니다내용입니다.";
+        String content = "제목입니다.제목입니다.제목제목입니다.제목입니다.제목제목입니다.제목입니다.제목제목입니다.제목입니다.제목";
+        //given
+        UserDto.QuestionResponse user = UserDto.QuestionResponse.builder()
+                .userId(1L)
+                .name("테스트용")
+                .build();
+
+        QuestionDto.ListResponse response = QuestionDto.ListResponse.builder()
+                .title(title)
+                .content(content)
+                .view(0)
+                .user(user)
+                .questionId(1L)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .answerCnt(0)
+                .build();
+        QuestionDto.ListResponse response2 = QuestionDto.ListResponse.builder()
+                .title(title)
+                .content(content)
+                .view(5)
+                .user(user)
+                .questionId(2L)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .answerCnt(0)
+                .build();
+
+        given(service.findPageQuestions(Mockito.anyString(), Mockito.anyInt())).willReturn(Page.empty());
+        given(mapper.questionToQuestionDtoResponseList(Mockito.anyList())).willReturn(List.of(response, response2));
+        given(answerService.getAnswerCnt(Mockito.anyLong())).willReturn(0L);
+
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                                get(QUESTION_DEFAULT_URL)
+                                        .param("tab", "Newest")
+                                        .param("page","1")
+                                        .accept(MediaType.APPLICATION_JSON)
+                        )
+                        //then
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.data.size()").value(2))
+                        .andExpect(jsonPath("$.pageInfo.page").value(1))
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("질문 페이징 리스트 조회 예제",
+                                        preprocessRequest(prettyPrint()),
+                                        preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("질문 페이징 리스트 조회")
+                                                        .requestParameters(
+                                                                parameterWithName("tab").description("정렬"),
+                                                                parameterWithName("page").description("페이징")
+                                                        )
+                                                        .requestFields()
+                                                        .responseFields(
+                                                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                                                fieldWithPath("data.[].user").type(JsonFieldType.OBJECT).description("회원 정보"),
+                                                                fieldWithPath("data.[].user.userId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                                                fieldWithPath("data.[].user.name").type(JsonFieldType.STRING).description("회원 닉네임"),
+                                                                fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("질문 제목"),
+                                                                fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("질문 내용"),
+                                                                fieldWithPath("data.[].view").type(JsonFieldType.NUMBER).description("조회수"),
+                                                                fieldWithPath("data.[].answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                                                fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성일"),
+                                                                fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정일"),
+                                                                fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이징 정보"),
+                                                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
+                                                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("한 페이지에 속하는 데이터 개수"),
+                                                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 데이터 개수"),
+                                                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 개수")
+                                                        )
+                                                        .build()
+                                        )
+                                )
+                        );
 
     }
 
