@@ -1,11 +1,13 @@
-package com.rainbow.sof.user.controller;
+package com.rainbow.sof.domain.question.user.controller;
 
 
+import com.rainbow.sof.domain.question.user.dto.singleDto.UserDto;
+import com.rainbow.sof.domain.question.user.entity.User;
+import com.rainbow.sof.domain.question.user.mapper.UserMapper;
+import com.rainbow.sof.domain.question.user.service.UserService;
 import com.rainbow.sof.global.utils.UriCreator;
-import com.rainbow.sof.user.dto.singleDto.*;
-import com.rainbow.sof.user.entity.User;
-import com.rainbow.sof.user.mapper.UserMapper;
-import com.rainbow.sof.user.service.UserService;
+import com.rainbow.sof.domain.question.user.dto.DataDto.UserDataResponse;
+import com.rainbow.sof.domain.question.user.dto.UserToJoinDto.MyPageResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -51,10 +53,10 @@ public class UserController {
 //    }
 
     @GetMapping("/users/{user-id}")
-    public ResponseEntity<?> getUserData(Principal principal,
-                                         @Valid @PathVariable("user-id") @Positive long id){
-
-        return ResponseEntity.ok("responseBody");
+    public ResponseEntity<?> getUserData(@Valid @PathVariable("user-id") @Positive long id){
+        User user = service.findVerifiedUser(id);
+        MyPageResponseDto myPageDto= mapper.userToMyPageDto(user);
+        return ResponseEntity.ok(UserDataResponse.builder().data(myPageDto).build());
     }
 
     @PatchMapping("/users/{user-id}")

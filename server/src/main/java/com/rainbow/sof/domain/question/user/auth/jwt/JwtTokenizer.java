@@ -1,4 +1,4 @@
-package com.rainbow.sof.user.auth.jwt;
+package com.rainbow.sof.domain.question.user.auth.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

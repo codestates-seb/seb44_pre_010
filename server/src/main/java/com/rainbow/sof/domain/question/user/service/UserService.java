@@ -1,10 +1,10 @@
-package com.rainbow.sof.user.service;
+package com.rainbow.sof.domain.question.user.service;
 
 
+import com.rainbow.sof.domain.question.user.entity.User;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
-import com.rainbow.sof.user.entity.User;
-import com.rainbow.sof.user.repository.UserRepository;
+import com.rainbow.sof.domain.question.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class UserService {
         repository.delete(user);
     }
 
-    private User findVerifiedUser(long userId) {
+    public User findVerifiedUser(long userId) {
         Optional<User> findUser = repository.findById(userId);
         return findUser.orElseThrow(
                 ()-> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
