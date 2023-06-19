@@ -1,4 +1,4 @@
-package com.rainbow.sof.utils;
+package com.rainbow.sof.global.utils;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -10,6 +10,14 @@ public class UriCreator {
                 .newInstance()
                 .path(defaultUrl + "/{resource-id}")
                 .buildAndExpand(resourceId)
+                .toUri();
+    }
+
+    public static URI createUri(String defaultUrl) {
+        return UriComponentsBuilder
+                .newInstance()
+                .path(defaultUrl)
+                .build()
                 .toUri();
     }
 }

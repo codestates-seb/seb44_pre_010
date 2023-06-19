@@ -1,9 +1,10 @@
-package com.rainbow.sof.exception;
+package com.rainbow.sof.global.error;
 
 import lombok.Getter;
 
 public enum ExceptionCode {
-    USER_NOT_FOUND(404, "Member not found");
+    USER_NOT_FOUND(404, "Member not found"),
+    QUESTION_NOT_FOUND(404, "Question not found");
 
     @Getter
     private int status;
