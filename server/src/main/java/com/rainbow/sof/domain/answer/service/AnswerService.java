@@ -53,4 +53,8 @@ public class AnswerService {
     public Answer findVerifiedAnswer(long answerId, long questionId) {
         return answerRepository.findByIdAndQuestionId(answerId, questionId);
     }
+
+    public long getAnswerCnt(long id){
+        return answerRepository.countByQuestionQuestionId(id);
+    }
 }
