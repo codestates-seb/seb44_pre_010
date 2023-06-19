@@ -1,4 +1,4 @@
-package com.rainbow.sof.user.entity;
+package com.rainbow.sof.domain.user.entity;
 
 
 import com.rainbow.sof.domain.question.domain.Question;
@@ -46,7 +46,7 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private Status status =Status.USER_ACTIVE;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Question> questionList;
 
     public enum Status{
