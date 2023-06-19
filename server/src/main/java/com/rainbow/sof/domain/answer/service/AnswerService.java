@@ -2,8 +2,7 @@ package com.rainbow.sof.domain.answer.service;
 
 import com.rainbow.sof.domain.answer.domain.Answer;
 import com.rainbow.sof.domain.answer.repository.AnswerRepository;
-import com.rainbow.sof.domain.question.domain.Question;
-import com.rainbow.sof.domain.question.repository.QuestionRepository;
+import com.rainbow.sof.domain.question.service.QuestionService;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -17,40 +16,39 @@ import java.util.Optional;
 @Service
 public class AnswerService {
     private final AnswerRepository answerRepository;
-    private final QuestionRepository questionRepository;
+    private final QuestionService questionService;
 
     public Answer createAnswer(long  questionId, Answer answer) {
         //TODO: User 가 있는지 확인하는 로직 추가
-        findVerifiedQuestion(questionId);
+        questionService.findVerifiedQuestion(questionId);
 
         return answerRepository.save(answer);
     }
 
     public Answer updateAnswer(long questionId, long answerId, Answer request) {
-        Answer findAnswer = findVerifiedAnswer(answerId, questionId);
+        questionService.findVerifiedQuestion(questionId);
+        Answer findAnswer = findVerifiedAnswer(answerId);
 
         Optional.ofNullable(request.getContent())
                 .ifPresent(findAnswer::updateContent);
 
-        return findVerifiedAnswer(answerId, questionId);
+        return findVerifiedAnswer(answerId);
     }
 
     public void deleteAnswer(long questionId, long answerId) {
-        Answer findAnswer = findVerifiedAnswer(answerId, questionId);
+        questionService.findVerifiedQuestion(questionId);
+        Answer findAnswer = findVerifiedAnswer(answerId);
 
         answerRepository.delete(findAnswer);
     }
 
-    public Question findVerifiedQuestion(long questionId) {
-        return questionRepository.findById(questionId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
-    }
 
-    public Answer findAnswer(long answerId, long questionId) {
-        return findVerifiedAnswer(answerId, questionId);
+    public Answer findAnswer(long answerId) {
+        return findVerifiedAnswer(answerId);
     }
 
     @Transactional(readOnly = true)
-    public Answer findVerifiedAnswer(long answerId, long questionId) {
-        return answerRepository.findByIdAndQuestionId(answerId, questionId);
+    public Answer findVerifiedAnswer(long answerId) {
+        return answerRepository.findById(answerId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
     }
 }
