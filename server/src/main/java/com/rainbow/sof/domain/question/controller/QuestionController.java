@@ -1,5 +1,6 @@
 package com.rainbow.sof.domain.question.controller;
 
+import com.rainbow.sof.domain.answer.service.AnswerService;
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.question.mapper.QuestionMapper;
@@ -24,6 +25,7 @@ public class QuestionController {
 
     private final static String QUESTION_DEFAULT_URL = "/api/v1/questions";
     private final QuestionService questionService;
+    private final AnswerService answerService;
     private final QuestionMapper questionMapper;
     @PostMapping("/questions")
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post request){
@@ -36,9 +38,10 @@ public class QuestionController {
     @GetMapping("/questions/{id}")
     public ResponseEntity getQuestion(@PathVariable("id") @Positive long id){
         Question question = questionService.findQuestion(id);
-
+        QuestionDto.Response response = questionMapper.questionToQuestionDtoResponse(question);
+        response.setAnswerCnt(answerService.getAnswerCnt(question.getQuestionId()));
         return new ResponseEntity(
-                new SingleResponseDto<>(questionMapper.questionToQuestionDtoResponse(question)), HttpStatus.OK);
+                new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @PatchMapping("/questions/{id}")

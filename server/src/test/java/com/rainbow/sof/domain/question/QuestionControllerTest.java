@@ -3,30 +3,31 @@ package com.rainbow.sof.domain.question;
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.google.gson.Gson;
+import com.rainbow.sof.domain.answer.domain.Answer;
+import com.rainbow.sof.domain.answer.dto.AnswerDto;
+import com.rainbow.sof.domain.answer.service.AnswerService;
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.question.mapper.QuestionMapper;
 import com.rainbow.sof.domain.question.service.QuestionService;
+import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
 
-import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
-import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
+import java.util.List;
+
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -49,6 +50,10 @@ public class QuestionControllerTest {
     private Gson gson;
     @MockBean
     private QuestionService service;
+
+    @MockBean
+    private AnswerService answerService;
+
     @MockBean
     private QuestionMapper mapper;
 
@@ -124,23 +129,56 @@ public class QuestionControllerTest {
         String title = "이것은 제목입니다만. 제목이요 제목 제목제목제목제20자리 넘나요?";
         String content = "이것은 내용입니다만. 내용이요. 내용인데요";
 
+        Answer answer = Answer.builder()
+                .answerId(1L)
+                .content("ㅎㅇㅎㅇ")
+                .build();
+
+        Answer answer2 = Answer.builder()
+                .answerId(2L)
+                .content("ㅎㅇㅎㅇ2")
+                .build();
+        UserDto.QuestionResponse user = UserDto.QuestionResponse.builder()
+                .userId(1L)
+                .name("테스트용")
+                .build();
         Question question = Question.builder()
                 .questionId(1L)
                 .view(0)
+                .answers(List.of(answer, answer2))
                 .content(content)
                 .title(title)
                 .build();
 
+        AnswerDto.Response answerDto = AnswerDto.Response.builder()
+                .answerId(1L)
+                .content("ㅎㅇㅎㅇ")
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .questionId(1L)
+                .build();
+
+        AnswerDto.Response answer2Dto = AnswerDto.Response.builder()
+                .answerId(2L)
+                .content("ㅎㅇㅎㅇ2")
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .questionId(1L)
+                .build();
+
         QuestionDto.Response response = QuestionDto.Response.builder()
                 .title(title)
+                .questionId(1L)
                 .content(content)
                 .view(0)
-                .questionId(1L)
+                .user(user)
+                .answers(List.of(answerDto, answer2Dto))
                 .createdAt(LocalDateTime.now())
                 .modifiedAt(LocalDateTime.now())
                 .build();
 
         given(service.findQuestion(Mockito.anyLong())).willReturn(question);
+        given(answerService.getAnswerCnt(Mockito.anyLong())).willReturn(2L);
         given(mapper.questionToQuestionDtoResponse(Mockito.any(Question.class))).willReturn(response);
 
         //when
@@ -154,6 +192,8 @@ public class QuestionControllerTest {
                         .andExpect(jsonPath("$.data.title").value(question.getTitle()))
                         .andExpect(jsonPath("$.data.content").value(question.getContent()))
                         .andExpect(jsonPath("$.data.view").value(question.getView()))
+                        .andExpect(jsonPath("$.data.answers[0].content").value(answer.getContent()))
+                        .andExpect(jsonPath("$.data.answerCnt").value(2))
                         .andDo(
                                 MockMvcRestDocumentationWrapper.document("질문 상세 조회 예제",
                                         preprocessRequest(prettyPrint()),
@@ -167,10 +207,20 @@ public class QuestionControllerTest {
                                                         .requestFields()
                                                         .responseFields(
                                                                 fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                                                fieldWithPath("data.user").type(JsonFieldType.OBJECT).description("회원 정보"),
+                                                                fieldWithPath("data.user.userId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                                                fieldWithPath("data.user.name").type(JsonFieldType.STRING).description("회원 닉네임"),
+                                                                fieldWithPath("data.answers").type(JsonFieldType.ARRAY).description("답변 리스트"),
+                                                                fieldWithPath("data.answers.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                                                fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 세부내용"),
+                                                                fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("답변 작성일"),
+                                                                fieldWithPath("data.answers.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정일"),
+                                                                fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변의 질문 식별자"),
                                                                 fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                                                 fieldWithPath("data.title").type(JsonFieldType.STRING).description("질문 제목"),
                                                                 fieldWithPath("data.content").type(JsonFieldType.STRING).description("질문 내용"),
                                                                 fieldWithPath("data.view").type(JsonFieldType.NUMBER).description("조회수"),
+                                                                fieldWithPath("data.answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
                                                                 fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("작성일"),
                                                                 fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("수정일")
                                                         )

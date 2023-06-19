@@ -1,7 +1,6 @@
 package com.rainbow.sof.domain.question.service;
 
 import com.rainbow.sof.domain.question.domain.Question;
-import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.question.repository.QuestionRepository;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
@@ -23,7 +22,9 @@ public class QuestionService {
     }
 
     public Question findQuestion(long id) {
-        return findVerifiedQuestion(id);
+        Question question = findVerifiedQuestion(id);
+        increaseView(question);
+        return question;
     }
 
     @Transactional(readOnly = true)
@@ -40,6 +41,10 @@ public class QuestionService {
                 .ifPresent(findQuestion::updateTitle);
 
         return findVerifiedQuestion(id);
+    }
+
+    public void increaseView(Question question){
+        question.updateView();
     }
 
     public void deleteQuestion(long id) {

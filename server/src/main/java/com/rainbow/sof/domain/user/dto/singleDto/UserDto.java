@@ -1,5 +1,6 @@
 package com.rainbow.sof.domain.user.dto.singleDto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -58,6 +59,15 @@ public class UserDto {
 
         private LocalDateTime modifiedAt;
 
+    }
+
+    // @author : 윤다영
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class QuestionResponse{
+        private long userId;
+        private String name;
     }
 
 
