@@ -8,12 +8,15 @@ import org.mapstruct.Mapper;
 
 import org.mapstruct.MappingConstants;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface QuestionMapper {
     Question questionDtoPostToQuestion(QuestionDto.Post request);
     Question questionDtoPatchToQuestion(QuestionDto.Patch request);
+
+    List<QuestionDto.Response> questionToQuestionDtoResponseList(List<Question> request);
 
     default QuestionDto.Response questionToQuestionDtoResponse(Question question){
         if ( question == null ) {
