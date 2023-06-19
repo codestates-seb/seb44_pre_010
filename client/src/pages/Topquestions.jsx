@@ -1,92 +1,152 @@
 import styled from 'styled-components';
-const Totalbtn = styled.div`
-  padding: 50px;
-  display: flex;
-  justify-content: flex-end;
-`;
-const Choicebtn = styled.button`
-  align-items: center;
-  display: flex;
-`;
-
-const Bountiedbtn = styled.button`
+const Maincontainer = styled.div`
+  max-width: 1100px;
+  width: calc(100% - 164px);
   background-color: white;
-  span {
-    background-color: #0a95ff;
-    color: white;
+  border-radius: 0;
+  border-left-width: 1px;
+  border-right-width: 0;
+  padding: var(--su24);
+  box-sizing: border-box;
+  &::before {
+    box-sizing: border-box;
+    color: rgb(35, 38, 41);
+    display: table;
+    line-height: 1.063rem;
+    vertical-align: baseline;
+    font-family: 'Segoe UI Adjusted', 'Segoe UI', 'Liberation Sans', sans-serif;
+    font-size: 0.813rem;
+    font-stretch: 100%;
+    text-align: left;
   }
 `;
-
-const Askedbtn = styled.button`
-  background-color: #0a95ff;
-  margin-left: 200px;
-  a {
-    justify-content: center;
-    align-items: center;
-    color: white;
-  }
+const Mainbar = styled.div`
+  box-sizing: border-box;
+  color: rgb(35, 38, 41);
+  display: block;
+  font-weight: 25rem;
+  line-height: 1.063rem;
+  width: 37.25;
 `;
-
-const TitleWrapper = styled.div`
+const TopQuestions = styled.div`
+  box-sizing: border-box;
+  color: rgb(35, 38, 41);
   display: flex;
-  justify-content: center; /* 가로 중앙 정렬 */
-  align-items: center; /* 세로 중앙 정렬 */
+  line-height: 1.063rem;
+  vertical-align: baseline;
+  font-family: 'Segoe UI Adjusted', 'Segoe UI', 'Liberation Sans', sans-serif;
+  font-size: 0.813rem;
+  font-stretch: 100%;
+  text-align: left;
+  font-weight: 25rem;
+  justify-content: center;
+  align-items: center;
+`;
+const H1 = styled.h1`
+  box-sizing: border-box;
+  color: rgb(35, 38, 41);
+  display: block;
+  flex-basis: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
+  font-family: 'Segoe UI Adjusted', 'Segoe UI', 'Liberation Sans', sans-serif;
+  font-size: 1.688rem;
+  font-weight: 25rem;
+  line-height: 2.194rem;
+  margin-block-end: 1.688rem;
+  margin-bottom: 1.688rem;
+  text-align: left;
+`;
+const AQuecontainer = styled.div`
+  box-sizing: border-box;
+  color: rgb(35, 38, 41);
+  display: block;
+  line-height: 2.194rem;
+  margin-left: 0.75rem;
+  text-align: left;
+`;
+const Askquestion = styled.a`
+  background-color: rgb(10, 149, 255);
+  color: white;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 25rem;
+  line-height: 0.938rem;
+  padding-bottom: 10.4px;
+  padding-left: 10.4px;
+  padding-right: 10.4px;
+  padding-top: 10.4px;
+  position: relative;
+  text-align: center;
+  box-shadow: rgba(255, 255, 255, 0.4) 0px 1px 0px 0px inset;
+  box-sizing: border-box;
+  text-decoration-color: rgb(255, 255, 255);
+  text-decoration-line: none;
+  text-decoration-style: solid;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+`;
+const Category = styled.div`
+  display: flex;
+  margin-bottom: 16px;
+  vertical-align: baseline;
+  align-items: center;
+  box-sizing: inherit;
+  text-align: left;
+`;
+const Categorylist = styled.div`
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+  display: block;
+  text-align: left;
+`;
+const Categorylink = styled.div`
+  vertical-align: baseline;
+  text-align: left;
+  line-height: 0.938rem;
+`;
+const Categoryitem = styled.a`
+  margin-right: -1px;
+  z-index: 25px;
+  background-color: hsl(210, 8%, 90%);
+  color: hsl(210, 8%, 25%);
+  margin-bottom: -1px;
+  white-space: nowrap;
 `;
 function Topquestions() {
   return (
-    <div className="container">
-      <TitleWrapper>
-        <h1>Top Questions</h1>
-        <Askedbtn>
-          <a href="https://stackoverflow.com/questions/ask">Ask Questions</a>
-        </Askedbtn>
-      </TitleWrapper>
-
-      <Totalbtn>
-        <Choicebtn>interesting</Choicebtn>
-        <Bountiedbtn>
-          <span>215</span> &nbsp; Bountied
-        </Bountiedbtn>
-        <Choicebtn>Hot</Choicebtn>
-        <Choicebtn>Week</Choicebtn>
-        <Choicebtn>Month</Choicebtn>
-      </Totalbtn>
-      <div>
-        <div>
-          <div>12 votes</div>
-          <div>✔ 4 answers</div>
-          <div>1k views</div>
-        </div>
-        <div>
-          <h3>질문 제목</h3>
-          <div>
-            2-1
-            <div>
-              <ui>
-                <li>C++</li>
-                <li>C</li>
-                <li>multithreading</li>
-                <li>pointers</li>
-              </ui>
-            </div>
-            <div>
-              <a href="https://stackoverflow.com/questions/ask">
-                <div>
-                  <img src=".././1.jpg" alt="사용자 프로필 사진"></img>
-                </div>
-              </a>
-              <div>
-                <ul>
-                  <li>Cort Ammon</li>
-                  <li>10.3K</li>
-                  <li>answered yesterday</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <>
+      <Maincontainer className="Maincontainer">
+        <Mainbar>
+          <TopQuestions>
+            <H1> Top Questions</H1>
+            <AQuecontainer>
+              <Askquestion> Ask Question </Askquestion>
+            </AQuecontainer>
+          </TopQuestions>
+          <Category>
+            <Categorylist>
+              <Categorylink>
+                <Categoryitem>Interesting</Categoryitem>
+                <Categoryitem>226 Bountied</Categoryitem>
+                <Categoryitem>Hot</Categoryitem>
+                <Categoryitem>Week</Categoryitem>
+                <Categoryitem>Month</Categoryitem>
+              </Categorylink>
+            </Categorylist>
+          </Category>
+        </Mainbar>
+      </Maincontainer>
+    </>
   );
 }
 
