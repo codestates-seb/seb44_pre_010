@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 const HeaderContainer = styled.header`
-  position: fixed;
+  position: sticky;
   min-width: auto;
   width: 100%;
   height: 3.5rem;
@@ -127,7 +127,7 @@ const NavItem = styled.a`
   }
 `;
 
-const Button = styled.a`
+const Button = styled(Link)`
   align-self: center;
   font-size: 13px;
   padding: 8px 0.8em;
@@ -136,6 +136,7 @@ const Button = styled.a`
   position: relative;
   text-align: center;
   border: 1px solid var(--powder-500);
+  border-radius: 3px;
   background-color: var(--powder-100);
   color: var(--powser-700);
   decoration: none;
@@ -143,18 +144,24 @@ const Button = styled.a`
   box-sizing: border-box;
 `;
 
+const SignUpButton = styled(Button)`
+  color: white;
+  background-color: var(--blue-500);
+`;
+
 export default function Header() {
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [isLogin, setIsLogin] = useState(false); // 임시 로그인 상태값입니다. 차후 로그인 세션 구현이 되면 리팩토링 예정
+  const isLogin = false;
+  // const [isLogin, setIsLogin] = useState(false); // 임시 로그인 상태값입니다. 차후 로그인 세션 구현이 되면 리팩토링 예정
 
   const onHandleChangeKeyword = (e) => {
     setSearchKeyword(e.target.value);
   };
 
-  const onHandleLogin = (e) => {
-    e.preventDefault();
-    setIsLogin(!isLogin);
-  };
+  // const onHandleLogin = (e) => {
+  //   e.preventDefault();
+  //   setIsLogin(!isLogin);
+  // };
 
   return (
     <HeaderContainer>
@@ -188,12 +195,10 @@ export default function Header() {
           {!isLogin ? (
             <NavContainer>
               <li>
-                <Button href="/" onClick={onHandleLogin}>
-                  Log in
-                </Button>
+                <Button to="/login">Log in</Button>
               </li>{' '}
               <li>
-                <Button href="/">Singn up</Button>
+                <SignUpButton to="/signup">Sign up</SignUpButton>
               </li>
             </NavContainer>
           ) : (

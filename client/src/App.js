@@ -3,6 +3,8 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/layouts/Header.jsx';
 import Footer from './components/layouts/Footer.jsx';
+import SideMenu from './components/layouts/SideMenu.jsx';
+import MainContent from './components/layouts/MainContent.jsx';
 
 const MainWrapper = styled.main`
   max-width: 1264px;
@@ -17,7 +19,10 @@ function App() {
     <>
       <Header />
       <MainWrapper>
-        <Outlet />
+        <SideMenu />
+        <MainContent>
+          <Outlet />
+        </MainContent>
       </MainWrapper>
       <Footer />
     </>
