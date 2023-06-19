@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
   const [questions, setQuestions] = useState([]);
@@ -21,7 +22,11 @@ export default function Home() {
       <h2>Top Questions</h2>
       <ul>
         {questions.map((question) => (
-          <li key={question.questionId}>{question.title}</li>
+          <li key={question.questionId}>
+            <Link to={`questions/${question.questionId}`}>
+              {question.title}
+            </Link>
+          </li>
         ))}
       </ul>
     </>
