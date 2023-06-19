@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -17,6 +18,8 @@ public class QuestionDto {
     @AllArgsConstructor
     @Getter
     public static class Post{
+        @NotNull
+        private long userId;
         @NotSpace(message = "질문 제목은 공백이 아니어야 합니다.")
         @Size(min= 20, max= 100)
         private String title;

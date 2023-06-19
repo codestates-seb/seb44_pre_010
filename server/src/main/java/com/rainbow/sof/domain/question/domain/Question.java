@@ -1,6 +1,7 @@
 package com.rainbow.sof.domain.question.domain;
 
 import com.rainbow.sof.global.common.BaseTimeEntity;
+import com.rainbow.sof.domain.user.entity.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -27,9 +28,9 @@ public class Question extends BaseTimeEntity {
     private int view;
 
     //TODO: User 추가
-    /*@ManyToOne
-    @JoinColumn(name = "USER_ID")
-    private User suer;*/
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public void updateTitle(String title){
         this.title = title;
