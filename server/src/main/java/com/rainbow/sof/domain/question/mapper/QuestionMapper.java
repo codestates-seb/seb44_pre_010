@@ -6,6 +6,7 @@ import com.rainbow.sof.domain.question.dto.QuestionDto;
 
 import org.mapstruct.Mapper;
 
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;
@@ -16,7 +17,9 @@ public interface QuestionMapper {
     Question questionDtoPostToQuestion(QuestionDto.Post request);
     Question questionDtoPatchToQuestion(QuestionDto.Patch request);
 
-    List<QuestionDto.Response> questionToQuestionDtoResponseList(List<Question> request);
+    @Mapping(source = "user.userId", target = "user.userId")
+    @Mapping(source = "user.name", target = "user.name")
+    List<QuestionDto.ListResponse> questionToQuestionDtoResponseList(List<Question> request);
 
     default QuestionDto.Response questionToQuestionDtoResponse(Question question){
         if ( question == null ) {

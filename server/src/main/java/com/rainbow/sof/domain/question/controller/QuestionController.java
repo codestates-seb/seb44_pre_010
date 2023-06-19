@@ -41,9 +41,10 @@ public class QuestionController {
     @GetMapping
     public ResponseEntity getQuestions(){
         List<Question> questions = questionService.findQuestions();
-
+        List<QuestionDto.ListResponse> responses = questionMapper.questionToQuestionDtoResponseList(questions);
+        responses.forEach(o -> o.setAnswerCnt(answerService.getAnswerCnt(o.getQuestionId())));
         return new ResponseEntity(
-                new SingleResponseDto<>(questionMapper.questionToQuestionDtoResponseList(questions)), HttpStatus.OK);
+                new SingleResponseDto<>(responses), HttpStatus.OK);
     }
 
     @GetMapping(params = {"tab","page"})
@@ -51,9 +52,11 @@ public class QuestionController {
                                        @RequestParam(name = "page", defaultValue = "1")int page){
         Page<Question> pageQuestions = questionService.findPageQuestions(sort, page); // 30, 5
         List<Question> questions = pageQuestions.getContent();
+        List<QuestionDto.ListResponse> responses = questionMapper.questionToQuestionDtoResponseList(questions);
+        responses.forEach(o -> o.setAnswerCnt(answerService.getAnswerCnt(o.getQuestionId())));
 
         return new ResponseEntity(
-                new MultiResponseDto<>(questionMapper.questionToQuestionDtoResponseList(questions), pageQuestions), HttpStatus.OK);
+                new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

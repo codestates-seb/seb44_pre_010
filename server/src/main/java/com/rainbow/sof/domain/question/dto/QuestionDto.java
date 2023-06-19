@@ -57,4 +57,22 @@ public class QuestionDto {
             this.answerCnt = answerCnt;
         }
     }
+
+    @Builder
+    @AllArgsConstructor
+    @Getter
+    public static class ListResponse{
+        private UserDto.QuestionResponse user;
+        private Long questionId;
+        private String title;
+        private String content;
+        private int view;
+        private long answerCnt;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
+
+        public void setAnswerCnt(long answerCnt){
+            this.answerCnt = answerCnt;
+        }
+    }
 }
