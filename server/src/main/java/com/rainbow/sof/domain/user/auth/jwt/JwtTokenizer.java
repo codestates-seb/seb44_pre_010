@@ -80,7 +80,7 @@ public class JwtTokenizer {
     }
 
     //토큰의 만료시간설정
-    private Date getTokenExpiration(int ExpirationMinutes) {
+    public Date getTokenExpiration(int ExpirationMinutes) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE,ExpirationMinutes);
 
