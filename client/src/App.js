@@ -1,10 +1,12 @@
-// import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import styled from 'styled-components';
 import Header from './components/layouts/Header.jsx';
 import Footer from './components/layouts/Footer.jsx';
+import SideMenu from './components/layouts/SideMenu.jsx';
+import MainContent from './components/layouts/MainContent.jsx';
 
-import MyPage from './pages/Mypage/MyPage.jsx';
+// import MyPage from './pages/Mypage/MyPage.jsx';
 
 const MainWrapper = styled.main`
   max-width: 1264px;
@@ -19,7 +21,10 @@ function App() {
     <>
       <Header />
       <MainWrapper>
-        <MyPage />
+        <SideMenu />
+        <MainContent>
+          <Outlet />
+        </MainContent>
       </MainWrapper>
       <Footer />
     </>
