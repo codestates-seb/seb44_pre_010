@@ -5,6 +5,7 @@ import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.question.mapper.QuestionMapper;
 import com.rainbow.sof.domain.question.service.QuestionService;
+import com.rainbow.sof.global.common.AuthenticationName;
 import com.rainbow.sof.global.common.MultiResponseDto;
 import com.rainbow.sof.global.common.SingleResponseDto;
 import com.rainbow.sof.global.utils.UriCreator;
@@ -31,14 +32,14 @@ public class QuestionController {
     private final AnswerService answerService;
     private final QuestionMapper questionMapper;
     @PostMapping()
-    public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post request){
+    public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post request, @AuthenticationName String email){
         Question question = questionService.createQuestion(questionMapper.questionDtoPostToQuestion(request));
         URI location = UriCreator.createUri(QUESTION_DEFAULT_URL, question.getQuestionId());
 
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping
+    @GetMapping("/top")
     public ResponseEntity getQuestions(){
         List<Question> questions = questionService.findQuestions();
         List<QuestionDto.ListResponse> responses = questionMapper.questionToQuestionDtoResponseList(questions);
@@ -47,7 +48,7 @@ public class QuestionController {
                 new SingleResponseDto<>(responses), HttpStatus.OK);
     }
 
-    @GetMapping(params = {"tab","page"})
+    @GetMapping
     public ResponseEntity getQuestions(@RequestParam(name = "tab", defaultValue = "Newest")String sort,
                                        @RequestParam(name = "page", defaultValue = "1")int page){
         Page<Question> pageQuestions = questionService.findPageQuestions(sort, page); // 30, 5
