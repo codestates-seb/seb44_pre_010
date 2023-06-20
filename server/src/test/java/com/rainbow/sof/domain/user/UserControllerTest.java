@@ -2,6 +2,8 @@ package com.rainbow.sof.domain.user;
 
 
 import com.google.gson.Gson;
+import com.rainbow.sof.domain.answer.domain.Answer;
+import com.rainbow.sof.domain.answer.dto.AnswerDto;
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.user.dto.DataDto.UserDataResponse;
@@ -17,14 +19,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.SecurityConfig;
-import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -60,15 +57,18 @@ public class UserControllerTest {
 
     @BeforeEach
     public void initTest(){
+        List<Question> questionList =new ArrayList<>();
+        questionList.add(Question.builder().questionId(1L).build());
+        List<Answer> answerList =new ArrayList<>();
+        answerList.add(Answer.builder().answerId(1L).build());
         this.testUserEntity = User.builder()
                 .userId(1L)
                 .name("홍길동")
                 .email("test@test.com")
                 .password("q12341234")
+                .questionList(questionList)
+                .answerList(answerList)
                 .build();
-        List<Question> questionList =new ArrayList<>();
-        questionList.add(Question.builder().questionId(1L).build());
-        testUserEntity.updateQuestionList(questionList);
 
         this.userContext = gson.toJson(UserDto.SignUpPost.builder()
                 .name("홍길동").
@@ -97,11 +97,14 @@ public class UserControllerTest {
     @DisplayName("회원 정보 확인 테스트")
     public void getUserTest() throws Exception{
         QuestionDto.Response response = getResponse();
+        AnswerDto.Response answerResponse= getAnswer();
         List<QuestionDto.Response> list = new ArrayList<>();
+        List<AnswerDto.Response> answerDtoList = new ArrayList<>();
         list.add(response);
+        answerDtoList.add(answerResponse);
 
         MyPageResponseDto responseDto =MyPageResponseDto.builder()
-                .name("홍길동").questionList(list)
+                .name("홍길동").questionList(list).AnswerList(answerDtoList)
                 .build();
 
         String context = gson.toJson(UserDataResponse.builder()
@@ -136,6 +139,13 @@ public class UserControllerTest {
                 .questionId(1L)
                 .title("제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다")
                 .content("내용입니다. 내용입니다.")
+                .build();
+    }
+
+    private AnswerDto.Response getAnswer() {
+        return AnswerDto.Response.builder()
+                .answerId(1L)
+                .content("내용입니다. 내용입니다 내용입니다. 내용입니다")
                 .build();
     }
 }
