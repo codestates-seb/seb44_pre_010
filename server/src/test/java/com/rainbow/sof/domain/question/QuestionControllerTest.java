@@ -94,7 +94,7 @@ public class QuestionControllerTest {
                 .modifiedAt(LocalDateTime.now())
                 .build();
 
-        given(service.createQuestion(Mockito.any(Question.class))).willReturn(question);
+        given(service.createQuestion(Mockito.any(Question.class),Mockito.anyString())).willReturn(question);
         given(mapper.questionToQuestionDtoResponse(Mockito.any(Question.class))).willReturn(response);
 
         //when

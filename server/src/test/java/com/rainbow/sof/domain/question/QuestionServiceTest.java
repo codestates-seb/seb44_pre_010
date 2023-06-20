@@ -3,6 +3,8 @@ package com.rainbow.sof.domain.question;
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.repository.QuestionRepository;
 import com.rainbow.sof.domain.question.service.QuestionService;
+import com.rainbow.sof.domain.user.entity.User;
+import com.rainbow.sof.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class QuestionServiceTest {
     @Autowired
     private QuestionService service;
+
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private QuestionRepository repository;
 
@@ -29,8 +34,15 @@ public class QuestionServiceTest {
                 .title(title)
                 .content(content)
                 .build();
+        User user = User.builder()
+                .userId(1L)
+                .password("123123123")
+                .name("test")
+                .email("test@nte")
+                .build();
+        userRepository.save(user);
         //when
-        service.createQuestion(question);
+        service.createQuestion(question, "test@nte");
         Question saveQuestion = repository.findById(question.getQuestionId()).orElseThrow();
         //then
         assertThat(saveQuestion.getQuestionId()).isEqualTo(question.getQuestionId());
