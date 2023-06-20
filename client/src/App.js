@@ -6,8 +6,6 @@ import Footer from './components/layouts/Footer.jsx';
 import SideMenu from './components/layouts/SideMenu.jsx';
 import MainContent from './components/layouts/MainContent.jsx';
 
-// import MyPage from './pages/Mypage/MyPage.jsx';
-
 const MainWrapper = styled.main`
   max-width: 1264px;
   width: 100%;

@@ -1,8 +1,9 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import pencilIcon from '../assets/icons/pencil.svg';
 import deleteIcon from '../assets/icons/delete.svg';
 import profile from '../assets/imgs/profile.png';
 import { useState } from 'react';
+import SortButtonGroup from '../components/SortButtonGroup.jsx';
 
 const MyPageContainer = styled.div`
   width: 100%;
@@ -83,6 +84,7 @@ const MyPageButtonContainer = styled.div`
   flex-wrap: wrap;
   margin: 0.188rem;
 `;
+
 const MyPageButton = styled.div`
   box-sizing: border-box;
   width: fit-content;
@@ -129,52 +131,6 @@ const MyPageInfoPanelTitle = styled.div`
   }
 `;
 
-const SortButtonGroup = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 0.063rem;
-  box-sizing: inherit;
-
-  & > button:first-child {
-    border-top-left-radius: 0.1875rem;
-    border-bottom-left-radius: 0.1875rem;
-  }
-
-  & > button:last-child {
-    border-top-right-radius: 0.1875rem;
-    border-bottom-right-radius: 0.1875rem;
-    border: 0.0625rem solid var(--black-100);
-  }
-`;
-
-const SortButton = styled.button`
-  display: flex;
-  height: 1.687rem;
-  font-size: 0.75rem;
-  border: 1px solid;
-  text-align: center;
-  align-items: center;
-  padding: 0 0.6rem;
-  color: var(--black-500);
-  border: 0.0625rem solid var(--black-100);
-  border-right: none;
-  background-color: var(--white);
-
-  ${({ active }) =>
-    active &&
-    css`
-      background-color: var(--black-075);
-    `};
-
-  ${({ active }) =>
-    !active &&
-    css`
-      :hover {
-        background-color: var(--black-025);
-      }
-    `};
-`;
-
 const MyPageInfoPanel = styled.ul`
   border: 0.0625rem solid var(--black-100);
   height: 100%;
@@ -192,13 +148,13 @@ const MyPageInfoPanel = styled.ul`
   }
 `;
 
-function MyPage() {
-  const buttonData = [
-    { id: 'newest', text: 'Newest' },
-    { id: 'oldest', text: 'Oldest' },
-    { id: 'viewes', text: 'Viewes' },
-  ];
+const buttonData = [
+  { id: 'newest', text: 'Newest' },
+  { id: 'oldest', text: 'Oldest' },
+  { id: 'viewes', text: 'Viewes' },
+];
 
+function MyPage() {
   const [answersSortOption, setAnswersSortOption] = useState('newest');
   const [questionsSortOption, setQuestionsSortOption] = useState('newest');
   const [tagsSortOption, setTagsSortOption] = useState('newest');
@@ -237,17 +193,11 @@ function MyPage() {
       <MyPageInfoPanelContainer>
         <MyPageInfoPanelTitle>
           <h3>Answers</h3>
-          <SortButtonGroup>
-            {buttonData.map((button) => (
-              <SortButton
-                key={button.id}
-                active={answersSortOption === button.id}
-                onClick={() => handleSortOption(button.id, 'answers')}
-              >
-                {button.text}
-              </SortButton>
-            ))}
-          </SortButtonGroup>
+          <SortButtonGroup
+            buttonData={buttonData}
+            activeOption={answersSortOption}
+            onClick={(option) => handleSortOption(option, 'answers')}
+          />
         </MyPageInfoPanelTitle>
         <MyPageInfoPanel>
           {/* {answers.length > 0 ? (
@@ -261,17 +211,11 @@ function MyPage() {
       <MyPageInfoPanelContainer>
         <MyPageInfoPanelTitle>
           <h3>Questions</h3>
-          <SortButtonGroup>
-            {buttonData.map((button) => (
-              <SortButton
-                key={button.id}
-                active={questionsSortOption === button.id}
-                onClick={() => handleSortOption(button.id, 'questions')}
-              >
-                {button.text}
-              </SortButton>
-            ))}
-          </SortButtonGroup>
+          <SortButtonGroup
+            buttonData={buttonData}
+            activeOption={questionsSortOption}
+            onClick={(option) => handleSortOption(option, 'questions')}
+          />
         </MyPageInfoPanelTitle>
         <MyPageInfoPanel>
           {/* {questions.length > 0 ? (
@@ -285,17 +229,11 @@ function MyPage() {
       <MyPageInfoPanelContainer>
         <MyPageInfoPanelTitle>
           <h3>Tags</h3>
-          <SortButtonGroup>
-            {buttonData.map((button) => (
-              <SortButton
-                key={button.id}
-                active={tagsSortOption === button.id}
-                onClick={() => handleSortOption(button.id, 'tags')}
-              >
-                {button.text}
-              </SortButton>
-            ))}
-          </SortButtonGroup>
+          <SortButtonGroup
+            buttonData={buttonData}
+            activeOption={tagsSortOption}
+            onClick={(option) => handleSortOption(option, 'tags')}
+          />
         </MyPageInfoPanelTitle>
         <MyPageInfoPanel>
           {/* {tags.length > 0 ? (
