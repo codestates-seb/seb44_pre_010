@@ -125,6 +125,11 @@ table {
   border-spacing: 0;
 }
 
+a {
+  text-decoration: none;
+  color: var(--black-600);
+}
+
 html,
 body {
   width: 100%;

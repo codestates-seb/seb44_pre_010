@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 public interface UserMapper {
     User userSignupPostToUser(UserDto.SignUpPost signUpPost);
 
+    User userLoginPostTouser(UserDto.CreationLoginDto creationLoginDto);
+
     default MyPageResponseDto userToMyPageDto(User user){
         List<QuestionDto.Response> questionList = user.getQuestionList().stream()
                 .map(question -> QuestionDto.Response.builder()

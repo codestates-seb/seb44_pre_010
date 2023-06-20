@@ -51,4 +51,8 @@ public class AnswerService {
     public Answer findVerifiedAnswer(long answerId) {
         return answerRepository.findById(answerId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
     }
+
+    public long getAnswerCnt(long id){
+        return answerRepository.countByQuestionQuestionId(id);
+    }
 }
