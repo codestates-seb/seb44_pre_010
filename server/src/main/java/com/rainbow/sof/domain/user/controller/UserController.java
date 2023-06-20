@@ -54,12 +54,15 @@ public class UserController {
 //    }
 
     @GetMapping("/users/{user-id}")
-    public ResponseEntity<?> getUserData(@Valid @PathVariable("user-id") @Positive long id){
-        User user = service.findVerifiedUser(id);
+    public ResponseEntity<?> getUserData(Principal principal,
+                                         @Valid @PathVariable("user-id") @Positive long id){
+        User user = service.findByUserFromEmail(principal.getName());
         MyPageResponseDto myPageDto= mapper.userToMyPageDto(user);
         UserDataResponse response=UserDataResponse.builder().data(myPageDto).build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+//    @Valid @PathVariable("user-id") @Positive long id
 
     @PatchMapping("/users/{user-id}")
     public ResponseEntity<?> patchUser(Principal principal,

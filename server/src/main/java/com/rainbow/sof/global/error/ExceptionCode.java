@@ -3,6 +3,7 @@ package com.rainbow.sof.global.error;
 import lombok.Getter;
 
 public enum ExceptionCode {
+    UNAUTHORIZED(401,"invalid token Data"),
     USER_NOT_FOUND(404, "Member not found"),
     QUESTION_NOT_FOUND(404, "Question not found"),
     ANSWER_NOT_FOUND(404, "Answer not found"),

@@ -10,6 +10,7 @@ import Questions from './pages/Questions.jsx';
 import Tags from './pages/Tags.jsx';
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
+import QuestionDetail from './pages/QuestionDetail.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,10 +22,11 @@ const router = createBrowserRouter([
       { path: 'questions', element: <Questions /> },
       { path: 'tags', element: <Tags /> },
       { path: 'mypage', element: <MyPage /> },
-      { path: 'login', element: <Login /> },
-      { path: 'signup', element: <SignUp /> },
+      { path: 'questions/:id', element: <QuestionDetail /> },
     ],
   },
+  { path: '/login', element: <Login /> },
+  { path: '/signup', element: <SignUp /> },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
