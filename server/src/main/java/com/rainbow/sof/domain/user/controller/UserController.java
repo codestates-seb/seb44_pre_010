@@ -56,7 +56,7 @@ public class UserController {
     @GetMapping("/users/{user-id}")
     public ResponseEntity<?> getUserData(Principal principal,
                                          @Valid @PathVariable("user-id") @Positive long id){
-        User user = service.findByUserFromEmail(principal.getName());
+        User user = service.checkToFindByUserFromEmail(principal.getName(),id);
         MyPageResponseDto myPageDto= mapper.userToMyPageDto(user);
         UserDataResponse response=UserDataResponse.builder().data(myPageDto).build();
         return new ResponseEntity<>(response, HttpStatus.OK);

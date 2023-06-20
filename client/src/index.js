@@ -4,13 +4,29 @@ import App from './App';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import NotFound from './pages/NotFound.jsx';
+import MyPage from './pages/MyPage.jsx';
+import Home from './pages/Home.jsx';
+import Questions from './pages/Questions.jsx';
+import Tags from './pages/Tags.jsx';
+import Login from './pages/Login.jsx';
+import SignUp from './pages/SignUp.jsx';
+import QuestionDetail from './pages/QuestionDetail.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     errorElement: <NotFound />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: 'questions', element: <Questions /> },
+      { path: 'tags', element: <Tags /> },
+      { path: 'mypage', element: <MyPage /> },
+      { path: 'questions/:id', element: <QuestionDetail /> },
+    ],
   },
+  { path: '/login', element: <Login /> },
+  { path: '/signup', element: <SignUp /> },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

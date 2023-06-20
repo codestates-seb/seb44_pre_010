@@ -17,9 +17,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.SecurityConfig;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -87,6 +93,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("회원 정보 확인 테스트")
     public void getUserTest() throws Exception{
         QuestionDto.Response response = getResponse();
@@ -100,6 +107,7 @@ public class UserControllerTest {
         String context = gson.toJson(UserDataResponse.builder()
                 .data(responseDto));
 
+        given(service.checkToFindByUserFromEmail(Mockito.anyString(),Mockito.anyLong())).willReturn(testUserEntity);
         given(service.findVerifiedUser(Mockito.anyLong())).willReturn(testUserEntity);
         given(mapper.userToMyPageDto(testUserEntity)).willReturn(responseDto);
 
@@ -113,6 +121,7 @@ public class UserControllerTest {
 
 
     @Test
+    @WithMockUser
     @DisplayName("회원 탈퇴 테스트")
     public void deleteUserTest() throws Exception{
         doNothing().when(service).deleteUser(Mockito.anyLong());

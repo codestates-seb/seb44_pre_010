@@ -1,0 +1,839 @@
+{
+    "data": [
+        {
+            "tags": [
+                "visual-studio-code"
+            ],
+            "user": {
+                "userId": 401685,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/d46ca1f06cc21ce42f2e27b76b9ed506?s=256&d=identicon&r=PG",
+                "name": "Jim Carr",
+                "link": "https://stackoverflow.com/users/401685/jim-carr"
+            },
+            "is_answered": true,
+            "view": 324399,
+            "protected_date": 1561267008,
+            "answerCount": 24,
+            "score": 452,
+            "last_activity_date": 1687152179,
+            "creation_date": 1458649351,
+            "last_edit_date": 1515418148,
+            "questionId": 36154283,
+            "content_license": "CC BY-SA 3.0",
+            "link": "https://stackoverflow.com/questions/36154283/method-list-in-visual-studio-code",
+            "title": "Method List in Visual Studio Code",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "java",
+                "apache",
+                "dictionary",
+                "character"
+            ],
+            "user": {
+                "account_id": 26969322,
+                "reputation": 1,
+                "userId": 20535586,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/82434acfc22304e1876c45b2f5c3f125?s=256&d=identicon&r=PG",
+                "name": "hhhChan",
+                "link": "https://stackoverflow.com/users/20535586/hhhchan"
+            },
+            "is_answered": false,
+            "view": 11,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687152163,
+            "creation_date": 1687146577,
+            "last_edit_date": 1687148790,
+            "questionId": 76503512,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503512/caseinsensitivemap-convertkey",
+            "title": "CaseInsensitiveMap.convertKey",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "windows",
+                "flutter",
+                "firebase"
+            ],
+            "user": {
+                "account_id": 25287485,
+                "reputation": 11,
+                "userId": 19114158,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/e471943e8df6a6ee419421f83f2a11dc?s=256&d=identicon&r=PG",
+                "name": "Adnan",
+                "link": "https://stackoverflow.com/users/19114158/adnan"
+            },
+            "is_answered": false,
+            "view": 9,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687152160,
+            "creation_date": 1687150938,
+            "last_edit_date": 1687152160,
+            "questionId": 76503725,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503725/how-to-install-flutterfire-cli-in-windows",
+            "title": "How to install flutterfire cli in windows?",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "c#",
+                ".net",
+                "maui"
+            ],
+            "user": {
+                "account_id": 28847928,
+                "reputation": 1,
+                "userId": 22094468,
+                "user_type": "registered",
+                "profile_image": "https://graph.facebook.com/2192770814249025/picture?type=large",
+                "name": "Billy Jabonete Manoguid",
+                "link": "https://stackoverflow.com/users/22094468/billy-jabonete-manoguid"
+            },
+            "is_answered": false,
+            "view": 9,
+            "answerCount": 1,
+            "score": 0,
+            "last_activity_date": 1687152138,
+            "creation_date": 1687147176,
+            "questionId": 76503540,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503540/how-to-customize-top-navigation-or-the-action-bar-in-maui",
+            "title": "How to Customize Top navigation or the Action bar in MAUI",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "powerquery"
+            ],
+            "user": {
+                "account_id": 15519169,
+                "reputation": 81,
+                "userId": 11195814,
+                "user_type": "registered",
+                "profile_image": "https://i.stack.imgur.com/Ih9Fa.jpg?s=256&g=1",
+                "name": "Renier Wessels",
+                "link": "https://stackoverflow.com/users/11195814/renier-wessels"
+            },
+            "is_answered": false,
+            "view": 3,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687152131,
+            "creation_date": 1687152131,
+            "questionId": 76503801,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503801/power-query-list-generate-iteration-bug",
+            "title": "Power Query List.Generate iteration bug",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "powershell"
+            ],
+            "user": {
+                "account_id": 12357785,
+                "reputation": 167,
+                "userId": 9013164,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/9daff6b390a2aa68b6ebe80741d1329f?s=256&d=identicon&r=PG&f=y&so-version=2",
+                "name": "hydra3333",
+                "link": "https://stackoverflow.com/users/9013164/hydra3333"
+            },
+            "is_answered": true,
+            "view": 12,
+            "accepted_answer_id": 76503776,
+            "answerCount": 1,
+            "score": 1,
+            "last_activity_date": 1687152127,
+            "creation_date": 1687149776,
+            "last_edit_date": 1687152127,
+            "questionId": 76503659,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503659/powershell-match-not-matching-as-hoped-seeking-advice",
+            "title": "powershell &quot;-match&quot; not matching as hoped, seeking advice",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "gitlab"
+            ],
+            "user": {
+                "account_id": 4308682,
+                "reputation": 12090,
+                "userId": 3520404,
+                "user_type": "registered",
+                "profile_image": "https://i.stack.imgur.com/JhNCo.jpg?s=256&g=1",
+                "name": "saran3h",
+                "link": "https://stackoverflow.com/users/3520404/saran3h"
+            },
+            "is_answered": false,
+            "view": 2,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687152124,
+            "creation_date": 1687152124,
+            "questionId": 76503800,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503800/gitlab-branch-comparison-algorithm-is-completely-broken",
+            "title": "GitLab branch comparison algorithm is completely broken",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "java",
+                "spring-boot",
+                "openapi"
+            ],
+            "user": {
+                "account_id": 7841770,
+                "reputation": 371,
+                "userId": 5928046,
+                "user_type": "registered",
+                "profile_image": "https://lh5.googleusercontent.com/-LbWDlp912wk/AAAAAAAAAAI/AAAAAAAAAHQ/yB3fByDWyaw/photo.jpg?sz=256",
+                "name": "Tarun Pande",
+                "link": "https://stackoverflow.com/users/5928046/tarun-pande"
+            },
+            "is_answered": true,
+            "view": 26783,
+            "answerCount": 9,
+            "score": 5,
+            "last_activity_date": 1687152103,
+            "creation_date": 1585070587,
+            "last_edit_date": 1585080955,
+            "questionId": 60836152,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/60836152/failed-to-load-api-definition-in-springboot",
+            "title": "Failed to load API definition in Springboot",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "python",
+                "numpy",
+                "opencv",
+                "image-processing"
+            ],
+            "user": {
+                "account_id": 21973819,
+                "reputation": 59,
+                "userId": 16249938,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/13965663d8e2ec4795863089df730c08?s=256&d=identicon&r=PG&f=y&so-version=2",
+                "name": "Noah Robb",
+                "link": "https://stackoverflow.com/users/16249938/noah-robb"
+            },
+            "is_answered": false,
+            "view": 28,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687152101,
+            "creation_date": 1687094401,
+            "last_edit_date": 1687152101,
+            "questionId": 76500743,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76500743/how-to-split-a-contour-in-opencv-python",
+            "title": "How to split a contour in opencv python?",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "c#",
+                "asp.net-web-api"
+            ],
+            "user": {
+                "account_id": 47211,
+                "reputation": 14449,
+                "userId": 139698,
+                "user_type": "registered",
+                "accept_rate": 91,
+                "profile_image": "https://www.gravatar.com/avatar/0a7b421d94be463805e787c87ef1cff9?s=256&d=identicon&r=PG",
+                "name": "Rod",
+                "link": "https://stackoverflow.com/users/139698/rod"
+            },
+            "is_answered": false,
+            "view": 20,
+            "answerCount": 1,
+            "score": 0,
+            "last_activity_date": 1687152094,
+            "creation_date": 1687130239,
+            "questionId": 76502849,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76502849/using-web-api-to-download-a-file",
+            "title": "Using Web API to download a file",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "java"
+            ],
+            "user": {
+                "account_id": 5083502,
+                "reputation": 927,
+                "userId": 4078909,
+                "user_type": "registered",
+                "accept_rate": 39,
+                "profile_image": "https://www.gravatar.com/avatar/6bd9e066d66110b8bc9b80b39966072a?s=256&d=identicon&r=PG&f=y&so-version=2",
+                "name": "Mohit H",
+                "link": "https://stackoverflow.com/users/4078909/mohit-h"
+            },
+            "is_answered": false,
+            "view": 19,
+            "answerCount": 1,
+            "score": 0,
+            "last_activity_date": 1687152088,
+            "creation_date": 1687147137,
+            "questionId": 76503537,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503537/returning-json-and-xml-using-the-same-entity-class",
+            "title": "Returning JSON and XML using the same entity class",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "java",
+                "appium",
+                "qaf"
+            ],
+            "user": {
+                "account_id": 28064486,
+                "reputation": 11,
+                "userId": 21438080,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/1004e7701501c8e7f35582a0f5e35089?s=256&d=identicon&r=PG&f=y&so-version=2",
+                "name": "Ostan Dsouza",
+                "link": "https://stackoverflow.com/users/21438080/ostan-dsouza"
+            },
+            "is_answered": false,
+            "view": 2,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687152080,
+            "creation_date": 1687152080,
+            "questionId": 76503796,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503796/how-to-define-platform-specific-page-elements-for-ios-and-android-in-a-single-pl",
+            "title": "How to define platform-specific page elements for iOS and Android in a single place using QAF?",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "spring-cloud-sleuth",
+                "distributed-tracing"
+            ],
+            "user": {
+                "account_id": 183179,
+                "reputation": 1075,
+                "userId": 418410,
+                "user_type": "registered",
+                "accept_rate": 62,
+                "profile_image": "https://www.gravatar.com/avatar/9379dd4ff92f18b94e7ff3fc7cfdbac1?s=256&d=identicon&r=PG",
+                "name": "Ganesh P",
+                "link": "https://stackoverflow.com/users/418410/ganesh-p"
+            },
+            "is_answered": false,
+            "view": 8,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687152074,
+            "creation_date": 1686998947,
+            "last_edit_date": 1687152074,
+            "questionId": 76495843,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76495843/custom-traceid-from-headers",
+            "title": "Custom traceId from headers",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "c#",
+                "entity-framework",
+                "model-view-controller",
+                "dbcontext",
+                "entity-framework-migrations"
+            ],
+            "user": {
+                "account_id": 5648869,
+                "reputation": 999,
+                "userId": 4470144,
+                "user_type": "registered",
+                "accept_rate": 50,
+                "profile_image": "https://www.gravatar.com/avatar/bef6606ed419c80c2f391de642303dc7?s=256&d=identicon&r=PG&f=y&so-version=2",
+                "name": "cembo",
+                "link": "https://stackoverflow.com/users/4470144/cembo"
+            },
+            "is_answered": true,
+            "view": 81642,
+            "answerCount": 7,
+            "score": 36,
+            "last_activity_date": 1687152058,
+            "creation_date": 1507691700,
+            "questionId": 46679202,
+            "content_license": "CC BY-SA 3.0",
+            "link": "https://stackoverflow.com/questions/46679202/migration-no-dbcontext-was-found-in-assembly",
+            "title": "Migration: No DbContext was found in assembly",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "java",
+                "list",
+                "microservices"
+            ],
+            "user": {
+                "account_id": 22207507,
+                "reputation": 1,
+                "userId": 16447226,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/82373f537a70a1538a8bc00fae7e11b5?s=256&d=identicon&r=PG&f=y&so-version=2",
+                "name": "prachi",
+                "link": "https://stackoverflow.com/users/16447226/prachi"
+            },
+            "is_answered": false,
+            "view": 3,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687152050,
+            "creation_date": 1687152050,
+            "questionId": 76503795,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503795/giving-add-and-reset-option-to-select-and-deselect-from-one-list-to-another-list",
+            "title": "Giving Add and reset option to select and deselect from one list to another list",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "laravel"
+            ],
+            "user": {
+                "account_id": 18466172,
+                "reputation": 33,
+                "userId": 13452292,
+                "user_type": "registered",
+                "profile_image": "https://lh3.googleusercontent.com/a-/AOh14GijGCnnUnvmIkPkOESPSPli-kPHCjVlCSiTf2OI=k-s256",
+                "name": "Muhammad Tufail",
+                "link": "https://stackoverflow.com/users/13452292/muhammad-tufail"
+            },
+            "is_answered": false,
+            "view": 2,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687152021,
+            "creation_date": 1687152021,
+            "questionId": 76503794,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503794/how-to-show-dropdown-list-in-multiple-view-blade-using-laravel",
+            "title": "how to show dropdown list in multiple view blade using laravel",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "python",
+                "timeout",
+                "nba-api"
+            ],
+            "user": {
+                "account_id": 28848176,
+                "reputation": 1,
+                "userId": 22094671,
+                "user_type": "registered",
+                "profile_image": "https://lh3.googleusercontent.com/a/AAcHTtccAG4tn8bKZuhMC-IyU4fgdYPwWmxrsCiKbtTT=k-s256",
+                "name": "wnasi3",
+                "link": "https://stackoverflow.com/users/22094671/wnasi3"
+            },
+            "is_answered": false,
+            "view": 2,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687152016,
+            "creation_date": 1687152016,
+            "questionId": 76503793,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503793/resolving-read-timeout-error-while-using-nba-api",
+            "title": "resolving read timeout error while using nba_api",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "c#",
+                "nullable"
+            ],
+            "user": {
+                "account_id": 5982482,
+                "reputation": 4729,
+                "userId": 4701022,
+                "user_type": "registered",
+                "accept_rate": 60,
+                "profile_image": "https://i.stack.imgur.com/CPejW.png?s=256&g=1",
+                "name": "Arnold Zahrneinder",
+                "link": "https://stackoverflow.com/users/4701022/arnold-zahrneinder"
+            },
+            "is_answered": false,
+            "view": 49,
+            "answerCount": 2,
+            "score": 1,
+            "last_activity_date": 1687151991,
+            "creation_date": 1687144991,
+            "questionId": 76503432,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503432/checking-for-null-from-another-method",
+            "title": "Checking for null from another method",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "python",
+                "return",
+                "typeerror",
+                "return-value",
+                "nonetype"
+            ],
+            "user": {
+                "account_id": 1045541,
+                "reputation": 19642,
+                "userId": 1050619,
+                "user_type": "registered",
+                "accept_rate": 50,
+                "profile_image": "https://www.gravatar.com/avatar/784ade8d4151295e24765ffc4fcd60b4?s=256&d=identicon&r=PG",
+                "name": "user1050619",
+                "link": "https://stackoverflow.com/users/1050619/user1050619"
+            },
+            "is_answered": true,
+            "view": 167238,
+            "answerCount": 9,
+            "score": 63,
+            "last_activity_date": 1687151973,
+            "creation_date": 1344451982,
+            "last_edit_date": 1687151973,
+            "questionId": 11871221,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/11871221/python-typeerror-str-returned-non-string-but-still-prints-to-output",
+            "title": "Python: &quot;TypeError: __str__ returned non-string&quot; but still prints to output?",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "jakarta-ee",
+                "jersey",
+                "jax-rs",
+                "jetty"
+            ],
+            "user": {
+                "account_id": 4845259,
+                "reputation": 192,
+                "userId": 3909043,
+                "user_type": "registered",
+                "accept_rate": 100,
+                "profile_image": "https://graph.facebook.com/100000773461500/picture?type=large",
+                "name": "Shaik Zakir Hussain",
+                "link": "https://stackoverflow.com/users/3909043/shaik-zakir-hussain"
+            },
+            "is_answered": false,
+            "view": 4,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687151932,
+            "creation_date": 1687151932,
+            "questionId": 76503791,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503791/closing-releasing-resources-in-a-java-resource-file-annotated-with-jakarta-restf",
+            "title": "Closing/Releasing resources in a java resource file annotated with Jakarta Restful Web Services (JAX-RS) annotations",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "css",
+                "charts",
+                "diagram",
+                "flowchart",
+                "mermaid"
+            ],
+            "user": {
+                "account_id": 28848183,
+                "reputation": 1,
+                "userId": 22094676,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/a0a3853a3f5bf3227ae2264ed2620855?s=256&d=identicon&r=PG&f=y&so-version=2",
+                "name": "BigGbigger",
+                "link": "https://stackoverflow.com/users/22094676/biggbigger"
+            },
+            "is_answered": false,
+            "view": 6,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687151913,
+            "creation_date": 1687150861,
+            "last_edit_date": 1687151913,
+            "questionId": 76503714,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503714/issue-with-mermaid-diagram-styles-styling-not-working-properly",
+            "title": "Issue with Mermaid Diagram Styles: Styling Not Working Properly",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "javascript",
+                "lodash",
+                "underscore.js"
+            ],
+            "user": {
+                "account_id": 17160,
+                "reputation": 40988,
+                "userId": 38126,
+                "user_type": "registered",
+                "accept_rate": 94,
+                "profile_image": "https://www.gravatar.com/avatar/854caec0d85c0fd2a8f1e10559a35ebe?s=256&d=identicon&r=PG",
+                "name": "Chris Fulstow",
+                "link": "https://stackoverflow.com/users/38126/chris-fulstow"
+            },
+            "is_answered": false,
+            "view": 24,
+            "answerCount": 3,
+            "score": -1,
+            "last_activity_date": 1687151908,
+            "creation_date": 1687150902,
+            "questionId": 76503719,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503719/merge-array-of-objects-with-array-values-into-a-single-object",
+            "title": "Merge array of objects with array values into a single object",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "servlets",
+                "aem",
+                "query-builder",
+                "predicate",
+                "sling"
+            ],
+            "user": {
+                "account_id": 18485634,
+                "reputation": 2328,
+                "userId": 13466689,
+                "user_type": "registered",
+                "profile_image": "https://i.stack.imgur.com/Ge9bA.jpg?s=256&g=1",
+                "name": "Faheem azaz Bhanej",
+                "link": "https://stackoverflow.com/users/13466689/faheem-azaz-bhanej"
+            },
+            "is_answered": true,
+            "view": 22,
+            "accepted_answer_id": 76499413,
+            "answerCount": 1,
+            "score": 0,
+            "last_activity_date": 1687151893,
+            "creation_date": 1686994911,
+            "last_edit_date": 1687151893,
+            "questionId": 76495617,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76495617/how-to-get-properties-of-jcrcontent-of-nested-page",
+            "title": "How to get properties of &quot;jcr:content&quot; of nested page",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "python-3.x",
+                "google-tasks-api"
+            ],
+            "user": {
+                "account_id": 17166529,
+                "reputation": 1,
+                "userId": 12424723,
+                "user_type": "registered",
+                "profile_image": "https://lh3.googleusercontent.com/a-/AAuE7mCmPm_1ZfJ-J47aqGlR86OkMGZ-Tg3fCz8rV0HsWg=k-s256",
+                "name": "Bajro Spaho",
+                "link": "https://stackoverflow.com/users/12424723/bajro-spaho"
+            },
+            "is_answered": false,
+            "view": 92,
+            "answerCount": 1,
+            "score": 0,
+            "last_activity_date": 1687151887,
+            "creation_date": 1661087756,
+            "questionId": 73434762,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/73434762/is-it-possible-to-get-all-the-history-of-reccuring-google-tasks-with-google-task",
+            "title": "Is it possible to get all the history of reccuring google tasks with google tasks API?",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "lua",
+                "collision-detection",
+                "game-engine",
+                "collision",
+                "pico-8"
+            ],
+            "user": {
+                "account_id": 20351421,
+                "reputation": 1,
+                "userId": 18638231,
+                "user_type": "registered",
+                "profile_image": "https://lh3.googleusercontent.com/a-/AOh14GgZGZ2XvSy1PWvFENQag-d3ffVqY43WlXa_Jc5k3w=k-s256",
+                "name": "Sam Cao",
+                "link": "https://stackoverflow.com/users/18638231/sam-cao"
+            },
+            "is_answered": false,
+            "view": 7,
+            "answerCount": 1,
+            "score": 0,
+            "last_activity_date": 1687151878,
+            "creation_date": 1687151735,
+            "questionId": 76503781,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503781/attempt-to-index-a-nil-value-in-tic-80",
+            "title": "Attempt to index a nil value in TIC-80",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "python",
+                "fastapi",
+                "pydantic"
+            ],
+            "user": {
+                "account_id": 9783376,
+                "reputation": 225,
+                "userId": 7250473,
+                "user_type": "registered",
+                "profile_image": "https://graph.facebook.com/1795327987394322/picture?type=large",
+                "name": "양정훈",
+                "link": "https://stackoverflow.com/users/7250473/%ec%96%91%ec%a0%95%ed%9b%88"
+            },
+            "is_answered": false,
+            "view": 7,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687151845,
+            "creation_date": 1687151845,
+            "questionId": 76503787,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503787/fastapi-how-to-raise-custom-exception-from-invalid-null-field-request",
+            "title": "FastAPI, How to raise custom Exception from invalid null field request?",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "linux",
+                "gnu"
+            ],
+            "user": {
+                "account_id": 25420988,
+                "reputation": 23,
+                "userId": 19227020,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/9ccc3be0d98437e693c7c32688aba2e7?s=256&d=identicon&r=PG",
+                "name": "a boi",
+                "link": "https://stackoverflow.com/users/19227020/a-boi"
+            },
+            "is_answered": false,
+            "view": 7,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687151832,
+            "creation_date": 1687151338,
+            "last_edit_date": 1687151832,
+            "questionId": 76503751,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503751/gnu-linker-script-external-symbols-flags-in-phdrs",
+            "title": "GNU Linker Script external symbols, flags in PHDRS",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "python",
+                "selenium-webdriver",
+                "automated-tests",
+                "popupwindow",
+                "autotest"
+            ],
+            "user": {
+                "account_id": 27859039,
+                "reputation": 1,
+                "userId": 21271954,
+                "user_type": "registered",
+                "profile_image": "https://lh3.googleusercontent.com/a/AGNmyxZT9DHOHY845nfS1nUIs7ZGGdqaS7YcV-WqMb_S=k-s256",
+                "name": "Leonid Margolis",
+                "link": "https://stackoverflow.com/users/21271954/leonid-margolis"
+            },
+            "is_answered": false,
+            "view": 18,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687151822,
+            "creation_date": 1687119503,
+            "last_edit_date": 1687151822,
+            "questionId": 76502390,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76502390/auto-test-selenium-python-how-to-interact-with-elements-on-the-page-when-they-ar",
+            "title": "Auto-test Selenium python How to interact with elements on the page when they are covered by a pop-up window that is constantly on the page",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "c",
+                "compilation",
+                "cs50"
+            ],
+            "user": {
+                "account_id": 28633176,
+                "reputation": 1,
+                "userId": 22052194,
+                "user_type": "registered",
+                "profile_image": "https://lh3.googleusercontent.com/a/AGNmyxamzHxMEmSCMXU0R3-sxXnm4n9Z41RTgvhi7L1f=k-s256",
+                "name": "Subin",
+                "link": "https://stackoverflow.com/users/22052194/subin"
+            },
+            "is_answered": false,
+            "view": 9,
+            "answerCount": 0,
+            "score": 0,
+            "last_activity_date": 1687151815,
+            "creation_date": 1687151737,
+            "last_edit_date": 1687151815,
+            "questionId": 76503784,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76503784/why-do-i-need-to-use-gcc-o-string-string-c-cs50-c-to-compile",
+            "title": "why do i need to use gcc -o string string.c cs50.c to compile?",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        },
+        {
+            "tags": [
+                "excel",
+                "excel-formula",
+                "google-sheets-formula"
+            ],
+            "user": {
+                "account_id": 3648222,
+                "reputation": 1427,
+                "userId": 3040947,
+                "user_type": "registered",
+                "accept_rate": 50,
+                "profile_image": "https://i.stack.imgur.com/5R7Le.jpg?s=256&g=1",
+                "name": "Genish Parvadia",
+                "link": "https://stackoverflow.com/users/3040947/genish-parvadia"
+            },
+            "is_answered": true,
+            "view": 75,
+            "answerCount": 3,
+            "score": 0,
+            "last_activity_date": 1687151754,
+            "creation_date": 1687107995,
+            "last_edit_date": 1687115235,
+            "questionId": 76501691,
+            "content_license": "CC BY-SA 4.0",
+            "link": "https://stackoverflow.com/questions/76501691/identify-two-digits-in-a-cell-are-both-odd-or-both-even",
+            "title": "Identify two digits in a cell are both odd or both even",
+            "content": "이것은 질문입니다. 어떤 무엇이 문제일까요??? 모르겠습니다... 가르쳐주십시오!!!!!"
+        }
+    ],
+    "has_more": true,
+    "quota_max": 300,
+    "quota_remaining": 294
+}

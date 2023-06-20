@@ -7,6 +7,7 @@ import com.rainbow.sof.domain.answer.service.AnswerService;
 import com.rainbow.sof.global.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +28,7 @@ public class AnswerController {
     @PostMapping("/{question-id}/answers")
     public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
                                      @Valid @RequestBody AnswerDto.Post request) {
-        request.addQuestionId(questionId);
-        Answer answer = answerService.createAnswer(answerMapper.answerDtoPostToAnswer(request));
+        Answer answer = answerService.createAnswer(questionId ,answerMapper.answerDtoPostToAnswer(request));
         URI location = UriCreator.createUri(ANSWER_DEFAULT_URL, answer.getAnswerId());
 
         return ResponseEntity.created(location).build();
@@ -38,10 +38,17 @@ public class AnswerController {
     public ResponseEntity patchAnswer(@PathVariable("question-id") @Positive long questionId,
                                       @PathVariable("answer-id") @Positive long answerId,
                                       @Valid @RequestBody AnswerDto.Patch request) {
-        request.addQuestionId(questionId);
-        Answer answer = answerService.updateAnswer(answerId, answerMapper.answerDtoPatchToAnswer(request));
+        Answer answer = answerService.updateAnswer(questionId, answerId, answerMapper.answerDtoPatchToAnswer(request));
         URI location = UriCreator.createUri(ANSWER_DEFAULT_URL, answer.getAnswerId());
 
         return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping("/{question-id}/answers/{answer-id}")
+    public ResponseEntity deleteAnswer(@PathVariable("question-id") @Positive long questionId,
+                                       @PathVariable("answerId") @Positive long answerId) {
+        answerService.deleteAnswer(questionId, answerId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

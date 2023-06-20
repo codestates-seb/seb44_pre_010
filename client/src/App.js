@@ -3,6 +3,9 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/layouts/Header.jsx';
 import Footer from './components/layouts/Footer.jsx';
+import SideMenu from './components/layouts/SideMenu.jsx';
+import MainContent from './components/layouts/MainContent.jsx';
+import { useEffect, useState } from 'react';
 
 const MainWrapper = styled.main`
   max-width: 1264px;
@@ -13,11 +16,23 @@ const MainWrapper = styled.main`
 `;
 
 function App() {
+  const [isSelect, setIsSelect] = useState(0);
+  const onHandleSelect = (index) => {
+    setIsSelect(index);
+  };
+
+  useEffect(() => {
+    setIsSelect(0);
+  }, []);
+
   return (
     <>
       <Header />
       <MainWrapper>
-        <Outlet />
+        <SideMenu selected={isSelect} handleSelected={onHandleSelect} />
+        <MainContent>
+          <Outlet />
+        </MainContent>
       </MainWrapper>
       <Footer />
     </>
@@ -25,3 +40,4 @@ function App() {
 }
 
 export default App;
+//테스트

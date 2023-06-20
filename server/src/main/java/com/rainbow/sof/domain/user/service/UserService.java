@@ -39,11 +39,20 @@ public class UserService {
         );
     }
 
-    public User findByUserFromEmail(String email){
+    public User checkToFindByUserFromEmail(String email,long id){
         Optional<User> user = repository.findByEmail(email);
-        return user.orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
-        );
+        User findUser=user.orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        compareToEntityCheck(findUser,id);
+
+        return findUser;
+
+    }
+
+    private void compareToEntityCheck(User user,long id) {
+        if (user.getUserId() != id){
+            throw new BusinessLogicException(ExceptionCode.INVALID_TOKEN);
+        }
     }
 
     private void verifyExistsEmail(String email) {
