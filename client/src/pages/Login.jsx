@@ -17,8 +17,8 @@ const LoginContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
   background-color: #f1f2f3;
+  height: 100vh;
 `;
 
 const FormContainer = styled.form`
@@ -28,18 +28,11 @@ const FormContainer = styled.form`
   width: 17.5rem;
   height: auto;
   padding: 1.5rem;
-  max-width: 19.75rem;
   margin: 1.5rem 0;
   background-color: #ffffff;
   line-height: 1.0625rem;
   border-radius: 0.4375rem;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0.625rem 1.5rem;
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 0.75rem;
 `;
 
 const LoginForm = styled.form`
@@ -52,7 +45,6 @@ const LoginForm = styled.form`
   line-height: 1.0625rem;
   text-align: left;
   margin: -0.375rem 0 -0.375rem 0;
-  max-width: 19.75rem;
 `;
 
 const Label = styled.div`
@@ -67,8 +59,6 @@ const Label = styled.div`
   width: 15rem;
   margin: 0.125rem 0 0.125rem 0;
   padding: 0.0625rem 0.125rem 0.0625rem 0.125rem;
-  min-height: auto;
-  min-width: auto;
 `;
 
 const ForgotPassword = styled.span`
@@ -84,8 +74,6 @@ const Input = styled.input`
   width: 15rem;
   border: 0.0625rem solid #babfc4;
   padding: 0.5rem 0.5625rem 0.5rem 0.5625rem;
-  min-height: auto;
-  min-width: auto;
   display: block;
   border-radius: 0.1875rem;
 
@@ -110,8 +98,6 @@ const Button = styled.button`
   color: #ffffff;
   margin: 0.75rem 0;
   padding: 0.625rem;
-  min-height: auto;
-  min-width: auto;
   position: relative;
   cursor: pointer;
   box-shadow: 0 0.0625rem 0 0 inset rgba(255, 255, 255, 0.4);
@@ -137,52 +123,23 @@ const GoogleLogin = styled.div`
   align-items: flex-end;
   justify-content: center;
   background-color: #ffffff;
-  width: 15rem;
+  width: 17.5rem;
   height: 2.361rem;
-  border: 0.25rem 0;
   padding: 0.625rem;
-  min-height: auto;
-  min-width: auto;
   border-radius: 0.3125rem;
   border: 0.0625rem solid #d6d9dc;
   margin-top: 1.25rem;
   cursor: pointer;
 `;
 
-const GithubLogin = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+const GithubLogin = styled(GoogleLogin)`
   background-color: #232629;
-  width: 15rem;
-  height: 2.361rem;
-  border: 0.25rem 0;
-  padding: 0.625rem;
-  min-height: auto;
-  min-width: auto;
-  border-radius: 0.3125rem;
-  border: 0.0625rem solid #d6d9dc;
   color: #ffffff;
   margin-top: 0.3125rem;
-  cursor: pointer;
 `;
 
-const FacebookLogin = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+const FacebookLogin = styled(GithubLogin)`
   background-color: #314a86;
-  width: 15rem;
-  height: 2.361rem;
-  border: 0.25rem 0;
-  padding: 0.625rem;
-  min-height: auto;
-  min-width: auto;
-  border-radius: 0.3125rem;
-  border: 0.0625rem solid #d6d9dc;
-  color: #ffffff;
-  margin-top: 0.3125rem;
-  cursor: pointer;
 `;
 
 const Text = styled.span`
@@ -229,44 +186,41 @@ const Login = () => {
         </FacebookLogin>
         <FormContainer>
           <LoginForm onSubmit={handleLogin}>
-            <InputContainer>
-              <Label>Email</Label>
-              <Input
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                error={
-                  errors.includes('Email_empty') ||
-                  errors.includes('Email_invalid')
-                }
-              />
-              {errors.includes('Email_empty') && (
-                <ErrorMessage>Email cannot be empty.</ErrorMessage>
-              )}
-              {errors.includes('Email_invalid') && (
-                <ErrorMessage>
-                  This email is not a valid email address.
-                </ErrorMessage>
-              )}
-            </InputContainer>
-            <InputContainer>
-              <Label>
-                Password
-                <ForgotPassword>Forgot password?</ForgotPassword>
-              </Label>
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                error={errors.includes('Password_empty')}
-              />
-              {errors.includes('Password_empty') && (
-                <ErrorMessage>Password cannot be empty.</ErrorMessage>
-              )}
-              <Button type="submit" onClick={handleLogin}>
-                Log In
-              </Button>
-            </InputContainer>
+            <Label>Email</Label>
+            <Input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={
+                errors.includes('Email_empty') ||
+                errors.includes('Email_invalid')
+              }
+            />
+            {errors.includes('Email_empty') && (
+              <ErrorMessage>Email cannot be empty.</ErrorMessage>
+            )}
+            {errors.includes('Email_invalid') && (
+              <ErrorMessage>
+                This email is not a valid email address.
+              </ErrorMessage>
+            )}
+
+            <Label>
+              Password
+              <ForgotPassword>Forgot password?</ForgotPassword>
+            </Label>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              error={errors.includes('Password_empty')}
+            />
+            {errors.includes('Password_empty') && (
+              <ErrorMessage>Password cannot be empty.</ErrorMessage>
+            )}
+            <Button type="submit" onClick={handleLogin}>
+              Log In
+            </Button>
           </LoginForm>
         </FormContainer>
       </LoginContainer>
