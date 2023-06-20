@@ -11,7 +11,7 @@ echo "> build 파일명: $JAR_NAME" >> /home/ec2-user/log/deploy.log
 
 echo "> Server build 파일 복사" >> /home/ec2-user/log/deploy.log
 DEPLOY_PATH=/home/ec2-user/build/server/
-cp $BUILD_JAR $DEPLOY_PATH
+cp -r $BUILD_JAR $DEPLOY_PATH
 
 echo "> Client build 파일 복사" >> /home/ec2-user/log/deploy.log
 CLIENT_DEPLOY_PATH=/home/ec2-user/build/client/
