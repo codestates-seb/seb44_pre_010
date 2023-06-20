@@ -1,4 +1,4 @@
-package com.rainbow.sof.domain.user.auth.filter.handler;
+package com.rainbow.sof.domain.user.auth.handler;
 
 import com.rainbow.sof.domain.user.entity.User;
 import lombok.extern.slf4j.Slf4j;

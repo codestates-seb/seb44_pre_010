@@ -16,6 +16,9 @@ import java.util.*;
 
 @Component
 public class JwtTokenizer {
+
+    @Getter
+    private String ADMIN_SUBJECT = "ADMIN@ADMIN.com";
     @Getter
     @Value("thisIsTestScretKeythisIsTestScretKeythisIsTestScretKeythisIsTestScretKey")
     private String secretKeySting;
