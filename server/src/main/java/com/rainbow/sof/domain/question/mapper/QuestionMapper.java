@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface QuestionMapper {
 
-    @Mapping(source="userId",target = "user.userId")
     Question questionDtoPostToQuestion(QuestionDto.Post request);
     Question questionDtoPatchToQuestion(QuestionDto.Patch request);
 
