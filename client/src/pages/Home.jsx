@@ -590,7 +590,7 @@ function Home() {
                         <UserImg>
                           <div>
                             <img
-                              src="../UserImg.svg"
+                              src="../icons/UserImg.svg"
                               alt="유저 이미지 사진"
                             ></img>
                           </div>
