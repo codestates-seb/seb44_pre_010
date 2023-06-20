@@ -365,7 +365,7 @@ public class QuestionControllerTest {
         //when
         ResultActions actions =
                 mockMvc.perform(
-                                get(QUESTION_DEFAULT_URL)
+                                get(QUESTION_DEFAULT_URL + "/top")
                                         .accept(MediaType.APPLICATION_JSON)
                         )
                         //then
