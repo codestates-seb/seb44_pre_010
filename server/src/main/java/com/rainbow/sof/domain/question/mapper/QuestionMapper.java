@@ -16,9 +16,6 @@ public interface QuestionMapper {
 
     @Mapping(source="userId",target = "user.userId")
     Question questionDtoPostToQuestion(QuestionDto.Post request);
-<<<<<<< HEAD
-    QuestionDto.Response questionToQuestionDtoResponse(Question question);
-=======
     Question questionDtoPatchToQuestion(QuestionDto.Patch request);
 
     @Mapping(source = "user.userId", target = "user.userId")
@@ -58,5 +55,4 @@ public interface QuestionMapper {
 
         return response.build();
     }
->>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
 }

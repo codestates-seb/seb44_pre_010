@@ -1,7 +1,5 @@
 package com.rainbow.sof.domain.user.dto.singleDto;
 
-<<<<<<< HEAD
-=======
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 >>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
@@ -30,15 +28,7 @@ public class UserDto {
     }
 
     @Getter
-<<<<<<< HEAD
-<<<<<<< HEAD:server/src/main/java/com/rainbow/sof/user/dto/singleDto/UserDto.java
-    public static class LoginPost{
-=======
     public static class CreationLoginDto{
->>>>>>> bd5190a0cc61cd37e6af235b1c215bbc2c8e86f1:server/src/main/java/com/rainbow/sof/domain/user/dto/singleDto/UserDto.java
-=======
-    public static class CreationLoginDto{
->>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
 
         @Email(message = "Is Not email format")
         private String username;

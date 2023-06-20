@@ -1,15 +1,6 @@
 package com.rainbow.sof.domain.user.controller;
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD:server/src/main/java/com/rainbow/sof/user/controller/UserController.java
-import com.rainbow.sof.user.dto.singleDto.*;
-import com.rainbow.sof.user.repository.UserRepository;
-import com.rainbow.sof.user.service.UserService;
-import com.rainbow.sof.utils.UriCreator;
-=======
-=======
->>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
 import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import com.rainbow.sof.domain.user.entity.User;
 import com.rainbow.sof.domain.user.mapper.UserMapper;
@@ -17,10 +8,6 @@ import com.rainbow.sof.domain.user.service.UserService;
 import com.rainbow.sof.global.utils.UriCreator;
 import com.rainbow.sof.domain.user.dto.DataDto.UserDataResponse;
 import com.rainbow.sof.domain.user.dto.UserToJoinDto.MyPageResponseDto;
-<<<<<<< HEAD
->>>>>>> bd5190a0cc61cd37e6af235b1c215bbc2c8e86f1:server/src/main/java/com/rainbow/sof/domain/user/controller/UserController.java
-=======
->>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

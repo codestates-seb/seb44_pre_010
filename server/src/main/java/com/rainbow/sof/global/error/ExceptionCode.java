@@ -10,10 +10,6 @@ public enum ExceptionCode {
     QUESTION_NOT_FOUND(404, "Question not found"),
     ANSWER_NOT_FOUND(404, "Answer not found"),
     USER_EXISTS(409,"USER EXISTS");
-<<<<<<< HEAD
->>>>>>> bd5190a0cc61cd37e6af235b1c215bbc2c8e86f1
-=======
->>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
 
     @Getter
     private int status;

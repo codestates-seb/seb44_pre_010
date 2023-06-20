@@ -10,8 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-<<<<<<< HEAD
-=======
 import java.util.List;
 import java.util.Optional;
 
@@ -74,5 +72,4 @@ public class QuestionService {
         else
             return questionRepository.findAll(PageRequest.of(Page - 1, SIZE, Sort.by("questionId").ascending()));
     }
->>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
 }

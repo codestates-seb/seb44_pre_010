@@ -1,7 +1,5 @@
 package com.rainbow.sof.domain.question.dto;
 
-<<<<<<< HEAD
-=======
 import com.rainbow.sof.domain.answer.dto.AnswerDto;
 import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import com.rainbow.sof.global.validator.NotSpace;
@@ -10,11 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 >>>>>>> bd5190a0cc61cd37e6af235b1c215bbc2c8e86f1
@@ -29,11 +22,6 @@ public class QuestionDto {
     @AllArgsConstructor
     @Getter
     public static class Post{
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
         @NotNull
         private long userId;
         @NotSpace(message = "질문 제목은 공백이 아니어야 합니다.")

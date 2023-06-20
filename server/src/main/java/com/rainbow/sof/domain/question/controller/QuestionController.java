@@ -1,6 +1,7 @@
 package com.rainbow.sof.domain.question.controller;
 
 import com.rainbow.sof.domain.answer.service.AnswerService;
+import com.rainbow.sof.domain.answer.service.AnswerService;
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.question.mapper.QuestionMapper;
@@ -11,10 +12,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 =======
 import com.rainbow.sof.global.common.MultiResponseDto;
+import com.rainbow.sof.global.common.MultiResponseDto;
 import com.rainbow.sof.global.common.SingleResponseDto;
 import com.rainbow.sof.global.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 >>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
@@ -22,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.List;
 
 @Slf4j
@@ -39,7 +43,9 @@ public class QuestionController {
 =======
     private final QuestionService questionService;
     private final AnswerService answerService;
+    private final AnswerService answerService;
     private final QuestionMapper questionMapper;
+    @PostMapping()
     @PostMapping()
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post request){
 >>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
@@ -50,6 +56,27 @@ public class QuestionController {
     }
 <<<<<<< HEAD
 =======
+
+    @GetMapping
+    public ResponseEntity getQuestions(){
+        List<Question> questions = questionService.findQuestions();
+        List<QuestionDto.ListResponse> responses = questionMapper.questionToQuestionDtoResponseList(questions);
+        responses.forEach(o -> o.setAnswerCnt(answerService.getAnswerCnt(o.getQuestionId())));
+        return new ResponseEntity(
+                new SingleResponseDto<>(responses), HttpStatus.OK);
+    }
+
+    @GetMapping(params = {"tab","page"})
+    public ResponseEntity getQuestions(@RequestParam(name = "tab", defaultValue = "Newest")String sort,
+                                       @RequestParam(name = "page", defaultValue = "1")int page){
+        Page<Question> pageQuestions = questionService.findPageQuestions(sort, page); // 30, 5
+        List<Question> questions = pageQuestions.getContent();
+        List<QuestionDto.ListResponse> responses = questionMapper.questionToQuestionDtoResponseList(questions);
+        responses.forEach(o -> o.setAnswerCnt(answerService.getAnswerCnt(o.getQuestionId())));
+
+        return new ResponseEntity(
+                new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
+    }
 
     @GetMapping
     public ResponseEntity getQuestions(){

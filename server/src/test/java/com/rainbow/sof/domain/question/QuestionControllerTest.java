@@ -4,10 +4,14 @@ import com.google.gson.Gson;
 import com.rainbow.sof.domain.answer.domain.Answer;
 import com.rainbow.sof.domain.answer.dto.AnswerDto;
 import com.rainbow.sof.domain.answer.service.AnswerService;
+import com.rainbow.sof.domain.answer.domain.Answer;
+import com.rainbow.sof.domain.answer.dto.AnswerDto;
+import com.rainbow.sof.domain.answer.service.AnswerService;
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.question.mapper.QuestionMapper;
 import com.rainbow.sof.domain.question.service.QuestionService;
+import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,27 +20,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-<<<<<<< HEAD
+
 import org.springframework.http.MediaType;
-=======
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
->>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
 
-<<<<<<< HEAD
+
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-=======
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.description;
 import static org.mockito.Mockito.description;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -61,6 +65,10 @@ public class QuestionControllerTest {
     @MockBean
     private AnswerService answerService;
 
+
+    @MockBean
+    private AnswerService answerService;
+
     @MockBean
     private QuestionMapper mapper;
 
@@ -75,6 +83,7 @@ public class QuestionControllerTest {
         QuestionDto.Post request = QuestionDto.Post.builder()
                 .title(title)
                 .content(content)
+                .userId(1)
                 .userId(1)
                 .build();
 
@@ -122,6 +131,7 @@ public class QuestionControllerTest {
                                                         .description("질문 등록")
                                                         .requestFields(
                                                                 fieldWithPath("userId").type(JsonFieldType.NUMBER).description("작성자 아이디"),
+                                                                fieldWithPath("userId").type(JsonFieldType.NUMBER).description("작성자 아이디"),
                                                                 fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
                                                                 fieldWithPath("content").type(JsonFieldType.STRING).description("질문 세부내용")
                                                         )
@@ -144,6 +154,19 @@ public class QuestionControllerTest {
         String title = "이것은 제목입니다만. 제목이요 제목 제목제목제목제20자리 넘나요?";
         String content = "이것은 내용입니다만. 내용이요. 내용인데요";
 
+        Answer answer = Answer.builder()
+                .answerId(1L)
+                .content("ㅎㅇㅎㅇ")
+                .build();
+
+        Answer answer2 = Answer.builder()
+                .answerId(2L)
+                .content("ㅎㅇㅎㅇ2")
+                .build();
+        UserDto.QuestionResponse user = UserDto.QuestionResponse.builder()
+                .userId(1L)
+                .name("테스트용")
+                .build();
         Answer answer = Answer.builder()
                 .answerId(1L)
                 .content("ㅎㅇㅎㅇ")
@@ -334,6 +357,167 @@ public class QuestionControllerTest {
                                 )
                         )
                 );
+<<<<<<< HEAD
+=======
+
+    }
+
+    @Test
+    @DisplayName("Top Question 리스트를 가져온다.")
+    void getQuestions() throws Exception {
+        String title = "내용입니다내용입니다.내용입니다내용입니다.내용입니다내용입니다.";
+        String content = "제목입니다.제목입니다.제목제목입니다.제목입니다.제목제목입니다.제목입니다.제목제목입니다.제목입니다.제목";
+        //given
+        UserDto.QuestionResponse user = UserDto.QuestionResponse.builder()
+                .userId(1L)
+                .name("테스트용")
+                .build();
+
+        QuestionDto.ListResponse response = QuestionDto.ListResponse.builder()
+                .title(title)
+                .content(content)
+                .view(0)
+                .user(user)
+                .questionId(1L)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .answerCnt(0)
+                .build();
+        QuestionDto.ListResponse response2 = QuestionDto.ListResponse.builder()
+                .title(title)
+                .content(content)
+                .view(5)
+                .user(user)
+                .questionId(2L)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .answerCnt(0)
+                .build();
+
+        given(service.findQuestions()).willReturn(new ArrayList<>());
+        given(mapper.questionToQuestionDtoResponseList(Mockito.anyList())).willReturn(List.of(response, response2));
+        given(answerService.getAnswerCnt(Mockito.anyLong())).willReturn(0L);
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                                get(QUESTION_DEFAULT_URL)
+                                        .accept(MediaType.APPLICATION_JSON)
+                        )
+                        //then
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.data.size()").value(2))
+                        .andExpect(jsonPath("$.data[1].view").value(5))
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("질문 리스트 조회(Top Question) 예제",
+                                        preprocessRequest(prettyPrint()),
+                                        preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("질문 리스트 조회(Top Question)")
+                                                        .requestFields()
+                                                        .responseFields(
+                                                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                                                fieldWithPath("data.[].user").type(JsonFieldType.OBJECT).description("회원 정보"),
+                                                                fieldWithPath("data.[].user.userId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                                                fieldWithPath("data.[].user.name").type(JsonFieldType.STRING).description("회원 닉네임"),
+                                                                fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("질문 제목"),
+                                                                fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("질문 내용"),
+                                                                fieldWithPath("data.[].view").type(JsonFieldType.NUMBER).description("조회수"),
+                                                                fieldWithPath("data.[].answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                                                fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성일"),
+                                                                fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정일")
+                                                        )
+                                                        .build()
+                                        )
+                                )
+                        );
+
+    }
+
+    @Test
+    @DisplayName("페이지 네이션이 적용된 리스트를 가져온다.")
+    void getPageQuestions() throws Exception {
+        String title = "내용입니다내용입니다.내용입니다내용입니다.내용입니다내용입니다.";
+        String content = "제목입니다.제목입니다.제목제목입니다.제목입니다.제목제목입니다.제목입니다.제목제목입니다.제목입니다.제목";
+        //given
+        UserDto.QuestionResponse user = UserDto.QuestionResponse.builder()
+                .userId(1L)
+                .name("테스트용")
+                .build();
+
+        QuestionDto.ListResponse response = QuestionDto.ListResponse.builder()
+                .title(title)
+                .content(content)
+                .view(0)
+                .user(user)
+                .questionId(1L)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .answerCnt(0)
+                .build();
+        QuestionDto.ListResponse response2 = QuestionDto.ListResponse.builder()
+                .title(title)
+                .content(content)
+                .view(5)
+                .user(user)
+                .questionId(2L)
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
+                .answerCnt(0)
+                .build();
+
+        given(service.findPageQuestions(Mockito.anyString(), Mockito.anyInt())).willReturn(Page.empty());
+        given(mapper.questionToQuestionDtoResponseList(Mockito.anyList())).willReturn(List.of(response, response2));
+        given(answerService.getAnswerCnt(Mockito.anyLong())).willReturn(0L);
+
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                                get(QUESTION_DEFAULT_URL)
+                                        .param("tab", "Newest")
+                                        .param("page","1")
+                                        .accept(MediaType.APPLICATION_JSON)
+                        )
+                        //then
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.data.size()").value(2))
+                        .andExpect(jsonPath("$.pageInfo.page").value(1))
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("질문 페이징 리스트 조회 예제",
+                                        preprocessRequest(prettyPrint()),
+                                        preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("질문 페이징 리스트 조회")
+                                                        .requestParameters(
+                                                                parameterWithName("tab").description("정렬"),
+                                                                parameterWithName("page").description("페이징")
+                                                        )
+                                                        .requestFields()
+                                                        .responseFields(
+                                                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                                                fieldWithPath("data.[].user").type(JsonFieldType.OBJECT).description("회원 정보"),
+                                                                fieldWithPath("data.[].user.userId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                                                fieldWithPath("data.[].user.name").type(JsonFieldType.STRING).description("회원 닉네임"),
+                                                                fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("질문 제목"),
+                                                                fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("질문 내용"),
+                                                                fieldWithPath("data.[].view").type(JsonFieldType.NUMBER).description("조회수"),
+                                                                fieldWithPath("data.[].answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                                                fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성일"),
+                                                                fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정일"),
+                                                                fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이징 정보"),
+                                                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
+                                                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("한 페이지에 속하는 데이터 개수"),
+                                                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 데이터 개수"),
+                                                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 개수")
+                                                        )
+                                                        .build()
+                                        )
+                                )
+                        );
+>>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
 
     }
 
