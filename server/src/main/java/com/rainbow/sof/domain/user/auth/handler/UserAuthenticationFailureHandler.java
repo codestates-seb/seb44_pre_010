@@ -39,8 +39,8 @@ public class UserAuthenticationFailureHandler implements AuthenticationFailureHa
     private static ErrorResponse getErrorResponse(String exceptionMassage) {
         ErrorResponse errorResponse =
                 exceptionMassage.equals(ExceptionCode.USER_NOT_FOUND.getMessage()) ?
-                        ErrorResponse.of(HttpStatus.UNAUTHORIZED, exceptionMassage +" : "+HttpStatus.UNAUTHORIZED.getReasonPhrase()) :
-                        ErrorResponse.of(HttpStatus.UNAUTHORIZED);
+                        ErrorResponse.of(HttpStatus.UNAUTHORIZED, exceptionMassage +" : "+HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                        : ErrorResponse.of(HttpStatus.UNAUTHORIZED);
         return errorResponse;
     }
 }
