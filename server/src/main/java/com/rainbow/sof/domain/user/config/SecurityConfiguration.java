@@ -1,12 +1,8 @@
 package com.rainbow.sof.domain.user.config;
-
-import com.rainbow.sof.domain.user.auth.filter.CustomFilterConfigurer;
-import com.rainbow.sof.domain.user.auth.filter.JwtAuthenticationFilter;
 import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
-import com.rainbow.sof.domain.user.service.UserService;
+import com.rainbow.sof.domain.user.config.CustomFilterConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,6 +21,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
+    private final static String USER_DETAIL_URL="/api/v1/users";
 
     public SecurityConfiguration(JwtTokenizer jwtTokenizer) {
         this.jwtTokenizer = jwtTokenizer;
@@ -46,6 +43,7 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .antMatchers(HttpMethod.POST, "/login").permitAll()
+                        .antMatchers(USER_DETAIL_URL+"/**").authenticated()// /api/v1/users 의 하위 경로는 인증되야지만 접근가능하다
                         .anyRequest().permitAll());
         return http.build();
     }
