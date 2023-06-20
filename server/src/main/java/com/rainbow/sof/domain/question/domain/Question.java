@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@DynamicUpdate
 @Entity
 public class Question extends BaseTimeEntity {
     @Id
