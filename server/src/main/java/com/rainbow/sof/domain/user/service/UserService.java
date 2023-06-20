@@ -22,6 +22,7 @@ public class UserService {
     public User createUser(User user){
         verifyExistsEmail(user.getEmail());
         String passwordEncode = passwordEncoder.encode(user.getPassword());
+        user.updatePassword(passwordEncode);
         return repository.save(user);
     }
 
@@ -38,12 +39,20 @@ public class UserService {
         );
     }
 
+    public User findByUserFromEmail(String email){
+        Optional<User> user = repository.findByEmail(email);
+        return user.orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
+        );
+    }
+
     private void verifyExistsEmail(String email) {
         Optional<User> findUsers = repository.findByEmail(email);
         if (findUsers.isPresent()){
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
         }
     }
+
 
 
 }
