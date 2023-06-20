@@ -22,10 +22,7 @@ const router = createBrowserRouter([
       { path: 'questions', element: <Questions /> },
       { path: 'tags', element: <Tags /> },
       { path: 'mypage', element: <MyPage /> },
-<<<<<<< HEAD
-=======
       { path: 'questions/:id', element: <QuestionDetail /> },
->>>>>>> ecc17efb434283832b168c0c2d26f570685e772f
     ],
   },
   { path: '/login', element: <Login /> },

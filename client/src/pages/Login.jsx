@@ -5,6 +5,7 @@ import Header from '../components/layouts/Header';
 import { ReactComponent as GoogleLogo } from '../assets/icons/logo_google.svg';
 import { ReactComponent as GithubLogo } from '../assets/icons/logo_github.svg';
 import { ReactComponent as FacebookLogo } from '../assets/icons/logo_facebook.svg';
+
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
     box-sizing: border-box;
