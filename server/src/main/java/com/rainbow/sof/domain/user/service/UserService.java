@@ -40,13 +40,18 @@ public class UserService {
     }
 
     public User checkToFindByUserFromEmail(String email,long id){
-        Optional<User> user = repository.findByEmail(email);
-        User findUser=user.orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        User findUser = findByUserFromEmail(email);
         compareToEntityCheck(findUser,id);
 
         return findUser;
 
+    }
+
+    public User findByUserFromEmail(String email) {
+        Optional<User> user = repository.findByEmail(email);
+        User findUser = user.orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        return findUser;
     }
 
     private void compareToEntityCheck(User user,long id) {
