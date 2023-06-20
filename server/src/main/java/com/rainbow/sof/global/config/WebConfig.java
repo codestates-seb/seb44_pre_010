@@ -1,10 +1,14 @@
 package com.rainbow.sof.global.config;
 
+import com.rainbow.sof.global.handler.AuthenticationArgumentResolver;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor

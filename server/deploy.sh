@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-BUILD_JAR=$(ls /var/lib/jenkins/workspace/pre-project/server/build/libs/sof-0.0.1-SNAPSHOT.jar)
+BUILD_JAR=$(ls /home/jenkins/workspace/pre-project/server/build/libs/sof-0.0.1-SNAPSHOT.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 
 echo "> 현재 시간: $(date)" >> /home/ec2-user/log/deploy.log
@@ -9,7 +9,7 @@ echo "> 현재 시간: $(date)" >> /home/ec2-user/log/deploy.log
 echo "> build 파일명: $JAR_NAME" >> /home/ec2-user/log/deploy.log
 
 echo "> build 파일 복사" >> /home/ec2-user/log/deploy.log
-DEPLOY_PATH=/home/ec2-user/build/
+DEPLOY_PATH=/home/ec2-user/build/server/
 cp $BUILD_JAR $DEPLOY_PATH
 
 echo "> 현재 실행중인 애플리케이션 pid 확인" >> /home/ec2-user/log/deploy.log
