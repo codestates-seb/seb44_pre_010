@@ -2,7 +2,7 @@
 
 
 BUILD_JAR=$(ls /home/jenkins/workspace/pre-project/server/build/libs/sof-0.0.1-SNAPSHOT.jar)
-CLIENT_BUILD_FOLDER=$(ls /home/jenkins/workspace/pre-project/client/build)
+CLIENT_BUILD_FOLDER=/home/jenkins/workspace/pre-project/client/build
 JAR_NAME=$(basename $BUILD_JAR)
 
 echo "> 현재 시간: $(date)" >> /home/ec2-user/log/deploy.log
