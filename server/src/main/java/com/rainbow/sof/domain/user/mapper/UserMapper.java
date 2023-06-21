@@ -16,6 +16,7 @@ public interface UserMapper {
     User userSignupPostToUser(UserDto.SignUpPost signUpPost);
 
     User userLoginPostTouser(UserDto.CreationLoginDto creationLoginDto);
+    UserDto.LoginResponse userToLoginDto(User user);
 
     default MyPageResponseDto userToMyPageDto(User user){
         List<QuestionDto.MyPageQuestionResponse> questionList = user.getQuestionList().stream()

@@ -1,6 +1,7 @@
 package com.rainbow.sof.domain.answer.domain;
 
 import com.rainbow.sof.domain.question.domain.Question;
+import com.rainbow.sof.domain.user.entity.User;
 import com.rainbow.sof.global.common.BaseTimeEntity;
 import lombok.*;
 
@@ -24,9 +25,9 @@ public class Answer extends BaseTimeEntity {
     private Question question;
 
 //    TODO: 추후 Users 추가
-//    @ManyToOne
-//    @JoinColumn(name = "USER_ID")
-//    private Users users;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
     public void updateContent(String content) {
         this.content = content;
