@@ -39,8 +39,9 @@ public class AnswerController {
     @PatchMapping("/{question-id}/answers/{answer-id}")
     public ResponseEntity patchAnswer(@PathVariable("question-id") @Positive long questionId,
                                       @PathVariable("answer-id") @Positive long answerId,
-                                      @Valid @RequestBody AnswerDto.Patch request) {
-        Answer answer = answerService.updateAnswer(questionId, answerId, answerMapper.answerDtoPatchToAnswer(request));
+                                      @Valid @RequestBody AnswerDto.Patch request,
+                                      @AuthenticationName String email) {
+        Answer answer = answerService.updateAnswer(questionId, answerId, answerMapper.answerDtoPatchToAnswer(request), email);
         URI location = UriCreator.createUri(ANSWER_DEFAULT_URL, answer.getAnswerId());
 
         return ResponseEntity.created(location).build();
@@ -48,8 +49,9 @@ public class AnswerController {
 
     @DeleteMapping("/{question-id}/answers/{answer-id}")
     public ResponseEntity deleteAnswer(@PathVariable("question-id") @Positive long questionId,
-                                       @PathVariable("answerId") @Positive long answerId) {
-        answerService.deleteAnswer(questionId, answerId);
+                                       @PathVariable("answer-id") @Positive long answerId,
+                                       @AuthenticationName String email) {
+        answerService.deleteAnswer(questionId, answerId, email);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -22,17 +22,18 @@ public class AnswerService {
     private final QuestionService questionService;
     private final UserService userService;
 
-    public Answer createAnswer(long  questionId, Answer answer, String email) {
+    public Answer createAnswer(long  questionId, Answer request, String email) {
         User findUser = userService.findByUserFromEmail(email);
         Question findQuestion = questionService.findVerifiedQuestion(questionId);
-        answer.insertUser(findUser);
-        answer.insertQuestion(findQuestion);
-        return answerRepository.save(answer);
+        request.insertUser(findUser);
+        request.insertQuestion(findQuestion);
+        return answerRepository.save(request);
     }
 
-    public Answer updateAnswer(long questionId, long answerId, Answer request) {
+    public Answer updateAnswer(long questionId, long answerId, Answer request, String email) {
         questionService.findVerifiedQuestion(questionId);
         Answer findAnswer = findVerifiedAnswer(answerId);
+        userService.findByUserFromEmail(email).checkIsMyself(findAnswer.getUser().getUserId());
 
         Optional.ofNullable(request.getContent())
                 .ifPresent(findAnswer::updateContent);
@@ -40,9 +41,10 @@ public class AnswerService {
         return findVerifiedAnswer(answerId);
     }
 
-    public void deleteAnswer(long questionId, long answerId) {
+    public void deleteAnswer(long questionId, long answerId, String email) {
         questionService.findVerifiedQuestion(questionId);
         Answer findAnswer = findVerifiedAnswer(answerId);
+        userService.findByUserFromEmail(email).checkIsMyself(findAnswer.getUser().getUserId());
 
         answerRepository.delete(findAnswer);
     }
