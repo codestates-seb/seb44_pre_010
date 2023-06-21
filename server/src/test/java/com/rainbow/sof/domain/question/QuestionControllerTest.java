@@ -3,17 +3,11 @@ package com.rainbow.sof.domain.question;
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.google.gson.Gson;
-import com.rainbow.sof.domain.answer.domain.Answer;
-import com.rainbow.sof.domain.answer.dto.AnswerDto;
 import com.rainbow.sof.domain.answer.service.AnswerService;
-import com.rainbow.sof.domain.question.controller.QuestionController;
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.question.mapper.QuestionMapper;
 import com.rainbow.sof.domain.question.service.QuestionService;
-import com.rainbow.sof.domain.user.config.SecurityConfiguration;
-import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
-import com.rainbow.sof.domain.user.entity.User;
 import com.rainbow.sof.helper.StubData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,16 +26,13 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
 
-
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.description;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
