@@ -4,6 +4,7 @@ import com.rainbow.sof.domain.answer.domain.Answer;
 import com.rainbow.sof.domain.answer.dto.AnswerDto;
 import com.rainbow.sof.domain.answer.mapper.AnswerMapper;
 import com.rainbow.sof.domain.answer.service.AnswerService;
+import com.rainbow.sof.global.common.AuthenticationName;
 import com.rainbow.sof.global.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +28,9 @@ public class AnswerController {
 
     @PostMapping("/{question-id}/answers")
     public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
-                                     @Valid @RequestBody AnswerDto.Post request) {
-        Answer answer = answerService.createAnswer(questionId ,answerMapper.answerDtoPostToAnswer(request));
+                                     @Valid @RequestBody AnswerDto.Post request,
+                                     @AuthenticationName String email) {
+        Answer answer = answerService.createAnswer(questionId ,answerMapper.answerDtoPostToAnswer(request), email);
         URI location = UriCreator.createUri(ANSWER_DEFAULT_URL, answer.getAnswerId());
 
         return ResponseEntity.created(location).build();

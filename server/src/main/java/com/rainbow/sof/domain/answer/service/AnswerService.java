@@ -2,7 +2,10 @@ package com.rainbow.sof.domain.answer.service;
 
 import com.rainbow.sof.domain.answer.domain.Answer;
 import com.rainbow.sof.domain.answer.repository.AnswerRepository;
+import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.service.QuestionService;
+import com.rainbow.sof.domain.user.entity.User;
+import com.rainbow.sof.domain.user.service.UserService;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +20,13 @@ import java.util.Optional;
 public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionService questionService;
+    private final UserService userService;
 
-    public Answer createAnswer(long  questionId, Answer answer) {
-        //TODO: User 가 있는지 확인하는 로직 추가
-        questionService.findVerifiedQuestion(questionId);
-
+    public Answer createAnswer(long  questionId, Answer answer, String email) {
+        User findUser = userService.findByUserFromEmail(email);
+        Question findQuestion = questionService.findVerifiedQuestion(questionId);
+        answer.insertUser(findUser);
+        answer.insertQuestion(findQuestion);
         return answerRepository.save(answer);
     }
 
