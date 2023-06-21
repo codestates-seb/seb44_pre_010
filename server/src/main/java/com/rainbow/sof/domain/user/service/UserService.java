@@ -28,6 +28,7 @@ public class UserService {
     }
 
     public User updateUser(String email, long id, UserDto.Patch patchUser){
+        verifyExistsEmail(patchUser.getName());
        User updateUser =  checkToFindByUserFromEmail(email,id);
        Optional.ofNullable(patchUser.getName())
                .ifPresent(updateUser::updateName);
