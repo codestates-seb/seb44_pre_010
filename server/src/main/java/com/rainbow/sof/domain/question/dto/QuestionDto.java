@@ -78,4 +78,23 @@ public class QuestionDto {
             this.answerCnt = answerCnt;
         }
     }
+
+
+    /**
+     * myPage response 클래스
+     *  @author 신영호
+     **/
+   @Getter
+   @AllArgsConstructor
+   @Builder
+    public static class MyPageQuestionResponse{
+        private Long questionId;
+        private String title;
+        private String content;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
+
+    }
+
+
 }
