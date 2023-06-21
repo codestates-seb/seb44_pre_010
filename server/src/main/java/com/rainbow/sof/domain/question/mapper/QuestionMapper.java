@@ -4,6 +4,7 @@ import com.rainbow.sof.domain.answer.dto.AnswerDto;
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
 
+import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -14,7 +15,6 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface QuestionMapper {
 
-    @Mapping(source="userId",target = "user.userId")
     Question questionDtoPostToQuestion(QuestionDto.Post request);
     Question questionDtoPatchToQuestion(QuestionDto.Patch request);
 
@@ -36,11 +36,10 @@ public interface QuestionMapper {
         response.createdAt( question.getCreatedAt() );
         response.modifiedAt( question.getModifiedAt() );
 
-        // TODO: USER 로그인 완료되면 추가
-        /*response.user( UserDto.QuestionResponse.builder()
+        response.user( UserDto.QuestionResponse.builder()
                 .userId(question.getUser().getUserId())
                 .name(question.getUser().getName())
-                .build() );*/
+                .build() );
 
         response.answers( question.getAnswers().stream().map(o -> {
             AnswerDto.Response commentDto = AnswerDto.Response.builder()

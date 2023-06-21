@@ -2,6 +2,8 @@ package com.rainbow.sof.domain.question.service;
 
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.repository.QuestionRepository;
+import com.rainbow.sof.domain.user.entity.User;
+import com.rainbow.sof.domain.user.service.UserService;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +22,11 @@ import java.util.Optional;
 public class QuestionService {
     private final int SIZE = 10;
     private final QuestionRepository questionRepository;
+    private final UserService userService;
 
-    public Question createQuestion(Question request) {
-        // TODO: USER 있는지 확인 로직
+    public Question createQuestion(Question request, String email) {
+        User user = userService.findByUserFromEmail(email);
+        request.insertUser(user);
         return questionRepository.save(request);
     }
 
@@ -37,8 +41,12 @@ public class QuestionService {
         return questionRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
 
-    public Question updateQuestion(long id, Question request) {
+    public Question updateQuestion(long id, Question request, String email) {
         Question findQuestion = findVerifiedQuestion(id);
+        if(findQuestion.hasAnswers())
+            throw new BusinessLogicException(ExceptionCode.CANNOT_CHANGE_QUESTION);
+
+        userService.findByUserFromEmail(email).checkIsMyself(findQuestion.getUser().getUserId());
 
         Optional.ofNullable(request.getContent())
                 .ifPresent(findQuestion::updateContent);
@@ -52,10 +60,13 @@ public class QuestionService {
         question.updateView();
     }
 
-    public void deleteQuestion(long id) {
-        Question findquestion = findVerifiedQuestion(id);
+    public void deleteQuestion(long id, String email) {
+        Question findQuestion = findVerifiedQuestion(id);
+        if(findQuestion.hasAnswers())
+            throw new BusinessLogicException(ExceptionCode.CANNOT_DELETE_QUESTION);
 
-        questionRepository.delete(findquestion);
+        userService.findByUserFromEmail(email).checkIsMyself(findQuestion.getUser().getUserId());
+        questionRepository.delete(findQuestion);
     }
 
     @Transactional(readOnly = true)

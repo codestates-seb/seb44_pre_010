@@ -46,6 +46,7 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+	testImplementation 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	//스프링 시큐리티 + jwt
@@ -82,7 +83,7 @@ bootJar{
 }
 
 openapi3 {
-	server = "http://localhost:8080"
+	server = "http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080"
 	title = "Stack Overflow Rainbow API 문서"
 	description = "Spring REST Docs with SwaggerUI."
 	version = "0.0.1"
