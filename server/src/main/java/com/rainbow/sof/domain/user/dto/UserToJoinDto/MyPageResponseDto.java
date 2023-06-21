@@ -15,8 +15,8 @@ import java.util.List;
 public class MyPageResponseDto{
     private String name;
     private LocalDateTime createdAt;
-    private List<QuestionDto.Response> questionList;
+    private List<QuestionDto.MyPageQuestionResponse> questionList;
 
-    private List<AnswerDto.Response> AnswerList;
+    private List<AnswerDto.MyPageAnswerResponse> AnswerList;
 
 }
