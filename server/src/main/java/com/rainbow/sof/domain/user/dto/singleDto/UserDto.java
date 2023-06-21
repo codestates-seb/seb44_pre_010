@@ -56,6 +56,11 @@ public class UserDto {
         private LocalDateTime modifiedAt;
 
     }
+    @Getter
+    @Builder
+    public static class LoginResponse{
+        private long userId;
+    }
 
     // @author : 윤다영
     @Getter

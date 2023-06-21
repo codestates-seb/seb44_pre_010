@@ -1,5 +1,6 @@
 package com.rainbow.sof.domain.user.mapper;
 
+import com.rainbow.sof.domain.answer.dto.AnswerDto;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.user.entity.User;
 import com.rainbow.sof.domain.user.dto.UserToJoinDto.MyPageResponseDto;
@@ -22,12 +23,23 @@ public interface UserMapper {
                         .questionId(question.getQuestionId())
                         .content(question.getContent())
                         .title(question.getTitle())
+                        .modifiedAt(question.getModifiedAt())
+                        .build())
+                .collect(Collectors.toList());
+
+        List<AnswerDto.Response> AnsweList = user.getAnswerList().stream()
+                .map(answer ->AnswerDto.Response.builder()
+                        .answerId(answer.getAnswerId())
+                        .modifiedAt(answer.getModifiedAt())
+                        .content(answer.getContent())
                         .build())
                 .collect(Collectors.toList());
 
         return MyPageResponseDto.builder()
                 .name(user.getName())
+                .createdAt(user.getCreatedAt())
                 .questionList(questionList)
+                .AnswerList(AnsweList)
                 .build();
     }
 }

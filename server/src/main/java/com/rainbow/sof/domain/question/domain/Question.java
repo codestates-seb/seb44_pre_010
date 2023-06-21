@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@DynamicUpdate
 @Entity
 public class Question extends BaseTimeEntity {
     @Id
@@ -31,7 +30,7 @@ public class Question extends BaseTimeEntity {
     private int view;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USERS_ID")
     private User user;
 
     @OneToMany(mappedBy = "question")
@@ -43,6 +42,10 @@ public class Question extends BaseTimeEntity {
 
     public void updateContent(String content){
         this.title = content;
+    }
+
+    public void insertUser(User user){
+        this.user = user;
     }
 
     public void updateView(){
