@@ -166,7 +166,7 @@ public class QuestionControllerTest {
         String jsonData = gson.toJson(request);
 
         given(mapper.questionDtoPatchToQuestion(Mockito.any(QuestionDto.Patch.class))).willReturn(Question.builder().build());
-        given(service.updateQuestion(Mockito.anyLong(), Mockito.any(Question.class))).willReturn(Question.builder().questionId(1L).build());
+        given(service.updateQuestion(Mockito.anyLong(), Mockito.any(Question.class),Mockito.anyString())).willReturn(Question.builder().questionId(1L).build());
 
         //when
         ResultActions actions =
@@ -203,7 +203,7 @@ public class QuestionControllerTest {
     @DisplayName("Question이 삭제된다.(삭제)")
     void deleteQuestion() throws Exception {
         //given
-        doNothing().when(service).deleteQuestion(Mockito.anyLong());
+        doNothing().when(service).deleteQuestion(Mockito.anyLong(), Mockito.anyString());
         // when
         mockMvc.perform(
                         delete(QUESTION_DEFAULT_URL + "/{question-id}", 1L)

@@ -4,6 +4,8 @@ package com.rainbow.sof.domain.user.entity;
 import com.rainbow.sof.domain.answer.domain.Answer;
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.global.common.BaseTimeEntity;
+import com.rainbow.sof.global.error.BusinessLogicException;
+import com.rainbow.sof.global.error.ExceptionCode;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
@@ -93,5 +95,11 @@ public class User extends BaseTimeEntity {
 
     public void updateAnswerList(List<Answer> answerList) {
         this.answerList = answerList;
+    }
+
+    public void checkIsMyself(long loginUserId){
+        if(this.userId != loginUserId){
+            throw new BusinessLogicException(ExceptionCode.USER_MISMATCH);
+        }
     }
 }

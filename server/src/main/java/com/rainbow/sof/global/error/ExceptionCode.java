@@ -8,8 +8,11 @@ public enum ExceptionCode {
     UNAUTHORIZED(401,"invalid token Data"),
     USER_NOT_FOUND(404, "Member not found"),
     QUESTION_NOT_FOUND(404, "Question not found"),
+    CANNOT_CHANGE_QUESTION(403,"Question can not change"),
+    CANNOT_DELETE_QUESTION(403,"Question can not delete"),
     ANSWER_NOT_FOUND(404, "Answer not found"),
-    USER_EXISTS(409,"USER EXISTS");
+    USER_EXISTS(409,"USER EXISTS"),
+    USER_MISMATCH(403,"The login user and the author are different");
 
     @Getter
     private int status;
