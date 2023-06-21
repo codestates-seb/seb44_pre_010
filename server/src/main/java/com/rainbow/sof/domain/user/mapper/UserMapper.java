@@ -16,20 +16,23 @@ public interface UserMapper {
     User userSignupPostToUser(UserDto.SignUpPost signUpPost);
 
     User userLoginPostTouser(UserDto.CreationLoginDto creationLoginDto);
+    UserDto.LoginResponse userToLoginDto(User user);
 
     default MyPageResponseDto userToMyPageDto(User user){
-        List<QuestionDto.Response> questionList = user.getQuestionList().stream()
-                .map(question -> QuestionDto.Response.builder()
+        List<QuestionDto.MyPageQuestionResponse> questionList = user.getQuestionList().stream()
+                .map(question -> QuestionDto.MyPageQuestionResponse.builder()
                         .questionId(question.getQuestionId())
                         .content(question.getContent())
                         .title(question.getTitle())
+                        .createdAt(question.getCreatedAt())
                         .modifiedAt(question.getModifiedAt())
                         .build())
                 .collect(Collectors.toList());
 
-        List<AnswerDto.Response> AnsweList = user.getAnswerList().stream()
-                .map(answer ->AnswerDto.Response.builder()
+        List<AnswerDto.MyPageAnswerResponse> AnsweList = user.getAnswerList().stream()
+                .map(answer ->AnswerDto.MyPageAnswerResponse.builder()
                         .answerId(answer.getAnswerId())
+                        .modifiedAt(answer.getModifiedAt())
                         .modifiedAt(answer.getModifiedAt())
                         .content(answer.getContent())
                         .build())
@@ -39,7 +42,6 @@ public interface UserMapper {
                 .name(user.getName())
                 .createdAt(user.getCreatedAt())
                 .questionList(questionList)
-                .AnswerList(AnsweList)
                 .build();
     }
 }

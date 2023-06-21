@@ -42,7 +42,8 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         UserDto.LoginResponse loginResponse = UserDto.LoginResponse.builder()
                 .userId(user.getUserId())
                 .build();
-        response.getWriter().write(gson.toJson(loginResponse,UserDto.LoginResponse.class));
+        //TODO: 시큐리티 수정 중
+//        response.getWriter().write(gson.toJson(loginResponse,UserDto.LoginResponse.class));
 
     }
 

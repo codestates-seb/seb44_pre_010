@@ -1,6 +1,7 @@
 package com.rainbow.sof.domain.user.service;
 
 
+import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import com.rainbow.sof.domain.user.entity.User;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
@@ -24,6 +25,15 @@ public class UserService {
         String passwordEncode = passwordEncoder.encode(user.getPassword());
         user.updatePassword(passwordEncode);
         return repository.save(user);
+    }
+
+    public User updateUser(String email, long id, UserDto.Patch patchUser){
+       User updateUser =  checkToFindByUserFromEmail(email,id);
+       Optional.ofNullable(patchUser.getName())
+               .ifPresent(updateUser::updateName);
+
+       return findVerifiedUser(id);
+
     }
 
     public void deleteUser(long userId){

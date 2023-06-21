@@ -3,6 +3,7 @@ package com.rainbow.sof.domain.user.dto.singleDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -31,18 +32,27 @@ public class UserDto {
     }
 
     @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class CreationLoginDto{
 
         @Email(message = "Is Not email format")
         private String username;
         private String password;
+
     }
 
     @Getter
+    @NoArgsConstructor
     @Builder
     public static class Patch{
         @NotBlank
         private String name;
+
+        public Patch(String name) {
+            this.name = name;
+        }
     }
 
     @Getter
