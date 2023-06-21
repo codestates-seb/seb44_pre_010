@@ -51,4 +51,9 @@ public class Question extends BaseTimeEntity {
     public void updateView(){
         this.view++;
     }
+
+    public boolean hasAnswers() {
+        return !this.answers.isEmpty();
+    }
+
 }
