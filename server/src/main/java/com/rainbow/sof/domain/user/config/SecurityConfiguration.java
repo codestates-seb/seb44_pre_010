@@ -16,6 +16,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.rainbow.sof.domain.user.util.CustomEnumUri.*;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -43,6 +44,8 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .antMatchers(HttpMethod.POST, "/login").permitAll()
+                        .antMatchers(QUESTION_DEFAULT_URL+"").authenticated()
+                        .antMatchers(QUESTION_DEFAULT_URL+"/**").authenticated()
                         .antMatchers(USER_DETAIL_URL+"/**").authenticated()// /api/v1/users 의 하위 경로는 인증되야지만 접근가능하다
                         .anyRequest().permitAll());
         return http.build();
