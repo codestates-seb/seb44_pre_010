@@ -20,6 +20,11 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         Exception exception = (Exception) request.getAttribute("exception");
         AuthenticationErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
-        log.warn("Unauthorized error happened: {}", exception.getMessage());
+        if (exception==null){
+            log.warn("Unauthorized error happened: {}", HttpStatus.UNAUTHORIZED.value());
+        }
+        else {
+            log.warn("Unauthorized error happened: {}", exception.getMessage());
+        }
     }
 }
