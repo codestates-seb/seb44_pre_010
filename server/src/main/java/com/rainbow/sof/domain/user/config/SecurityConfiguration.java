@@ -1,4 +1,5 @@
 package com.rainbow.sof.domain.user.config;
+import com.rainbow.sof.domain.user.auth.handler.authError.UserAuthenticationEntryPoint;
 import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
 import com.rainbow.sof.domain.user.config.CustomFilterConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -40,13 +41,16 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new UserAuthenticationEntryPoint())
+                .and()
                 .apply(customFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .antMatchers(HttpMethod.POST, "/login").permitAll()
-                        .antMatchers(QUESTION_DEFAULT_URL+"").authenticated()
-                        .antMatchers(QUESTION_DEFAULT_URL+"/**").authenticated()
+                        .antMatchers(HttpMethod.PATCH,"/api/v1/questions/**").hasRole("USER")
+                        .antMatchers(HttpMethod.POST,"/api/v1/questions/**").hasRole("USER")
                         .antMatchers(USER_DETAIL_URL+"/**").authenticated()// /api/v1/users 의 하위 경로는 인증되야지만 접근가능하다
+                        .antMatchers(HttpMethod.POST, "/login").permitAll()
                         .anyRequest().permitAll());
         return http.build();
     }
