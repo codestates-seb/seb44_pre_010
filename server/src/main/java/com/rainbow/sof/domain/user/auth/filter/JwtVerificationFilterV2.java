@@ -1,8 +1,11 @@
 package com.rainbow.sof.domain.user.auth.filter;
 
 import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
+import com.rainbow.sof.global.error.BusinessLogicException;
+import com.rainbow.sof.global.error.ExceptionCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,7 +32,9 @@ public class JwtVerificationFilterV2 extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String checkJwtInHeader = request.getHeader("Authorization");//헤더에서 토큰을 가져옴
-
+//        if (checkJwtInHeader == null || !checkJwtInHeader.startsWith("Bearer")){
+//            request.setAttribute("exception", HttpStatus.UNAUTHORIZED);
+//        }
         //가져온 토큰이 없거나 올바른 형태의 토큰이 아니라면 false 를 반환
         return checkJwtInHeader == null || !checkJwtInHeader.startsWith("Bearer");
     }
@@ -45,6 +50,9 @@ public class JwtVerificationFilterV2 extends OncePerRequestFilter {
             List<GrantedAuthority> authorities = getAuthorities(claims);
 
             createUsernamePasswordAuthenticationToken(claims, authorities);
+        }
+        catch (BusinessLogicException re){
+            request.setAttribute("exception", re);
         }
         catch (SignatureException se){
             request.setAttribute("exception", se);
