@@ -83,7 +83,7 @@ bootJar{
 }
 
 openapi3 {
-	server = "http://localhost:8080"
+	server = "http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/"
 	title = "Stack Overflow Rainbow API 문서"
 	description = "Spring REST Docs with SwaggerUI."
 	version = "0.0.1"
