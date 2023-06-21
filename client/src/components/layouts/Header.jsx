@@ -139,7 +139,7 @@ const Button = styled(Link)`
   border-radius: 3px;
   background-color: var(--powder-100);
   color: var(--powser-700);
-  decoration: none;
+  text-decoration: none;
   outline: none;
   box-sizing: border-box;
 `;

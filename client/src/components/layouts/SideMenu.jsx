@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { sideMenuList } from '../../constants/SideMenuContnats.js';
-import { useState } from 'react';
 
 const LeftSideBarContainer = styled.div`
   width: 164px;
@@ -39,11 +38,8 @@ const MenuLink = styled(Link)`
   font-size: 13px;
 `;
 
-export default function SideMenu() {
-  const [isSelect, setIsSelect] = useState(0);
-  const onHandleSelect = (index) => {
-    setIsSelect(index);
-  };
+export default function SideMenu({ selected, handleSelected }) {
+  // const navigate = useNavigate();
 
   return (
     <LeftSideBarContainer>
@@ -52,8 +48,8 @@ export default function SideMenu() {
           {sideMenuList.map((item, index) => (
             <MenuItem
               key={index}
-              isSelected={index === isSelect}
-              onClick={() => onHandleSelect(index)}
+              isSelected={index === selected}
+              onClick={() => handleSelected(index)}
             >
               <MenuLink to={item.link}>{item.text}</MenuLink>
             </MenuItem>
