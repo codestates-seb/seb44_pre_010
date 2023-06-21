@@ -7,11 +7,15 @@ import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.question.mapper.QuestionMapper;
 import com.rainbow.sof.domain.question.service.QuestionService;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.rainbow.sof.global.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 =======
 import com.rainbow.sof.global.common.MultiResponseDto;
+=======
+import com.rainbow.sof.global.common.AuthenticationName;
+>>>>>>> 4bf0b47384ae1e81260a33ae4f7dae3460a75e2f
 import com.rainbow.sof.global.common.MultiResponseDto;
 import com.rainbow.sof.global.common.SingleResponseDto;
 import com.rainbow.sof.global.utils.UriCreator;
@@ -46,10 +50,15 @@ public class QuestionController {
     private final AnswerService answerService;
     private final QuestionMapper questionMapper;
     @PostMapping()
+<<<<<<< HEAD
     @PostMapping()
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post request){
 >>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
         Question question = questionService.createQuestion(questionMapper.questionDtoPostToQuestion(request));
+=======
+    public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post request, @AuthenticationName String email){
+        Question question = questionService.createQuestion(questionMapper.questionDtoPostToQuestion(request), email);
+>>>>>>> 4bf0b47384ae1e81260a33ae4f7dae3460a75e2f
         URI location = UriCreator.createUri(QUESTION_DEFAULT_URL, question.getQuestionId());
 
         return ResponseEntity.created(location).build();
@@ -78,7 +87,7 @@ public class QuestionController {
                 new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/top")
     public ResponseEntity getQuestions(){
         List<Question> questions = questionService.findQuestions();
         List<QuestionDto.ListResponse> responses = questionMapper.questionToQuestionDtoResponseList(questions);
@@ -110,15 +119,17 @@ public class QuestionController {
 
     @PatchMapping("/{id}")
     public ResponseEntity patchQuestion(@PathVariable("id") @Positive long id
-                                            ,@RequestBody @Valid QuestionDto.Patch request){
-        Question question = questionService.updateQuestion(id, questionMapper.questionDtoPatchToQuestion(request));
+                                            ,@RequestBody @Valid QuestionDto.Patch request
+                                            ,@AuthenticationName String email){
+        Question question = questionService.updateQuestion(id, questionMapper.questionDtoPatchToQuestion(request), email);
         URI location = UriCreator.createUri(QUESTION_DEFAULT_URL, question.getQuestionId());
         return ResponseEntity.created(location).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteQuestion(@PathVariable("id") @Positive long id){
-        questionService.deleteQuestion(id);
+    public ResponseEntity deleteQuestion(@PathVariable("id") @Positive long id
+                                        ,@AuthenticationName String email){
+        questionService.deleteQuestion(id, email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 >>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732

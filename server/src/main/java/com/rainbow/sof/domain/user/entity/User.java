@@ -1,8 +1,11 @@
 package com.rainbow.sof.domain.user.entity;
 
 
+import com.rainbow.sof.domain.answer.domain.Answer;
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.global.common.BaseTimeEntity;
+import com.rainbow.sof.global.error.BusinessLogicException;
+import com.rainbow.sof.global.error.ExceptionCode;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,14 +22,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
-
     @Builder
-    public User(long userId, String password, String email, String name, List<Question> questionList) {
+    public User(long userId, String password, String email, String name,
+                List<Question> questionList, List<Answer> answerList) {
         this.userId = userId;
         this.password = password;
         this.email = email;
         this.name = name;
         this.questionList = questionList;
+        this.answerList = answerList;
     }
 
     @Id
@@ -49,6 +53,9 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Question> questionList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Answer> answerList;
 
     public enum Status{
         USER_ACTIVE("활성상태"),
@@ -84,5 +91,15 @@ public class User extends BaseTimeEntity {
 
     public void updateName(String name) {
         this.name = name;
+    }
+
+    public void updateAnswerList(List<Answer> answerList) {
+        this.answerList = answerList;
+    }
+
+    public void checkIsMyself(long loginUserId){
+        if(this.userId != loginUserId){
+            throw new BusinessLogicException(ExceptionCode.USER_MISMATCH);
+        }
     }
 }

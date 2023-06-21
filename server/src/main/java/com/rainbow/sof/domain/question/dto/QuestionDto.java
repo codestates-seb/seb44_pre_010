@@ -22,8 +22,6 @@ public class QuestionDto {
     @AllArgsConstructor
     @Getter
     public static class Post{
-        @NotNull
-        private long userId;
         @NotSpace(message = "질문 제목은 공백이 아니어야 합니다.")
         @Size(min= 20, max= 100)
 >>>>>>> bd5190a0cc61cd37e6af235b1c215bbc2c8e86f1

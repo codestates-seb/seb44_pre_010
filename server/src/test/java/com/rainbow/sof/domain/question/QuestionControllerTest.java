@@ -1,8 +1,6 @@
 package com.rainbow.sof.domain.question;
 
 import com.google.gson.Gson;
-import com.rainbow.sof.domain.answer.domain.Answer;
-import com.rainbow.sof.domain.answer.dto.AnswerDto;
 import com.rainbow.sof.domain.answer.service.AnswerService;
 import com.rainbow.sof.domain.answer.domain.Answer;
 import com.rainbow.sof.domain.answer.dto.AnswerDto;
@@ -11,8 +9,12 @@ import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.question.mapper.QuestionMapper;
 import com.rainbow.sof.domain.question.service.QuestionService;
+<<<<<<< HEAD
 import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
+=======
+import com.rainbow.sof.helper.StubData;
+>>>>>>> 4bf0b47384ae1e81260a33ae4f7dae3460a75e2f
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -24,34 +26,48 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+<<<<<<< HEAD
 import java.time.LocalDateTime;
 
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+=======
+>>>>>>> 4bf0b47384ae1e81260a33ae4f7dae3460a75e2f
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.BDDMockito.given;
+<<<<<<< HEAD
 import static org.mockito.Mockito.description;
 import static org.mockito.Mockito.description;
+=======
+>>>>>>> 4bf0b47384ae1e81260a33ae4f7dae3460a75e2f
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+<<<<<<< HEAD
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 >>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+=======
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+
+>>>>>>> 4bf0b47384ae1e81260a33ae4f7dae3460a75e2f
 @SpringBootTest
 @AutoConfigureMockMvc
 public class QuestionControllerTest {
@@ -78,6 +94,7 @@ public class QuestionControllerTest {
     @DisplayName("Question을 추가한다.")
     void postQuestion() throws Exception {
         //given
+<<<<<<< HEAD
         String title = "이것은 제목입니다만. 제목이요 제목";
         String content = "이것은 내용입니다만. 내용이요. 내용";
         QuestionDto.Post request = QuestionDto.Post.builder()
@@ -86,29 +103,14 @@ public class QuestionControllerTest {
                 .userId(1)
                 .userId(1)
                 .build();
+=======
+        QuestionDto.Post request = (QuestionDto.Post) StubData.MockQuestion.getRequestBody(HttpMethod.POST);
+>>>>>>> 4bf0b47384ae1e81260a33ae4f7dae3460a75e2f
 
         String jsonData = gson.toJson(request);
 
         given(mapper.questionDtoPostToQuestion(Mockito.any(QuestionDto.Post.class))).willReturn(Question.builder().build());
-
-        Question question = Question.builder()
-                .questionId(1L)
-                .view(0)
-                .content(content)
-                .title(title)
-                .build();
-
-        QuestionDto.Response response = QuestionDto.Response.builder()
-                .title(title)
-                .content(content)
-                .view(0)
-                .questionId(1L)
-                .createdAt(LocalDateTime.now())
-                .modifiedAt(LocalDateTime.now())
-                .build();
-
-        given(service.createQuestion(Mockito.any(Question.class))).willReturn(question);
-        given(mapper.questionToQuestionDtoResponse(Mockito.any(Question.class))).willReturn(response);
+        given(service.createQuestion(Mockito.any(Question.class),Mockito.anyString())).willReturn(Question.builder().questionId(1L).build());
 
         //when
         ResultActions actions =
@@ -130,8 +132,11 @@ public class QuestionControllerTest {
                                                 ResourceSnippetParameters.builder()
                                                         .description("질문 등록")
                                                         .requestFields(
+<<<<<<< HEAD
                                                                 fieldWithPath("userId").type(JsonFieldType.NUMBER).description("작성자 아이디"),
                                                                 fieldWithPath("userId").type(JsonFieldType.NUMBER).description("작성자 아이디"),
+=======
+>>>>>>> 4bf0b47384ae1e81260a33ae4f7dae3460a75e2f
                                                                 fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
                                                                 fieldWithPath("content").type(JsonFieldType.STRING).description("질문 세부내용")
                                                         )
@@ -151,9 +156,9 @@ public class QuestionControllerTest {
     @DisplayName("Question을 가져온다(상세 조회)")
     void getQuestion() throws Exception {
         //given
-        String title = "이것은 제목입니다만. 제목이요 제목 제목제목제목제20자리 넘나요?";
-        String content = "이것은 내용입니다만. 내용이요. 내용인데요";
+        QuestionDto.Response response = StubData.MockQuestion.getSingleResponseBody();
 
+<<<<<<< HEAD
         Answer answer = Answer.builder()
                 .answerId(1L)
                 .content("ㅎㅇㅎㅇ")
@@ -216,21 +221,24 @@ public class QuestionControllerTest {
                 .build();
 
         given(service.findQuestion(Mockito.anyLong())).willReturn(question);
+=======
+        given(service.findQuestion(Mockito.anyLong())).willReturn(Question.builder().questionId(1L).build());
+>>>>>>> 4bf0b47384ae1e81260a33ae4f7dae3460a75e2f
         given(answerService.getAnswerCnt(Mockito.anyLong())).willReturn(2L);
         given(mapper.questionToQuestionDtoResponse(Mockito.any(Question.class))).willReturn(response);
 
         //when
         ResultActions actions =
                 mockMvc.perform(
-                                get(QUESTION_DEFAULT_URL + "/{question-id}", question.getQuestionId())
+                                get(QUESTION_DEFAULT_URL + "/{question-id}", 1L)
                                         .accept(MediaType.APPLICATION_JSON)
                         )
                         //then
                         .andExpect(status().isOk())
-                        .andExpect(jsonPath("$.data.title").value(question.getTitle()))
-                        .andExpect(jsonPath("$.data.content").value(question.getContent()))
-                        .andExpect(jsonPath("$.data.view").value(question.getView()))
-                        .andExpect(jsonPath("$.data.answers[0].content").value(answer.getContent()))
+                        .andExpect(jsonPath("$.data.title").value(response.getTitle()))
+                        .andExpect(jsonPath("$.data.content").value(response.getContent()))
+                        .andExpect(jsonPath("$.data.view").value(response.getView()))
+                        .andExpect(jsonPath("$.data.answers[0].content").value(response.getAnswers().get(0).getContent()))
                         .andExpect(jsonPath("$.data.answerCnt").value(2))
                         .andDo(
                                 MockMvcRestDocumentationWrapper.document("질문 상세 조회 예제",
@@ -273,35 +281,12 @@ public class QuestionControllerTest {
     @DisplayName("Question이 수정된다.(수정)")
     void patchQuestion() throws Exception {
         //given
-        String title = "이것은 제목입니다만. 제목이요 제목 제목제목ddddd제목제20자리 넘나요?";
-        String content = "이것은 내용dddddd입니다만. 내용이요. 내용";
-        QuestionDto.Patch request = QuestionDto.Patch.builder()
-                .title(title)
-                .content(content)
-                .build();
+        QuestionDto.Patch request = (QuestionDto.Patch) StubData.MockQuestion.getRequestBody(HttpMethod.PATCH);
 
         String jsonData = gson.toJson(request);
 
         given(mapper.questionDtoPatchToQuestion(Mockito.any(QuestionDto.Patch.class))).willReturn(Question.builder().build());
-
-        Question question = Question.builder()
-                .questionId(1L)
-                .view(0)
-                .content(content)
-                .title(title)
-                .build();
-
-        QuestionDto.Response response = QuestionDto.Response.builder()
-                .title(title)
-                .content(content)
-                .view(0)
-                .questionId(1L)
-                .createdAt(LocalDateTime.now())
-                .modifiedAt(LocalDateTime.now())
-                .build();
-
-        given(service.updateQuestion(Mockito.anyLong(), Mockito.any(Question.class))).willReturn(question);
-        given(mapper.questionToQuestionDtoResponse(Mockito.any(Question.class))).willReturn(response);
+        given(service.updateQuestion(Mockito.anyLong(), Mockito.any(Question.class),Mockito.anyString())).willReturn(Question.builder().questionId(1L).build());
 
         //when
         ResultActions actions =
@@ -338,7 +323,7 @@ public class QuestionControllerTest {
     @DisplayName("Question이 삭제된다.(삭제)")
     void deleteQuestion() throws Exception {
         //given
-        doNothing().when(service).deleteQuestion(Mockito.anyLong());
+        doNothing().when(service).deleteQuestion(Mockito.anyLong(), Mockito.anyString());
         // when
         mockMvc.perform(
                         delete(QUESTION_DEFAULT_URL + "/{question-id}", 1L)
@@ -524,42 +509,14 @@ public class QuestionControllerTest {
     @Test
     @DisplayName("Top Question 리스트를 가져온다.")
     void getQuestions() throws Exception {
-        String title = "내용입니다내용입니다.내용입니다내용입니다.내용입니다내용입니다.";
-        String content = "제목입니다.제목입니다.제목제목입니다.제목입니다.제목제목입니다.제목입니다.제목제목입니다.제목입니다.제목";
         //given
-        UserDto.QuestionResponse user = UserDto.QuestionResponse.builder()
-                .userId(1L)
-                .name("테스트용")
-                .build();
-
-        QuestionDto.ListResponse response = QuestionDto.ListResponse.builder()
-                .title(title)
-                .content(content)
-                .view(0)
-                .user(user)
-                .questionId(1L)
-                .createdAt(LocalDateTime.now())
-                .modifiedAt(LocalDateTime.now())
-                .answerCnt(0)
-                .build();
-        QuestionDto.ListResponse response2 = QuestionDto.ListResponse.builder()
-                .title(title)
-                .content(content)
-                .view(5)
-                .user(user)
-                .questionId(2L)
-                .createdAt(LocalDateTime.now())
-                .modifiedAt(LocalDateTime.now())
-                .answerCnt(0)
-                .build();
-
         given(service.findQuestions()).willReturn(new ArrayList<>());
-        given(mapper.questionToQuestionDtoResponseList(Mockito.anyList())).willReturn(List.of(response, response2));
+        given(mapper.questionToQuestionDtoResponseList(Mockito.anyList())).willReturn(StubData.MockQuestion.getMultiResponseBody());
         given(answerService.getAnswerCnt(Mockito.anyLong())).willReturn(0L);
         //when
         ResultActions actions =
                 mockMvc.perform(
-                                get(QUESTION_DEFAULT_URL)
+                                get(QUESTION_DEFAULT_URL + "/top")
                                         .accept(MediaType.APPLICATION_JSON)
                         )
                         //then
@@ -597,39 +554,10 @@ public class QuestionControllerTest {
     @Test
     @DisplayName("페이지 네이션이 적용된 리스트를 가져온다.")
     void getPageQuestions() throws Exception {
-        String title = "내용입니다내용입니다.내용입니다내용입니다.내용입니다내용입니다.";
-        String content = "제목입니다.제목입니다.제목제목입니다.제목입니다.제목제목입니다.제목입니다.제목제목입니다.제목입니다.제목";
         //given
-        UserDto.QuestionResponse user = UserDto.QuestionResponse.builder()
-                .userId(1L)
-                .name("테스트용")
-                .build();
-
-        QuestionDto.ListResponse response = QuestionDto.ListResponse.builder()
-                .title(title)
-                .content(content)
-                .view(0)
-                .user(user)
-                .questionId(1L)
-                .createdAt(LocalDateTime.now())
-                .modifiedAt(LocalDateTime.now())
-                .answerCnt(0)
-                .build();
-        QuestionDto.ListResponse response2 = QuestionDto.ListResponse.builder()
-                .title(title)
-                .content(content)
-                .view(5)
-                .user(user)
-                .questionId(2L)
-                .createdAt(LocalDateTime.now())
-                .modifiedAt(LocalDateTime.now())
-                .answerCnt(0)
-                .build();
-
         given(service.findPageQuestions(Mockito.anyString(), Mockito.anyInt())).willReturn(Page.empty());
-        given(mapper.questionToQuestionDtoResponseList(Mockito.anyList())).willReturn(List.of(response, response2));
+        given(mapper.questionToQuestionDtoResponseList(Mockito.anyList())).willReturn(StubData.MockQuestion.getMultiResponseBody());
         given(answerService.getAnswerCnt(Mockito.anyLong())).willReturn(0L);
-
         //when
         ResultActions actions =
                 mockMvc.perform(

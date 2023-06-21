@@ -21,9 +21,6 @@ public class AnswerDto {
         @NotSpace(message = "답변 세부내용은 공백이 아니어야 합니다.")
         @Size(min = 30, max = 220, message = "답변 세부내용은 30자 이상이어야 합니다.")
         private String content;
-        public void addQuestionId(long questionId) {
-            this.questionId = questionId;
-        }
     }
 
     @Builder
@@ -36,6 +33,7 @@ public class AnswerDto {
         @NotSpace(message = "답변 세부내용은 공백이 아니어야 합니다.")
         @Size(min = 30, max = 220, message = "답변 세부내용은 30자 이상이어야 합니다.")
         private String content;
+<<<<<<< HEAD
 
 <<<<<<< HEAD
         public void addQuestionId(long questionId) {
@@ -46,6 +44,8 @@ public class AnswerDto {
 //            this.questionId = questionId;
 //        }
 >>>>>>> 8f46cf92239e642cbbe6123312e62e5f8d5fd732
+=======
+>>>>>>> 4bf0b47384ae1e81260a33ae4f7dae3460a75e2f
     }
 
     @Builder
