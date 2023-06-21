@@ -62,8 +62,7 @@ public class UserController {
                                          @Valid @PathVariable("user-id") @Positive long id){
         User user = service.checkToFindByUserFromEmail(email,id);
         MyPageResponseDto myPageDto= mapper.userToMyPageDto(user);
-        UserDataResponse response=UserDataResponse.builder().data(myPageDto).build();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new UserDataResponse<>(myPageDto), HttpStatus.OK);
     }
 
 //    @Valid @PathVariable("user-id") @Positive long id
@@ -72,8 +71,9 @@ public class UserController {
     public ResponseEntity<?> patchUser(@AuthenticationName String email,
                                          @Valid @PathVariable("user-id") @Positive long id,
                                        @RequestBody UserDto.Patch patch){
-
-        return ResponseEntity.ok("responseBody");
+        User updateUser = service.updateUser(email,id,patch);
+        URI location = UriCreator.createUri(USER_DEFAULT_URL.getUri(), updateUser.getUserId());
+        return ResponseEntity.ok().location(location).build();
     }
 
     @DeleteMapping("/users/{user-id}")
