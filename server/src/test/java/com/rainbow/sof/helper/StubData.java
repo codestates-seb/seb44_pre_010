@@ -15,8 +15,7 @@ public class StubData {
         public static String getValidAccessToken(String secretKey, String role) {
             JwtTokenizer jwtTokenizer = new JwtTokenizer();
             Map<String, Object> claims = new HashMap<>();
-            claims.put("userId", 1L);
-            claims.put("roles", List.of(role));
+            claims.put("email","test@test.com");
 
             String subject = "test access token";
             Calendar calendar = Calendar.getInstance();

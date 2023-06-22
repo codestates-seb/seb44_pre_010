@@ -98,7 +98,7 @@ public class QuestionControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                                 post(QUESTION_DEFAULT_URL)
-                                        .header(HttpHeaders.AUTHORIZATION, "\u200BBearer " + accessTokenForUser)
+                                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenForUser)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .content(jsonData)
                         )
@@ -203,7 +203,7 @@ public class QuestionControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                                 patch(QUESTION_DEFAULT_URL + "/{question-id}", 1)
-                                        .header(HttpHeaders.AUTHORIZATION, "\u200BBearer ".concat(accessTokenForUser))
+                                        .header(HttpHeaders.AUTHORIZATION, "Bearer ".concat(accessTokenForUser))
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .content(jsonData)
                         )
@@ -242,7 +242,7 @@ public class QuestionControllerTest {
         // when
         mockMvc.perform(
                         delete(QUESTION_DEFAULT_URL + "/{question-id}", 1L)
-                                .header("Authorization", "\u200BBearer ".concat(accessTokenForUser))
+                                .header("Authorization", "Bearer ".concat(accessTokenForUser))
                         // then
                 ).andExpect(status().isNoContent())
                 .andDo(MockMvcRestDocumentationWrapper.document("질문 삭제 예제",
