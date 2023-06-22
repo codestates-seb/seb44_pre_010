@@ -71,8 +71,6 @@ public class QuestionControllerTest {
     @Autowired
     private JwtTokenizer jwtTokenizer;
 
-    @Autowired
-    private WebApplicationContext ctx;
     @BeforeAll
     public void init() {
         accessTokenForUser = StubData.MockSecurity.getValidAccessToken(jwtTokenizer.getSecretKeySting(), "USER");
