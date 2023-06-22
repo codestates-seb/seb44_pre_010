@@ -1,4 +1,4 @@
-package com.rainbow.sof.domain.user.auth.handler;
+package com.rainbow.sof.domain.user.auth.handler.loginhandle;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,6 +42,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         UserDto.LoginResponse loginResponse = UserDto.LoginResponse.builder()
                 .userId(user.getUserId())
                 .build();
+        //TODO: 시큐리티 수정 중
         response.getWriter().write(gson.toJson(loginResponse,UserDto.LoginResponse.class));
 
     }

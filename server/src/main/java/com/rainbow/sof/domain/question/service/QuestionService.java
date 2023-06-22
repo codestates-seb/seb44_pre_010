@@ -41,8 +41,12 @@ public class QuestionService {
         return questionRepository.findById(id).orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
 
-    public Question updateQuestion(long id, Question request) {
+    public Question updateQuestion(long id, Question request, String email) {
         Question findQuestion = findVerifiedQuestion(id);
+        if(findQuestion.hasAnswers())
+            throw new BusinessLogicException(ExceptionCode.CANNOT_CHANGE_QUESTION);
+
+        userService.findByUserFromEmail(email).checkIsMyself(findQuestion.getUser().getUserId());
 
         Optional.ofNullable(request.getContent())
                 .ifPresent(findQuestion::updateContent);
@@ -56,10 +60,13 @@ public class QuestionService {
         question.updateView();
     }
 
-    public void deleteQuestion(long id) {
-        Question findquestion = findVerifiedQuestion(id);
+    public void deleteQuestion(long id, String email) {
+        Question findQuestion = findVerifiedQuestion(id);
+        if(findQuestion.hasAnswers())
+            throw new BusinessLogicException(ExceptionCode.CANNOT_DELETE_QUESTION);
 
-        questionRepository.delete(findquestion);
+        userService.findByUserFromEmail(email).checkIsMyself(findQuestion.getUser().getUserId());
+        questionRepository.delete(findQuestion);
     }
 
     @Transactional(readOnly = true)
