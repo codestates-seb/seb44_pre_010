@@ -76,6 +76,7 @@ const Input = styled.input`
   padding: 0.5rem 0.5625rem 0.5rem 0.5625rem;
   display: block;
   border-radius: 0.1875rem;
+  margin-bottom: 0.8rem;
 
   &:focus {
     outline: none;
