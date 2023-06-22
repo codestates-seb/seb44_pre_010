@@ -69,8 +69,7 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:3000");
-
-//        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.addAllowedOrigin("http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com");
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
         configuration.setAllowedHeaders(
                 List.of("Authorization","X-AUTH-TOKEN")
@@ -81,7 +80,7 @@ public class SecurityConfiguration {
         );
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/api/v1/**", configuration);
         return source;
     }
 
