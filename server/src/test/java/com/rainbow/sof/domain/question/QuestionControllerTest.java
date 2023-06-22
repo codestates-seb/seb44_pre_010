@@ -314,7 +314,7 @@ public class QuestionControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                                 get(QUESTION_DEFAULT_URL)
-                                        .param("tab", "Newest")
+                                        .param("tab", "newest")
                                         .param("page","1")
                                         .accept(MediaType.APPLICATION_JSON)
                         )
@@ -330,8 +330,67 @@ public class QuestionControllerTest {
                                                 ResourceSnippetParameters.builder()
                                                         .description("질문 페이징 리스트 조회")
                                                         .requestParameters(
-                                                                parameterWithName("tab").description("정렬"),
-                                                                parameterWithName("page").description("페이징")
+                                                                parameterWithName("tab").description("정렬(newest/oldest) 입력되지 않으면 newest로 처리"),
+                                                                parameterWithName("page").description("페이지, 입력되지 않으면 1로 처리")
+                                                        )
+                                                        .requestFields()
+                                                        .responseFields(
+                                                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                                                fieldWithPath("data.[].user").type(JsonFieldType.OBJECT).description("회원 정보"),
+                                                                fieldWithPath("data.[].user.userId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                                                fieldWithPath("data.[].user.name").type(JsonFieldType.STRING).description("회원 닉네임"),
+                                                                fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("질문 제목"),
+                                                                fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("질문 내용"),
+                                                                fieldWithPath("data.[].view").type(JsonFieldType.NUMBER).description("조회수"),
+                                                                fieldWithPath("data.[].answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                                                fieldWithPath("data.[].vote").type(JsonFieldType.NUMBER).description("투표 개수"),
+                                                                fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성일"),
+                                                                fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정일"),
+                                                                fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이징 정보"),
+                                                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
+                                                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("한 페이지에 속하는 데이터 개수"),
+                                                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 데이터 개수"),
+                                                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 개수")
+                                                        )
+                                                        .build()
+                                        )
+                                )
+                        );
+
+    }
+
+    @Test
+    @DisplayName("검색해서 페이지네이션이 적용된 리스트를 가져온다.")
+    void getSearchPageQuestions() throws Exception {
+        //given
+        given(service.findSearchPageQuestions(Mockito.anyString(),Mockito.anyString(), Mockito.anyInt())).willReturn(Page.empty());
+        given(mapper.questionToQuestionDtoResponseList(Mockito.anyList())).willReturn(StubData.MockQuestion.getMultiResponseBody());
+        given(answerService.getAnswerCnt(Mockito.anyLong())).willReturn(0L);
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                                get(QUESTION_DEFAULT_URL + "/search")
+                                        .param("q","제목")
+                                        .param("tab", "newest")
+                                        .param("page","1")
+                                        .accept(MediaType.APPLICATION_JSON)
+                        )
+                        //then
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.data.size()").value(2))
+                        .andExpect(jsonPath("$.pageInfo.page").value(1))
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("질문 검색 페이징 리스트 조회 예제",
+                                        preprocessRequest(prettyPrint()),
+                                        preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("질문 페이징 리스트 조회")
+                                                        .requestParameters(
+                                                                parameterWithName("q").description("검색할 키워드"),
+                                                                parameterWithName("tab").description("정렬(newest/oldest) 입력되지 않으면 newest로 처리"),
+                                                                parameterWithName("page").description("페이지, 입력되지 않으면 1로 처리")
                                                         )
                                                         .requestFields()
                                                         .responseFields(
