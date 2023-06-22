@@ -1,6 +1,7 @@
 package com.rainbow.sof.domain.user.auth.handler.authError;
 
 import com.rainbow.sof.domain.user.auth.util.Responder.AuthenticationErrorResponder;
+import com.rainbow.sof.global.error.ExceptionCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -18,12 +19,15 @@ import java.io.IOException;
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        Exception exception = (Exception) request.getAttribute("exception");
-        AuthenticationErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
+
+        ExceptionCode exception = (ExceptionCode) request.getAttribute("exception");
         if (exception==null){
             log.warn("Unauthorized error happened: {}", HttpStatus.UNAUTHORIZED.value());
+            AuthenticationErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
         }
         else {
+            String errormessage =exception.getMessage();
+            AuthenticationErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED,errormessage);
             log.warn("Unauthorized error happened: {}", exception.getMessage());
         }
     }

@@ -4,14 +4,11 @@ import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.security.SignatureException;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -51,17 +48,20 @@ public class JwtVerificationFilterV2 extends OncePerRequestFilter {
 
             createUsernamePasswordAuthenticationToken(claims, authorities);
         }
-        catch (BusinessLogicException re){
-            request.setAttribute("exception", re);
+        catch (ClassCastException ce){
+            request.setAttribute("exception", ExceptionCode.ACCESS_DENIED);
         }
-        catch (SignatureException se){
-            request.setAttribute("exception", se);
-        }
+//        catch (BadCredentialsException se){
+//            request.setAttribute("exception", ExceptionCode.UNAUTHORIZED);
+//        }
         catch (ExpiredJwtException ee) {
-            request.setAttribute("exception", ee);
+            request.setAttribute("exception", ExceptionCode.EXPIRED_TOKEN);
+        }
+        catch (BusinessLogicException re){
+            request.setAttribute("exception",  ExceptionCode.UNAUTHORIZED);
         }
         catch (Exception e) {
-            request.setAttribute("exception", e);
+            request.setAttribute("exception", ExceptionCode.UNAUTHORIZED);
         }
 
         filterChain.doFilter(request,response);
@@ -77,7 +77,7 @@ public class JwtVerificationFilterV2 extends OncePerRequestFilter {
     }
 
     private List<GrantedAuthority> getAuthorities(Map<String, Object> claims) {
-        return jwtTokenizer.getADMIN_SUBJECT().equals(claims.get("email"))
+        return JwtTokenizer.getADMIN_SUBJECT().equals(claims.get("email"))
                 ? AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ADMIN", "ROLE_USER", "USER") :
                 AuthorityUtils.createAuthorityList("ROLE_USER", "USER");
     }
