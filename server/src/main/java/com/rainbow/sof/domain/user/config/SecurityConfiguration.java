@@ -47,8 +47,9 @@ public class SecurityConfiguration {
                 .apply(customFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .antMatchers(HttpMethod.PATCH,"/api/v1/questions/**").hasRole("USER")
+                        /*.antMatchers(HttpMethod.PATCH,"/api/v1/questions/**").hasRole("USER")
                         .antMatchers(HttpMethod.POST,"/api/v1/questions/**").hasRole("USER")
+                        .antMatchers(HttpMethod.DELETE,"/api/v1/questions/**").hasRole("USER")*/
                         .antMatchers(USER_DETAIL_URL+"/**").authenticated()// /api/v1/users 의 하위 경로는 인증되야지만 접근가능하다
                         .antMatchers(HttpMethod.POST, "/login").permitAll()
                         .anyRequest().permitAll());
