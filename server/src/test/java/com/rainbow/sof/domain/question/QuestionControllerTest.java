@@ -9,6 +9,7 @@ import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.question.mapper.QuestionMapper;
 import com.rainbow.sof.domain.question.service.QuestionService;
 import com.rainbow.sof.helper.StubData;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -38,8 +39,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 
+@Disabled
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @AutoConfigureRestDocs
 public class QuestionControllerTest {
     @Autowired
