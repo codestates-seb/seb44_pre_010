@@ -12,15 +12,19 @@ import { useDispatch } from 'react-redux';
 import { open } from '../../redux/reducers/modalSlice';
 
 const HeaderContainer = styled.header`
-  position: sticky;
+  position: fixed;
   min-width: auto;
   width: 100%;
   height: 3.5rem;
+  min-height: 56px;
   display: flex;
   align-items: center;
   border-top: 3px solid var(--orange);
   border-bottom: 1px solid var(--black-100);
   box-sizing: border-box;
+  top: 0;
+  background-color: var(--white);
+  z-index: 9999;
 `;
 
 const HeaderInner = styled.div`
