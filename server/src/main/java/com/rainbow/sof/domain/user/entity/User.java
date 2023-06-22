@@ -41,13 +41,13 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String password;
     @Email
-    @Column(nullable = false, updatable = false, unique = true)
+    @Column(nullable = false, updatable = false)
     private String email;
 
     @Column(nullable = false)
     private String name;
 
-//    @Builder.Default
+    //    @Builder.Default
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Status status =Status.USER_ACTIVE;
