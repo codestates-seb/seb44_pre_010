@@ -1,66 +1,25 @@
 import styled from 'styled-components';
 import pencilIcon from '../assets/icons/pencil.svg';
 import deleteIcon from '../assets/icons/delete.svg';
-import profile from '../assets/imgs/profile.png';
-import { useState } from 'react';
 import SortButtonGroup from '../components/SortButtonGroup.jsx';
+import { buttonData, panelData } from '../constants/MyPageConstants';
+import { useState } from 'react';
+import UserAvatar from '../components/UserAvatar.jsx';
 
 const MyPageContainer = styled.div`
   width: 100%;
-  padding: 0;
-  box-sizing: inherit;
-  margin: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  text-align: left;
 `;
 
 const MyPageInfoContainer = styled.div`
   display: flex;
-  position: relative;
   margin-bottom: 1rem;
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  text-align: left;
   align-items: center;
   flex-wrap: wrap;
   margin: 0.5rem;
 `;
 
-const UserAvatarContainer = styled.div`
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  box-shadow: var(--bs-sm);
-  border-radius: 0.313rem;
-
-  & > img {
-    display: block;
-    border-radius: 0.313rem;
-    box-sizing: inherit;
-    width: 128px;
-    aspect-ratio: auto 128 / 128;
-    height: 128px;
-    overflow-clip-margin: content-box;
-    overflow: clip;
-  }
-`;
-
 const MyInfoText = styled.div`
   margin: 0.5rem;
-  box-sizing: inherit;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  text-align: left;
 
   & > h1 {
     margin: 0.72rem;
@@ -77,10 +36,7 @@ const MyInfoText = styled.div`
 `;
 
 const MyPageButtonContainer = styled.div`
-  margin-left: auto;
   display: flex;
-  right: 0;
-  top: 0;
   flex-wrap: wrap;
   margin: 0.188rem;
 `;
@@ -89,14 +45,12 @@ const MyPageButton = styled.div`
   box-sizing: border-box;
   width: fit-content;
   height: 2.19rem;
-  top: 0px;
   border: 0.0625rem solid var(--black-300);
   border-radius: 0.1875rem;
   margin-left: 0.225rem;
   color: var(--black-500);
   background-color: var(--white);
   align-items: center;
-  text-align: center;
   display: flex;
   padding: 0.6rem;
   cursor: pointer;
@@ -117,7 +71,6 @@ const MyPageButton = styled.div`
 const MyPageInfoPanelContainer = styled.div`
   display: flex;
   flex-direction: column;
-  box-sizing: inherit;
   margin: 1.5rem;
 `;
 
@@ -139,7 +92,6 @@ const MyPageInfoPanel = styled.ul`
   justify-content: center;
   align-items: center;
   text-align: center;
-  box-sizing: inherit;
   border-radius: 0.1875rem;
 
   & > li {
@@ -148,35 +100,28 @@ const MyPageInfoPanel = styled.ul`
   }
 `;
 
-const buttonData = [
-  { id: 'newest', text: 'Newest' },
-  { id: 'oldest', text: 'Oldest' },
-  { id: 'viewes', text: 'Viewes' },
-];
-
 function MyPage() {
-  const [answersSortOption, setAnswersSortOption] = useState('newest');
-  const [questionsSortOption, setQuestionsSortOption] = useState('newest');
-  const [tagsSortOption, setTagsSortOption] = useState('newest');
+  const [sortOptions, setSortOptions] = useState(() => {
+    const initialSortOptions = {};
+    panelData.forEach((panel) => {
+      initialSortOptions[panel.id] = 'newest';
+    });
+    return initialSortOptions;
+  });
 
   const handleSortOption = (option, type) => {
-    if (type === 'answers') {
-      setAnswersSortOption(option);
-    } else if (type === 'questions') {
-      setQuestionsSortOption(option);
-    } else if (type === 'tags') {
-      setTagsSortOption(option);
-    }
+    setSortOptions((prevOptions) => ({
+      ...prevOptions,
+      [type]: option,
+    }));
   };
 
   return (
     <MyPageContainer>
       <MyPageInfoContainer>
-        <UserAvatarContainer>
-          <img src={profile} alt="user avatar" />
-        </UserAvatarContainer>
+        <UserAvatar hasShadow={true} />
         <MyInfoText>
-          <h1>Username</h1>
+          <h1>username</h1>
           <span>Registration date</span>
         </MyInfoText>
         <MyPageButtonContainer>
@@ -190,60 +135,21 @@ function MyPage() {
           </MyPageButton>
         </MyPageButtonContainer>
       </MyPageInfoContainer>
-      <MyPageInfoPanelContainer>
-        <MyPageInfoPanelTitle>
-          <h3>Answers</h3>
-          <SortButtonGroup
-            buttonData={buttonData}
-            activeOption={answersSortOption}
-            onClick={(option) => handleSortOption(option, 'answers')}
-          />
-        </MyPageInfoPanelTitle>
-        <MyPageInfoPanel>
-          {/* {answers.length > 0 ? (
-            answers.map((item) => <li key={?}>{answers}</li>)
-          ) : (
-            <li>You have not answered any questions</li>
-          )} */}
-          <li>You have not answered any questions</li>
-        </MyPageInfoPanel>
-      </MyPageInfoPanelContainer>
-      <MyPageInfoPanelContainer>
-        <MyPageInfoPanelTitle>
-          <h3>Questions</h3>
-          <SortButtonGroup
-            buttonData={buttonData}
-            activeOption={questionsSortOption}
-            onClick={(option) => handleSortOption(option, 'questions')}
-          />
-        </MyPageInfoPanelTitle>
-        <MyPageInfoPanel>
-          {/* {questions.length > 0 ? (
-            questions.map((item) => <li key={?}>{questions}</li>)
-          ) : (
-            <li>You have not answered any questions</li>
-          )} */}
-          <li>You have not asked any questions</li>
-        </MyPageInfoPanel>
-      </MyPageInfoPanelContainer>
-      <MyPageInfoPanelContainer>
-        <MyPageInfoPanelTitle>
-          <h3>Tags</h3>
-          <SortButtonGroup
-            buttonData={buttonData}
-            activeOption={tagsSortOption}
-            onClick={(option) => handleSortOption(option, 'tags')}
-          />
-        </MyPageInfoPanelTitle>
-        <MyPageInfoPanel>
-          {/* {tags.length > 0 ? (
-            tags.map((tag) => <li key={?}>{tag}</li>)
-          ) : (
-            <li>You have not participated in any tags</li>
-          )} */}
-          <li>You have not participated in any tags</li>
-        </MyPageInfoPanel>
-      </MyPageInfoPanelContainer>
+      {panelData.map((panel) => (
+        <MyPageInfoPanelContainer key={panel.id}>
+          <MyPageInfoPanelTitle>
+            <h3>{panel.text}</h3>
+            <SortButtonGroup
+              buttonData={buttonData}
+              activeOption={sortOptions[panel.id]}
+              onClick={(option) => handleSortOption(option, panel.id)}
+            />
+          </MyPageInfoPanelTitle>
+          <MyPageInfoPanel>
+            <li>You have not {panel.emptyMessage}</li>
+          </MyPageInfoPanel>
+        </MyPageInfoPanelContainer>
+      ))}
     </MyPageContainer>
   );
 }
