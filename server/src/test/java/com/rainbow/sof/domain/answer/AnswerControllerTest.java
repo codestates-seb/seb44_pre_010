@@ -3,20 +3,23 @@ package com.rainbow.sof.domain.answer;
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.google.gson.Gson;
+import com.rainbow.sof.domain.answer.controller.AnswerController;
 import com.rainbow.sof.domain.answer.domain.Answer;
 import com.rainbow.sof.domain.answer.dto.AnswerDto;
 import com.rainbow.sof.domain.answer.mapper.AnswerMapper;
 import com.rainbow.sof.domain.answer.service.AnswerService;
+import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
+import com.rainbow.sof.domain.user.config.SecurityConfiguration;
 import com.rainbow.sof.helper.StubData;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -26,28 +29,38 @@ import org.springframework.test.web.servlet.ResultActions;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@SpringBootTest
+@Import({SecurityConfiguration.class, JwtTokenizer.class})
+@WebMvcTest(AnswerController.class)
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AnswerControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private Gson gson;
-
     @MockBean
     private AnswerService answerService;
     @MockBean
     private AnswerMapper answerMapper;
     private final String ANSWER_DEFAULT_URL = "/api/v1/questions";
+
+    private String accessTokenForUser;
+    @Autowired
+    private JwtTokenizer jwtTokenizer;
+
+    @BeforeAll
+    public void init() {
+        accessTokenForUser = StubData.MockSecurity.getValidAccessToken(jwtTokenizer.getSecretKeySting(), "USER");
+    }
 
     @Test
     @DisplayName("답변 등록")
@@ -64,6 +77,7 @@ public class AnswerControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                                 post(ANSWER_DEFAULT_URL + "/{question-id}" + "/answers", 1)
+                                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenForUser)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .content(jsonData)
                 )
@@ -77,6 +91,9 @@ public class AnswerControllerTest {
                                         resource(
                                                 ResourceSnippetParameters.builder()
                                                         .description("답변 등록")
+                                                        .requestHeaders(
+                                                                headerWithName("Authorization").description("발급받은 인증 토큰")
+                                                        )
                                                         .pathParameters(
                                                                 parameterWithName("question-id").description("질문 식별자")
                                                         )
@@ -105,6 +122,7 @@ public class AnswerControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                                 patch(ANSWER_DEFAULT_URL + "/{question-id}/answers/{answer-id}", 1L, 1L)
+                                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenForUser)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .content(jsonData)
                 )
@@ -117,6 +135,9 @@ public class AnswerControllerTest {
                                         resource(
                                                 ResourceSnippetParameters.builder()
                                                         .description("답변 수정")
+                                                        .requestHeaders(
+                                                                headerWithName("Authorization").description("발급받은 인증 토큰")
+                                                        )
                                                         .pathParameters(
                                                                 parameterWithName("question-id").description("질문 식별자"),
                                                                 parameterWithName("answer-id").description("답변 식별자")
@@ -140,7 +161,8 @@ public class AnswerControllerTest {
         //when
         mockMvc.perform(
                         delete(ANSWER_DEFAULT_URL + "/{question-id}/answers/{answer-id}", 1L, 1L)
-        )
+                                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenForUser)
+                )
         //then
                 .andExpect(status().isNoContent())
                 .andDo(MockMvcRestDocumentationWrapper.document("답변 삭제 예제",
@@ -149,6 +171,9 @@ public class AnswerControllerTest {
                         resource(
                                 ResourceSnippetParameters.builder()
                                         .description("답변 삭제 예제")
+                                        .requestHeaders(
+                                                headerWithName("Authorization").description("발급받은 인증 토큰")
+                                        )
                                         .pathParameters(
                                                 parameterWithName("question-id").description("질문 식별자"),
                                                 parameterWithName("answer-id").description("답변 식별자")
