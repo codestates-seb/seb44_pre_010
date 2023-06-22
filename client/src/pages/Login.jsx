@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled, { createGlobalStyle } from 'styled-components';
 import { ReactComponent as Logo } from '../assets/icons/logo.svg';
 import Header from '../components/layouts/Header';
 import { ReactComponent as GoogleLogo } from '../assets/icons/logo_google.svg';
 import { ReactComponent as GithubLogo } from '../assets/icons/logo_github.svg';
 import { ReactComponent as FacebookLogo } from '../assets/icons/logo_facebook.svg';
+import { useNavigate } from 'react-router-dom';
+import { loginSuccess } from '../redux/reducers/loginSlice';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -167,6 +170,53 @@ const Login = () => {
 
     if (!password) {
       setErrors((prevErrors) => [...prevErrors, 'Password_empty']);
+    } else {
+      // 유효성 검사를 통과한 경우에만 로그인 시도
+      fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: email, password: password }),
+      })
+        .then((response) => {
+          if (
+            // 헤더에 토큰이 포함된다면 로그인 성공
+            response.headers.get('Authorization') &&
+            response.headers.get('Refresh')
+          ) {
+            return response.json();
+          } else if (response.status === 401) {
+            // 로그인 실패 했을 경우
+            return response.json().then((data) => {
+              if (data.message === 'Member not found : Unauthorized') {
+                setErrors((prevErrors) => [...prevErrors, 'NotMember']);
+                throw new Error('등록된 이메일이 아닙니다.');
+              } else if (data.message === 'Unauthorized') {
+                setErrors((prevErrors) => [...prevErrors, 'WrongPassword']);
+                throw new Error('비밀번호가 잘못되었습니다.');
+              } else {
+                throw new Error('로그인에 실패했습니다.');
+              }
+            });
+          }
+        })
+        .then((data) => {
+          // 토큰 저장 로직
+          const accessToken = data.headers.get('Authorization').split(' ')[1]; // Bearer를 건너뛰고 실제 토큰 부분을 추출
+          const refreshToken = data.headers.get('Refresh');
+          localStorage.setItem('accessToken', accessToken);
+          localStorage.setItem('refreshToken', refreshToken);
+
+          // 상태 변경
+          useDispatch(loginSuccess({ accessToken, refreshToken }));
+
+          // 로그인 성공한 경우 메인 페이지로 이동
+          useNavigate('/');
+        })
+        .catch((error) => {
+          console.error('로그인 요청 중 오류가 발생했습니다.', error);
+        });
     }
   };
 
@@ -205,6 +255,9 @@ const Login = () => {
                 This email is not a valid email address.
               </ErrorMessage>
             )}
+            {errors.includes('NotMember') && (
+              <ErrorMessage>등록된 이메일이 아닙니다.</ErrorMessage>
+            )}
 
             <Label>
               Password
@@ -218,6 +271,9 @@ const Login = () => {
             />
             {errors.includes('Password_empty') && (
               <ErrorMessage>Password cannot be empty.</ErrorMessage>
+            )}
+            {errors.includes('WrongPassword') && (
+              <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
             )}
             <Button type="submit" onClick={handleLogin}>
               Log In
