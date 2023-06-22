@@ -86,20 +86,17 @@ public class StubData {
     }
 
     public static class MockAnswer {
-        private final static String content = "이건 댓글의 내용입니다. 내용이요. 내용.";
+        private final static String content = "이건 댓글의 내용입니다. 내용이요. 내용12312321121231231233123.";
         private static Map<HttpMethod, Object> stubRequestBody;
 
         static {
             stubRequestBody = new HashMap<>();
             AnswerDto.Post post = AnswerDto.Post.builder()
-                    .questionId(1L)
                     .content(content)
                     .build();
             stubRequestBody.put(HttpMethod.POST, post);
             AnswerDto.Patch patch = AnswerDto.Patch.builder()
-                    .questionId(1L)
                     .content(content)
-                    .answerId(1L)
                     .build();
             stubRequestBody.put(HttpMethod.PATCH, patch);
         }
