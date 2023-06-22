@@ -147,6 +147,7 @@ public class QuestionControllerTest {
                                                                 fieldWithPath("data.content").type(JsonFieldType.STRING).description("질문 내용"),
                                                                 fieldWithPath("data.view").type(JsonFieldType.NUMBER).description("조회수"),
                                                                 fieldWithPath("data.answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                                                fieldWithPath("data.vote").type(JsonFieldType.NUMBER).description("투표 개수"),
                                                                 fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("작성일"),
                                                                 fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("수정일")
                                                         )
@@ -260,6 +261,7 @@ public class QuestionControllerTest {
                                                                 fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("질문 내용"),
                                                                 fieldWithPath("data.[].view").type(JsonFieldType.NUMBER).description("조회수"),
                                                                 fieldWithPath("data.[].answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                                                fieldWithPath("data.[].vote").type(JsonFieldType.NUMBER).description("투표 개수"),
                                                                 fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성일"),
                                                                 fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정일")
                                                         )
@@ -311,6 +313,7 @@ public class QuestionControllerTest {
                                                                 fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("질문 내용"),
                                                                 fieldWithPath("data.[].view").type(JsonFieldType.NUMBER).description("조회수"),
                                                                 fieldWithPath("data.[].answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                                                fieldWithPath("data.[].vote").type(JsonFieldType.NUMBER).description("투표 개수"),
                                                                 fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성일"),
                                                                 fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정일"),
                                                                 fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이징 정보"),
