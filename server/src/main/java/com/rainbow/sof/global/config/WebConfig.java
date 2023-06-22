@@ -12,7 +12,6 @@ import java.util.List;
 
 
 @RequiredArgsConstructor
-@EnableJpaAuditing
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     private final AuthenticationArgumentResolver authenticationArgumentResolver;
