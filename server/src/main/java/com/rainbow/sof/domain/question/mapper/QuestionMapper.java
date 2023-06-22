@@ -35,6 +35,7 @@ public interface QuestionMapper {
         response.content( question.getContent() );
         response.createdAt( question.getCreatedAt() );
         response.modifiedAt( question.getModifiedAt() );
+        response.vote( question.getVote() );
 
         response.user( UserDto.QuestionResponse.builder()
                 .userId(question.getUser().getUserId())
