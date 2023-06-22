@@ -8,17 +8,23 @@ import { ReactComponent as InboxIcon } from '../../assets/icons/inbox.svg';
 import { ReactComponent as HambugerIcon } from '../../assets/icons/hambuger.svg';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { open } from '../../redux/reducers/modalSlice';
 
 const HeaderContainer = styled.header`
-  position: sticky;
+  position: fixed;
   min-width: auto;
   width: 100%;
   height: 3.5rem;
+  min-height: 56px;
   display: flex;
   align-items: center;
   border-top: 3px solid var(--orange);
   border-bottom: 1px solid var(--black-100);
   box-sizing: border-box;
+  top: 0;
+  background-color: var(--white);
+  z-index: 9999;
 `;
 
 const HeaderInner = styled.div`
@@ -163,6 +169,25 @@ export default function Header() {
   //   setIsLogin(!isLogin);
   // };
 
+  const dispatch = useDispatch();
+  // const successModal = () => {
+  //   dispatch(
+  //     open({
+  //       modalType: 'success',
+  //       isOpen: true,
+  //     }),
+  //   );
+  // };
+
+  const failModal = () => {
+    dispatch(
+      open({
+        modalType: 'fail',
+        isOpen: true,
+      }),
+    );
+  };
+
   return (
     <HeaderContainer>
       <HeaderInner>
@@ -171,7 +196,7 @@ export default function Header() {
         </LogoLink>
         <ol>
           <li>
-            <NavItem>Products</NavItem>
+            <NavItem onClick={failModal}>Products</NavItem>
           </li>
         </ol>
         <SearchForm id="search" role="search" action="" autoComplete="off">

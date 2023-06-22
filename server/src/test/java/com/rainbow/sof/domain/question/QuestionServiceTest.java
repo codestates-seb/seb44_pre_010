@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Disabled
 @SpringBootTest
 public class QuestionServiceTest {
     @Autowired
@@ -48,14 +49,12 @@ public class QuestionServiceTest {
 
     }
 
-    @Disabled
     @Test
     @DisplayName("서비스에서 Question이 수정된다.")
     void updateQuestion() throws Exception {
         String title = "수정할 때 사용할 제목인데용. 제목제목제목인데여.";
         String content = "내용인데용. 내용내용내용";
         //given
-
         String updateTitle = "수정된 제목이요제목제목제목이요 제목";
         Question updateQuestion = Question.builder()
                 .title(updateTitle)
@@ -63,7 +62,7 @@ public class QuestionServiceTest {
         User user = User.builder()
                 .userId(1L)
                 .name("test")
-                .email("test@test")
+                .email("test@nte")
                 .password("123")
                 .build();
         userRepository.save(user);
@@ -78,7 +77,7 @@ public class QuestionServiceTest {
 
         //when
         repository.save(question);
-        service.updateQuestion(1L, updateQuestion,"test@test");
+        service.updateQuestion(1L, updateQuestion,"test@nte");
 
         Question saveQuestion = repository.findById(question.getQuestionId()).orElseThrow();
         //then

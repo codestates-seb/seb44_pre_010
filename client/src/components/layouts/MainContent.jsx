@@ -6,6 +6,7 @@ const MainContentWrapper = styled.div`
   border-left: 1px solid var(--black-100);
   padding: 24px;
   box-sizing: border-box;
+  margin-top: 56px;
 `;
 
 export default function MainContent({ children }) {

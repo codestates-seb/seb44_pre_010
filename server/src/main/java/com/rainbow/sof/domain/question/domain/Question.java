@@ -26,7 +26,7 @@ public class Question extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column
+    @Column(columnDefinition = "integer default 0")
     private int view;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,6 +35,11 @@ public class Question extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "question")
     private List<Answer> answers;
+
+    @Column(columnDefinition = "integer default 0")
+    private int vote;
+    @OneToMany(mappedBy = "question")
+    private List<QuestionVote> questionVotes;
 
     public void updateTitle(String title){
         this.title = title;
@@ -56,4 +61,8 @@ public class Question extends BaseTimeEntity {
         return !this.answers.isEmpty();
     }
 
+    public void calculateVote(String status){
+        if(status.equals("up")) this.vote++;
+        else                    this.vote--;
+    }
 }
