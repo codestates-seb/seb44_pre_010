@@ -14,7 +14,9 @@ public enum ExceptionCode {
     CANNOT_DELETE_QUESTION(403,"Question can not delete"),
     ANSWER_NOT_FOUND(404, "Answer not found"),
     USER_EXISTS(409,"USER EXISTS"),
-    USER_MISMATCH(403,"The login user and the author are different");
+    USER_MISMATCH(403,"The login user and the author are different"),
+    QUESTION_VOTE_ALREADY(403, "Already question voted"),
+    QUESTION_VOTE_NOT_FOUND(404, "Question vote not found");
 
     @Getter
     private int status;

@@ -3,6 +3,7 @@ package com.rainbow.sof.domain.user.entity;
 
 import com.rainbow.sof.domain.answer.domain.Answer;
 import com.rainbow.sof.domain.question.domain.Question;
+import com.rainbow.sof.domain.question.domain.QuestionVote;
 import com.rainbow.sof.global.common.BaseTimeEntity;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
@@ -56,6 +57,9 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Answer> answerList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<QuestionVote> questionVotes;
 
     public enum Status{
         USER_ACTIVE("활성상태"),
