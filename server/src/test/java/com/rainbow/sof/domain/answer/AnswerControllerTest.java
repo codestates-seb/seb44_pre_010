@@ -143,12 +143,12 @@ public class AnswerControllerTest {
         )
         //then
                 .andExpect(status().isNoContent())
-                .andDo(MockMvcRestDocumentationWrapper.document("질문 삭제 예제",
+                .andDo(MockMvcRestDocumentationWrapper.document("답변 삭제 예제",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         resource(
                                 ResourceSnippetParameters.builder()
-                                        .description("질문 삭제 예제")
+                                        .description("답변 삭제 예제")
                                         .pathParameters(
                                                 parameterWithName("question-id").description("질문 식별자"),
                                                 parameterWithName("answer-id").description("답변 식별자")
