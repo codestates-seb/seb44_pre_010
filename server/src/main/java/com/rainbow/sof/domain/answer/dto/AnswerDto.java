@@ -21,9 +21,6 @@ public class AnswerDto {
         @NotSpace(message = "답변 세부내용은 공백이 아니어야 합니다.")
         @Size(min = 30, max = 220, message = "답변 세부내용은 30자 이상이어야 합니다.")
         private String content;
-        public void addQuestionId(long questionId) {
-            this.questionId = questionId;
-        }
     }
 
     @Builder
@@ -36,10 +33,6 @@ public class AnswerDto {
         @NotSpace(message = "답변 세부내용은 공백이 아니어야 합니다.")
         @Size(min = 30, max = 220, message = "답변 세부내용은 30자 이상이어야 합니다.")
         private String content;
-
-//        public void addQuestionId(long questionId) {
-//            this.questionId = questionId;
-//        }
     }
 
     @Builder
@@ -56,5 +49,18 @@ public class AnswerDto {
         private Long questionId;
 
         // TODO: Users 추후에 추가
+    }
+
+    /**
+     * @comment myPageResponse 을 위한 클래스입니다.
+     * @author 신영호
+     */
+    @Getter
+    @Builder
+    public static class MyPageAnswerResponse{
+        private Long answerId;
+        private String content;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
     }
 }

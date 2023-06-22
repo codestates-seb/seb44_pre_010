@@ -11,7 +11,7 @@ const LeftSideBarContainer = styled.div`
 const Inner = styled.div`
   position: sticky;
   max-height: calc(100vh - 56px);
-  height: 100%;
+  height: fit-content;
   width: auto;
   padding-top: 24px;
   margin-bottom: 8px;

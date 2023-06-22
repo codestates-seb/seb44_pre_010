@@ -1,6 +1,7 @@
 package com.rainbow.sof.domain.user.service;
 
 
+import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import com.rainbow.sof.domain.user.entity.User;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
@@ -26,6 +27,16 @@ public class UserService {
         return repository.save(user);
     }
 
+    public User updateUser(String email, long id, UserDto.Patch patchUser){
+        verifyExistsEmail(patchUser.getName());
+       User updateUser =  checkToFindByUserFromEmail(email,id);
+       Optional.ofNullable(patchUser.getName())
+               .ifPresent(updateUser::updateName);
+
+       return findVerifiedUser(id);
+
+    }
+
     public void deleteUser(long userId){
         User user = findVerifiedUser(userId);
 
@@ -39,11 +50,25 @@ public class UserService {
         );
     }
 
-    public User findByUserFromEmail(String email){
+    public User checkToFindByUserFromEmail(String email,long id){
+        User findUser = findByUserFromEmail(email);
+        compareToEntityCheck(findUser,id);
+
+        return findUser;
+
+    }
+
+    public User findByUserFromEmail(String email) {
         Optional<User> user = repository.findByEmail(email);
-        return user.orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
-        );
+        User findUser = user.orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        return findUser;
+    }
+
+    private void compareToEntityCheck(User user,long id) {
+        if (user.getUserId() != id){
+            throw new BusinessLogicException(ExceptionCode.INVALID_TOKEN);
+        }
     }
 
     private void verifyExistsEmail(String email) {

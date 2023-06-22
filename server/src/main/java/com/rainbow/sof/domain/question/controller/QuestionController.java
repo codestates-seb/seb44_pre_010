@@ -33,7 +33,7 @@ public class QuestionController {
     private final QuestionMapper questionMapper;
     @PostMapping()
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post request, @AuthenticationName String email){
-        Question question = questionService.createQuestion(questionMapper.questionDtoPostToQuestion(request));
+        Question question = questionService.createQuestion(questionMapper.questionDtoPostToQuestion(request), email);
         URI location = UriCreator.createUri(QUESTION_DEFAULT_URL, question.getQuestionId());
 
         return ResponseEntity.created(location).build();
@@ -48,7 +48,7 @@ public class QuestionController {
                 new SingleResponseDto<>(responses), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping(params = {"tab","page"})
     public ResponseEntity getQuestions(@RequestParam(name = "tab", defaultValue = "Newest")String sort,
                                        @RequestParam(name = "page", defaultValue = "1")int page){
         Page<Question> pageQuestions = questionService.findPageQuestions(sort, page); // 30, 5
@@ -71,15 +71,17 @@ public class QuestionController {
 
     @PatchMapping("/{id}")
     public ResponseEntity patchQuestion(@PathVariable("id") @Positive long id
-                                            ,@RequestBody @Valid QuestionDto.Patch request){
-        Question question = questionService.updateQuestion(id, questionMapper.questionDtoPatchToQuestion(request));
+                                            ,@RequestBody @Valid QuestionDto.Patch request
+                                            ,@AuthenticationName String email){
+        Question question = questionService.updateQuestion(id, questionMapper.questionDtoPatchToQuestion(request), email);
         URI location = UriCreator.createUri(QUESTION_DEFAULT_URL, question.getQuestionId());
         return ResponseEntity.created(location).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteQuestion(@PathVariable("id") @Positive long id){
-        questionService.deleteQuestion(id);
+    public ResponseEntity deleteQuestion(@PathVariable("id") @Positive long id
+                                        ,@AuthenticationName String email){
+        questionService.deleteQuestion(id, email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

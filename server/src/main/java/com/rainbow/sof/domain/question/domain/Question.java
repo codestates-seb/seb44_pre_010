@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@DynamicUpdate
 @Entity
 public class Question extends BaseTimeEntity {
     @Id
@@ -27,15 +26,20 @@ public class Question extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column
+    @Column(columnDefinition = "integer default 0")
     private int view;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USERS_ID")
     private User user;
 
     @OneToMany(mappedBy = "question")
     private List<Answer> answers;
+
+    @Column(columnDefinition = "integer default 0")
+    private int vote;
+    @OneToMany(mappedBy = "question")
+    private List<QuestionVote> questionVotes;
 
     public void updateTitle(String title){
         this.title = title;
@@ -45,7 +49,20 @@ public class Question extends BaseTimeEntity {
         this.title = content;
     }
 
+    public void insertUser(User user){
+        this.user = user;
+    }
+
     public void updateView(){
         this.view++;
+    }
+
+    public boolean hasAnswers() {
+        return !this.answers.isEmpty();
+    }
+
+    public void calculateVote(String status){
+        if(status.equals("up")) this.vote++;
+        else                    this.vote--;
     }
 }

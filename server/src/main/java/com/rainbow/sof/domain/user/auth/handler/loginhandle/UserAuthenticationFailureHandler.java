@@ -1,4 +1,4 @@
-package com.rainbow.sof.domain.user.auth.handler;
+package com.rainbow.sof.domain.user.auth.handler.loginhandle;
 
 import com.google.gson.Gson;
 import com.rainbow.sof.global.common.ErrorResponse;
@@ -21,11 +21,11 @@ public class UserAuthenticationFailureHandler implements AuthenticationFailureHa
                                         AuthenticationException exception) throws IOException, ServletException {
         log.error("# Authentication failed: {}", exception.getMessage());
         Gson gson = new Gson();
-        extracted(response, gson,exception);
+        sendErrorResponse(response, gson,exception);
 
     }
 
-    private static void extracted(HttpServletResponse response, Gson gson, AuthenticationException exception) throws IOException {
+    private static void sendErrorResponse(HttpServletResponse response, Gson gson, AuthenticationException exception) throws IOException {
 
         String exceptionMassage=exception.getMessage();
         ErrorResponse errorResponse = getErrorResponse(exceptionMassage);
@@ -39,8 +39,8 @@ public class UserAuthenticationFailureHandler implements AuthenticationFailureHa
     private static ErrorResponse getErrorResponse(String exceptionMassage) {
         ErrorResponse errorResponse =
                 exceptionMassage.equals(ExceptionCode.USER_NOT_FOUND.getMessage()) ?
-                        ErrorResponse.of(HttpStatus.UNAUTHORIZED, exceptionMassage +" : "+HttpStatus.UNAUTHORIZED.getReasonPhrase()) :
-                        ErrorResponse.of(HttpStatus.UNAUTHORIZED);
+                        ErrorResponse.of(HttpStatus.UNAUTHORIZED, exceptionMassage +" : "+HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                        : ErrorResponse.of(HttpStatus.UNAUTHORIZED);
         return errorResponse;
     }
 }

@@ -6,6 +6,7 @@ import Footer from './components/layouts/Footer.jsx';
 import SideMenu from './components/layouts/SideMenu.jsx';
 import MainContent from './components/layouts/MainContent.jsx';
 import { useEffect, useState } from 'react';
+import GlobalModal from './components/modal/GlobalModal.jsx';
 
 const MainWrapper = styled.main`
   max-width: 1264px;
@@ -35,6 +36,7 @@ function App() {
         </MainContent>
       </MainWrapper>
       <Footer />
+      <GlobalModal />
     </>
   );
 }
