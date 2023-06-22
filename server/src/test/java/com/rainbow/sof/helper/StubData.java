@@ -2,16 +2,34 @@ package com.rainbow.sof.helper;
 
 import com.rainbow.sof.domain.answer.dto.AnswerDto;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
+import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
 import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import org.springframework.http.HttpMethod;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StubData {
 
+    public static class MockSecurity{
+        public static String getValidAccessToken(String secretKey, String role) {
+            JwtTokenizer jwtTokenizer = new JwtTokenizer();
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("userId", 1L);
+            claims.put("roles", List.of(role));
+
+            String subject = "test access token";
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, 1);
+            Date expiration = calendar.getTime();
+
+            String base64EncodedSecretKey = jwtTokenizer.secretKeyEncodeBase64(secretKey);
+
+            String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
+
+            return accessToken;
+        }
+    }
     public static class MockUser {
         public static UserDto.QuestionResponse getSingleResponseBody() {
             return UserDto.QuestionResponse.builder()
