@@ -78,7 +78,8 @@ public class UserController {
     @DeleteMapping("/users/{user-id}")
     public ResponseEntity<?> deleteUser(@AuthenticationName String email,
             @Valid @PathVariable("user-id") @Positive long id){
-        service.deleteUser(email,id);
+        User user = service.checkToFindByUserFromEmail(email,id);
+        service.deleteUser(user.getUserId());
         URI location = UriCreator.createUri(DELETE_ACTION_URL.getUri());
         return ResponseEntity.noContent().location(location).build();
     }

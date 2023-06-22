@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -25,26 +24,23 @@ public class UserService {
         verifyExistsEmail(user.getEmail());
         String passwordEncode = passwordEncoder.encode(user.getPassword());
         user.updatePassword(passwordEncode);
-        return saveUser(user);
+        return repository.save(user);
     }
 
     public User updateUser(String email, long id, UserDto.Patch patchUser){
         verifyExistsEmail(patchUser.getName());
-        User updateUser =  checkToFindByUserFromEmail(email,id);
-        Optional.ofNullable(patchUser.getName())
+       User updateUser =  checkToFindByUserFromEmail(email,id);
+       Optional.ofNullable(patchUser.getName())
                .ifPresent(updateUser::updateName);
 
        return findVerifiedUser(id);
 
     }
 
-    public void deleteUser(String email,long userId){
-        User disableUser = checkToFindByUserFromEmail(email,userId);
-        disableUser.updateStatus(User.Status.USER_QUIT);
-        disableUser.updateEmail("disable@disable.com");
-        disableUser.updateModifiedAt(LocalDateTime.now());
+    public void deleteUser(long userId){
+        User user = findVerifiedUser(userId);
 
-        saveUser(disableUser);
+        repository.delete(user);
     }
 
     public User findVerifiedUser(long userId) {
@@ -69,22 +65,10 @@ public class UserService {
         return findUser;
     }
 
-    private User saveUser(User user) {
-        return repository.save(user);
-    }
-
     private void compareToEntityCheck(User user,long id) {
-        IsUserActive(user);
         if (user.getUserId() != id){
             throw new BusinessLogicException(ExceptionCode.INVALID_TOKEN);
         }
-
-    }
-
-    private void IsUserActive(User user) {
-       if (user.getStatus().equals(User.Status.USER_QUIT)){
-           throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND);
-       };
     }
 
     private void verifyExistsEmail(String email) {

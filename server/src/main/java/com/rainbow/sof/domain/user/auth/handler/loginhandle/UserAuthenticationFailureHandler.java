@@ -3,13 +3,9 @@ package com.rainbow.sof.domain.user.auth.handler.loginhandle;
 import com.google.gson.Gson;
 import com.rainbow.sof.global.common.ErrorResponse;
 import com.rainbow.sof.global.error.ExceptionCode;
-import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -20,13 +16,10 @@ import java.io.IOException;
 
 @Slf4j
 public class UserAuthenticationFailureHandler implements AuthenticationFailureHandler {
-    private static final String IssueAtAuthenticationProvider =  HttpStatus.UNAUTHORIZED.getReasonPhrase();
-
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                        AuthenticationException exception) throws IOException  {
+                                        AuthenticationException exception) throws IOException, ServletException {
         log.error("# Authentication failed: {}", exception.getMessage());
-        log.error("# Authentication failed Exception ClassName: {} ", exception.getClass().getName());
         Gson gson = new Gson();
         sendErrorResponse(response, gson,exception);
 
@@ -34,12 +27,7 @@ public class UserAuthenticationFailureHandler implements AuthenticationFailureHa
 
     private static void sendErrorResponse(HttpServletResponse response, Gson gson, AuthenticationException exception) throws IOException {
 
-        String exceptionMassage =
-                exception.getClass().getName().equals(
-                        BadCredentialsException.class.getName()
-                ) ? IssueAtAuthenticationProvider :
-                exception.getMessage();
-
+        String exceptionMassage=exception.getMessage();
         ErrorResponse errorResponse = getErrorResponse(exceptionMassage);
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -49,9 +37,10 @@ public class UserAuthenticationFailureHandler implements AuthenticationFailureHa
     }
 
     private static ErrorResponse getErrorResponse(String exceptionMassage) {
-        if (exceptionMassage == null || exceptionMassage.equals(IssueAtAuthenticationProvider)){
-            return ErrorResponse.of(HttpStatus.UNAUTHORIZED);
-        }
-        return ErrorResponse.of(HttpStatus.UNAUTHORIZED, exceptionMassage +" : "+HttpStatus.UNAUTHORIZED.getReasonPhrase());
+        ErrorResponse errorResponse =
+                exceptionMassage.equals(ExceptionCode.USER_NOT_FOUND.getMessage()) ?
+                        ErrorResponse.of(HttpStatus.UNAUTHORIZED, exceptionMassage +" : "+HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                        : ErrorResponse.of(HttpStatus.UNAUTHORIZED);
+        return errorResponse;
     }
 }

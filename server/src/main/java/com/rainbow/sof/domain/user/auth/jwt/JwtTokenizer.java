@@ -18,10 +18,7 @@ import java.util.*;
 public class JwtTokenizer {
 
     @Getter
-    private static String ADMIN_SUBJECT = "ADMIN@ADMIN.com";
-
-    @Getter
-    private static String USER_DISABLE_MAIL="disable@disable.com";
+    private String ADMIN_SUBJECT = "ADMIN@ADMIN.com";
     @Getter
     @Value("thisIsTestScretKeythisIsTestScretKeythisIsTestScretKeythisIsTestScretKey")
     private String secretKeySting;

@@ -211,7 +211,7 @@ public class UserControllerTest {
         mockMvc.perform(RestDocumentationRequestBuilders.patch(User_USERDATA_ORIGIN_URI +"/{user-id}",testUserEntity.getUserId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer {ACCESS_TOKEN}")
+                        .header(HttpHeaders.AUTHORIZATION, "\u200BBearer {ACCESS_TOKEN}")
                                 .content(context)
                 )
 
@@ -244,9 +244,9 @@ public class UserControllerTest {
     @DisplayName("회원 탈퇴 테스트")
     public void deleteUserTest() throws Exception{
         given(service.checkToFindByUserFromEmail(Mockito.anyString(),Mockito.anyLong())).willReturn(testUserEntity);
-        doNothing().when(service).deleteUser(Mockito.anyString(),Mockito.anyLong());
+        doNothing().when(service).deleteUser(Mockito.anyLong());
         mockMvc.perform(RestDocumentationRequestBuilders.delete(User_USERDATA_ORIGIN_URI +"/{user-id}",testUserEntity.getUserId())
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer ".concat("AccessToken"))
+                        .header(HttpHeaders.AUTHORIZATION, "\u200BBearer {ACCESS_TOKEN}")
                         .accept(MediaType.APPLICATION_JSON))
 
                 .andExpect(MockMvcResultMatchers.status().isNoContent())
