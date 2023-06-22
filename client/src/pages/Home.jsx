@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 const Maincontainer = styled.div`
   max-width: 68.75rem;
   width: calc(100% - 10.25rem);
@@ -67,7 +68,7 @@ const AQuecontainer = styled.div`
   margin-left: 0.75rem;
   text-align: left;
 `;
-const Askquestion = styled.a`
+const Askquestion = styled(Link)`
   background-color: rgb(10, 149, 255);
   color: white;
   border-bottom-left-radius: 0.188rem;
@@ -119,7 +120,7 @@ const Categorylink = styled.div`
   text-align: left;
   line-height: 0.938rem;
 `;
-const Categoryitem = styled.a`
+const Categoryitem = styled(Link)`
   margin-right: -0.063rem;
   z-index: 1.563rem;
   background-color: #f5f4f4;
@@ -414,7 +415,7 @@ const Block2 = styled.div`
   row-gap: 0.25rem;
   text-align: left;
 `;
-const UserImg = styled.a`
+const UserImg = styled(Link)`
   div {
     box-sizing: border-box;
     color: rgb(0, 116, 204);
@@ -541,19 +542,19 @@ function Home() {
             <Blockitem></Blockitem>
             <Categorylist>
               <Categorylink>
-                <Categoryitem1 href="https://stackoverflow.com/?tab=interesting">
+                <Categoryitem1 to="https://stackoverflow.com/?tab=interesting">
                   Interesting
                 </Categoryitem1>
-                <Categoryitem href="https://stackoverflow.com/?tab=bounties">
+                <Categoryitem to="https://stackoverflow.com/?tab=bounties">
                   <span>226</span> Bountied
                 </Categoryitem>
-                <Categoryitem href="https://stackoverflow.com/?tab=hot">
+                <Categoryitem to="https://stackoverflow.com/?tab=hot">
                   Hot
                 </Categoryitem>
-                <Categoryitem href="https://stackoverflow.com/?tab=week">
+                <Categoryitem to="https://stackoverflow.com/?tab=week">
                   Week
                 </Categoryitem>
-                <Categoryitem href="https://stackoverflow.com/?tab=month">
+                <Categoryitem to="https://stackoverflow.com/?tab=month">
                   Month
                 </Categoryitem>
               </Categorylink>
@@ -587,29 +588,27 @@ function Home() {
                           {/* ⬇ 여기가  Tags 컴포넌트 최상위  */}
                           <TagItems>
                             <TagItemsList>
-                              {question.tags.map((tag) => (
-                                <li key={question.questionId}>
-                                  <a
-                                    href={`https://stackoverflow.com/questions/tagged/${tag}`}
+                              {question.tags.map((tag, i) => (
+                                <li key={i}>
+                                  <Link
+                                    to={`https://stackoverflow.com/questions/tagged/${tag}`}
                                   >
                                     {tag}
-                                  </a>
+                                  </Link>
                                 </li>
                               ))}
                             </TagItemsList>
                           </TagItems>
 
                           <Block2>
-                            <UserImg>
+                            <UserImg
+                              to={`https://stackoverflow.com/users/${question.user.userId}/${question.name}`}
+                            >
                               <div>
-                                <a
-                                  href={`https://stackoverflow.com/users/${question.user.userId}/${question.name}`}
-                                >
-                                  <img
-                                    src={question.user.profile_image}
-                                    alt="유저 이미지 사진"
-                                  ></img>
-                                </a>
+                                <img
+                                  src={question.user.profile_image}
+                                  alt="유저 이미지 사진"
+                                ></img>
                               </div>
                             </UserImg>
                             <UserIdList>
@@ -625,11 +624,11 @@ function Home() {
                               </UserCommit>
                             </UserIdList>
                             <UserTime>
-                              <a
-                                href={`https://stackoverflow.com/questions/${question.questionId}/${question.title}`}
+                              <Link
+                                to={`https://stackoverflow.com/questions/${question.questionId}/${question.title}`}
                               >
                                 asked <span>2 mins ago</span>
-                              </a>
+                              </Link>
                             </UserTime>
                           </Block2>
                         </Tag>
