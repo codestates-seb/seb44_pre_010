@@ -24,7 +24,7 @@ const Maincontainer = styled.div`
 `;
 const Mainbar = styled.div`
   box-sizing: border-box;
-  color: rgb(35, 38, 41);
+  color: rgb(35, 38, 42);
   display: block;
   font-weight: 25rem;
   line-height: 1.063rem;
