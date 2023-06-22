@@ -51,17 +51,17 @@ public class JwtVerificationFilterV2 extends OncePerRequestFilter {
 
             createUsernamePasswordAuthenticationToken(claims, authorities);
         }
-        catch (BusinessLogicException re){
-            request.setAttribute("exception", re);
-        }
         catch (SignatureException se){
-            request.setAttribute("exception", se);
+            request.setAttribute("exception", ExceptionCode.UNAUTHORIZED);
         }
         catch (ExpiredJwtException ee) {
-            request.setAttribute("exception", ee);
+            request.setAttribute("exception", ExceptionCode.EXPIRED_TOKEN);
+        }
+        catch (BusinessLogicException re){
+            request.setAttribute("exception",  ExceptionCode.UNAUTHORIZED);
         }
         catch (Exception e) {
-            request.setAttribute("exception", e);
+            request.setAttribute("exception", ExceptionCode.UNAUTHORIZED);
         }
 
         filterChain.doFilter(request,response);
