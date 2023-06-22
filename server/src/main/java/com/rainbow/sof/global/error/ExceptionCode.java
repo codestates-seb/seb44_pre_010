@@ -4,6 +4,7 @@ import lombok.Getter;
 
 public enum ExceptionCode {
 
+    ACCESS_DENIED(401,"This account is inaccessible"),
     INVALID_TOKEN(401,"is not the same token as data"),
     UNAUTHORIZED(401,"invalid token Data"),
     EXPIRED_TOKEN(401,"Token has expired"),
