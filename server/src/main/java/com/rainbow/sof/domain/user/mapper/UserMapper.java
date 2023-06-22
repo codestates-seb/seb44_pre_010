@@ -32,7 +32,7 @@ public interface UserMapper {
         List<AnswerDto.MyPageAnswerResponse> AnsweList = user.getAnswerList().stream()
                 .map(answer ->AnswerDto.MyPageAnswerResponse.builder()
                         .answerId(answer.getAnswerId())
-                        .modifiedAt(answer.getModifiedAt())
+                        .createdAt(answer.getModifiedAt())
                         .modifiedAt(answer.getModifiedAt())
                         .content(answer.getContent())
                         .build())
@@ -42,6 +42,7 @@ public interface UserMapper {
                 .name(user.getName())
                 .createdAt(user.getCreatedAt())
                 .questionList(questionList)
+                .AnswerList(AnsweList)
                 .build();
     }
 }
