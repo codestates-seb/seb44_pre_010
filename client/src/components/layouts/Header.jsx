@@ -8,6 +8,8 @@ import { ReactComponent as InboxIcon } from '../../assets/icons/inbox.svg';
 import { ReactComponent as HambugerIcon } from '../../assets/icons/hambuger.svg';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { open } from '../../redux/reducers/modalSlice';
 
 const HeaderContainer = styled.header`
   position: sticky;
@@ -163,6 +165,25 @@ export default function Header() {
   //   setIsLogin(!isLogin);
   // };
 
+  const dispatch = useDispatch();
+  // const successModal = () => {
+  //   dispatch(
+  //     open({
+  //       modalType: 'success',
+  //       isOpen: true,
+  //     }),
+  //   );
+  // };
+
+  const failModal = () => {
+    dispatch(
+      open({
+        modalType: 'fail',
+        isOpen: true,
+      }),
+    );
+  };
+
   return (
     <HeaderContainer>
       <HeaderInner>
@@ -171,7 +192,7 @@ export default function Header() {
         </LogoLink>
         <ol>
           <li>
-            <NavItem>Products</NavItem>
+            <NavItem onClick={failModal}>Products</NavItem>
           </li>
         </ol>
         <SearchForm id="search" role="search" action="" autoComplete="off">

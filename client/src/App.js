@@ -6,6 +6,8 @@ import Footer from './components/layouts/Footer.jsx';
 import SideMenu from './components/layouts/SideMenu.jsx';
 import MainContent from './components/layouts/MainContent.jsx';
 import { useEffect, useState } from 'react';
+import GlobalModal from './components/modal/GlobalModal.jsx';
+import Providers from './components/layouts/Providers.jsx';
 
 const MainWrapper = styled.main`
   max-width: 1264px;
@@ -26,7 +28,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <Providers>
       <Header />
       <MainWrapper>
         <SideMenu selected={isSelect} handleSelected={onHandleSelect} />
@@ -35,7 +37,8 @@ function App() {
         </MainContent>
       </MainWrapper>
       <Footer />
-    </>
+      <GlobalModal />
+    </Providers>
   );
 }
 
