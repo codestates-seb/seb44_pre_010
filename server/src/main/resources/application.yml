@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_PATH}
-    username: ${DB_USERNAME}
-    password: ${DB_PW}
+    url: jdbc:mysql://localhost:3306/rainbow
+    username: root
+    password: 0711dayoung
     hikari:
       maximum-pool-size: 4
   jpa:
