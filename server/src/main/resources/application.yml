@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/rainbow
-    username: root
-    password: 0711dayoung
+    url: ${DB_PATH}
+    username: ${DB_USERNAME}
+    password: ${DB_PW}
     hikari:
       maximum-pool-size: 4
   jpa:
@@ -18,8 +18,8 @@ spring:
       client:
         registration:
           google:
-            clientId: 512989187776-v3qd22qlicq0ijalmt20tj4kih03en60.apps.googleusercontent.com
-            clientSecret: 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
+            clientId: ${GOOGLE_CLIENTID}
+            clientSecret: ${GOOGLE_CLIENTSECRET}
             scope:
               - email
               - profile
@@ -40,13 +40,11 @@ springdoc:
 
 jwt:
   key:
-    secret: thisIsTestScretKeythisIsTestScretKeythisIsTestScretKeythisIsTestScretKey
-  access-token-expiration-minutes: 60
-  refresh-token-expiration-minutes: 600
+    secret: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: ${ACCESS_EXPIRATION_MINUTES}
+  refresh-token-expiration-minutes: ${REFRESH_EXPIRATION_MINUTES}
 
 User:
   mail:
-    admin: ADMIN@ADMIN.com
-    disable: TEST@TESTTEST.com
-##${ADMIN_EMAIL}
-##${DISABLE_USER}
+    admin: ${ADMIN_EMAIL}
+    disable: ${DISABLE_USER}
