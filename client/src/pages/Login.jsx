@@ -8,6 +8,7 @@ import { ReactComponent as GithubLogo } from '../assets/icons/logo_github.svg';
 import { ReactComponent as FacebookLogo } from '../assets/icons/logo_facebook.svg';
 import { useNavigate } from 'react-router-dom';
 import { loginSuccess } from '../redux/reducers/loginSlice';
+import GlobalModal from '../components/modal/GlobalModal';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
