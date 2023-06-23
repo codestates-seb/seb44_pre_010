@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
     User userSignupPostToUser(UserDto.SignUpPost signUpPost);
+    UserDto.Response userToUserUserDtoResponse(User user);
 
     User userLoginPostTouser(UserDto.CreationLoginDto creationLoginDto);
     UserDto.LoginResponse userToLoginDto(User user);

@@ -37,7 +37,7 @@ public class UserController {
         User user = mapper.userSignupPostToUser(signUpPost);
         User createUser=service.createUser(user);
         URI location = UriCreator.createUri(USER_DEFAULT_URL.getUri(), createUser.getUserId());
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(mapper.userToUserUserDtoResponse(user));
     }
 
 
