@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import BlueButton from '../components/common/BlueButton';
+
+import { useEffect, useState } from 'react';
+import { Link, useOutletContext } from 'react-router-dom';
 
 const Maincontainer = styled.div`
   max-width: 68.75rem;
@@ -69,7 +70,6 @@ const AQuecontainer = styled.div`
   margin-left: 0.75rem;
   text-align: left;
 `;
-
 const Category = styled.div`
   display: flex;
   line-height: 1.063rem;
@@ -304,7 +304,6 @@ const Tag = styled.div`
   vertical-align: baseline;
   word-wrap: break-word;
 `;
-
 const Block2 = styled.div`
   align-items: center;
   background-color: rgba(0, 0, 0, 0);
@@ -421,9 +420,10 @@ const UserTime = styled.time`
 function Home() {
   const [questions, setQuestions] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
-  isFetching;
+  const { onHandleSelect } = useOutletContext();
 
   useEffect(() => {
+    onHandleSelect(0);
     const getAllQuestions = async () => {
       setIsFetching(true);
       // const response = await fetch('/data/questions.json');
