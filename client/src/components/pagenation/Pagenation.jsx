@@ -91,11 +91,11 @@ function Pagination({ total, limit, setPage, page, setLimit }) {
           <PageBtn onClick={() => handleLimitChange(5)} active={limit === 5}>
             5
           </PageBtn>
+          <PageBtn onClick={() => handleLimitChange(30)} active={limit === 15}>
+            15
+          </PageBtn>
           <PageBtn onClick={() => handleLimitChange(30)} active={limit === 30}>
             30
-          </PageBtn>
-          <PageBtn onClick={() => handleLimitChange(30)} active={limit === 50}>
-            50
           </PageBtn>
         </RightButtons>
       </Nav>
