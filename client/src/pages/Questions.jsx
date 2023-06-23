@@ -488,7 +488,7 @@ const UserId = styled.div`
     color: rgb(0, 116, 204);
     cursor: pointer;
     line-height: 0.75rem;
-    margin: -0.125rem;
+    margin: 0.125rem;
   }
 `;
 const UserTime = styled.time`
