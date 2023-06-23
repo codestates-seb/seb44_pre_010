@@ -1,0 +1,30 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  datasource:
+    url: jdbc:h2:mem:test
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 512989187776-v3qd22qlicq0ijalmt20tj4kih03en60.apps.googleusercontent.com
+            clientSecret: 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
+            scope:
+              - email
+              - profile
+jwt:
+  key:
+    secret: dsadsadsfdsfgbdfhfthyrtyrhfghfsgdagfgnghjjyuutyyertdsffdfhfghgjtyjytijtyhtyyreyrtwtdfgfhfhd
+  access-token-expiration-minutes: 1
+  refresh-token-expiration-minutes: 1
+
