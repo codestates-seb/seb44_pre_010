@@ -1,15 +1,10 @@
 import styled from 'styled-components';
-import profileImage from '../../assets/imgs/profile.png';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg';
 import { ReactComponent as Logo } from '../../assets/imgs/mainLogo.svg';
-import { ReactComponent as AchieveIcon } from '../../assets/icons/achieve.svg';
-import { ReactComponent as HelpIcon } from '../../assets/icons/help.svg';
-import { ReactComponent as InboxIcon } from '../../assets/icons/inbox.svg';
-import { ReactComponent as HambugerIcon } from '../../assets/icons/hambuger.svg';
+import { ReactComponent as LogOutIcon } from '../../assets/icons/logout.svg';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { open } from '../../redux/reducers/modalSlice';
+import UserAvatar from '../UserAvatar';
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -118,21 +113,6 @@ const NavContainer = styled.ol`
   }
 `;
 
-const NavItem = styled.a`
-  display: flex;
-  position: relative;
-  align-items: center;
-  padding: 0.5rem 0.75rem;
-  font-size: 13px;
-  color: var(--black-600);
-  cursor: pointer;
-
-  &:hover {
-    background-color: var(--black-075);
-    border-radius: 15px;
-  }
-`;
-
 const Button = styled(Link)`
   align-self: center;
   font-size: 13px;
@@ -155,37 +135,24 @@ const SignUpButton = styled(Button)`
   background-color: var(--blue-500);
 `;
 
+const IconListItem = styled(Link)`
+  cursor: pointer;
+  transition: all 500s ease-in;
+  margin: 0 0.5rem;
+
+  &:hover {
+    transform: scale(1.5);
+  }
+`;
+
 export default function Header() {
   const [searchKeyword, setSearchKeyword] = useState('');
-  const isLogin = false;
+  const isLogin = true;
   // const [isLogin, setIsLogin] = useState(false); // 임시 로그인 상태값입니다. 차후 로그인 세션 구현이 되면 리팩토링 예정
+  // const dispatch = useDispatch();
 
   const onHandleChangeKeyword = (e) => {
     setSearchKeyword(e.target.value);
-  };
-
-  // const onHandleLogin = (e) => {
-  //   e.preventDefault();
-  //   setIsLogin(!isLogin);
-  // };
-
-  const dispatch = useDispatch();
-  // const successModal = () => {
-  //   dispatch(
-  //     open({
-  //       modalType: 'success',
-  //       isOpen: true,
-  //     }),
-  //   );
-  // };
-
-  const failModal = () => {
-    dispatch(
-      open({
-        modalType: 'fail',
-        isOpen: true,
-      }),
-    );
   };
 
   return (
@@ -194,11 +161,6 @@ export default function Header() {
         <LogoLink to="/">
           <LogoIcon />
         </LogoLink>
-        <ol>
-          <li>
-            <NavItem onClick={failModal}>Products</NavItem>
-          </li>
-        </ol>
         <SearchForm id="search" role="search" action="" autoComplete="off">
           <SearchFormInner>
             <SearchInput
@@ -228,30 +190,16 @@ export default function Header() {
             </NavContainer>
           ) : (
             <NavContainer>
-              <li style={{ padding: '0 12px' }}>
-                <img src={profileImage} alt="profile" width={24} height={24} />
-                <span>1</span>
-              </li>
-              <li>
-                <a href="/">
-                  <InboxIcon />
-                </a>
-              </li>
-              <li>
-                <a href="/">
-                  <AchieveIcon />
-                </a>
-              </li>
-              <li>
-                <a href="/">
-                  <HelpIcon />
-                </a>
-              </li>
-              <li>
-                <a href="/">
-                  <HambugerIcon />
-                </a>
-              </li>
+              <IconListItem>
+                <Link to="/mypage">
+                  <UserAvatar size={24} hasShadow={true} />
+                </Link>
+              </IconListItem>
+              <IconListItem>
+                <Link to="/">
+                  <LogOutIcon fill="var(--orange)" />
+                </Link>
+              </IconListItem>
             </NavContainer>
           )}
         </Nav>
