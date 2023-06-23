@@ -17,14 +17,14 @@ spring:
       client:
         registration:
           google:
-            clientId: 512989187776-v3qd22qlicq0ijalmt20tj4kih03en60.apps.googleusercontent.com
-            clientSecret: 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
+            clientId: test
+            clientSecret: test
             scope:
               - email
               - profile
 jwt:
   key:
-    secret: dsadsadsfdsfgbdfhfthyrtyrhfghfsgdagfgnghjjyuutyyertdsffdfhfghgjtyjytijtyhtyyreyrtwtdfgfhfhd
+    secret: testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
   access-token-expiration-minutes: 1
   refresh-token-expiration-minutes: 1
 
