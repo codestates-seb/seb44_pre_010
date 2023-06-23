@@ -1,6 +1,7 @@
 package com.rainbow.sof.domain.user.auth.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rainbow.sof.domain.user.auth.jwt.DelegateTokenService;
 import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
 import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import com.rainbow.sof.domain.user.entity.User;
@@ -22,9 +23,12 @@ import java.util.Map;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer tokenizer;
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer tokenizer) {
+    public final DelegateTokenService delegateTokenService;
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer tokenizer, DelegateTokenService delegateTokenService) {
         this.authenticationManager = authenticationManager;
         this.tokenizer = tokenizer;
+        this.delegateTokenService = delegateTokenService;
     }
 
     @Override
@@ -47,8 +51,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         User user = (User)authResult.getPrincipal();
 
-        String accessToken  = delegateAccessToken(user);
-        String refreshToken = delegateRefreshToken(user);
+        String accessToken  = delegateTokenService.delegateAccessToken(user);
+        String refreshToken = delegateTokenService.delegateRefreshToken(user);
 
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh",refreshToken);
@@ -57,25 +61,26 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     }
 
-    private String delegateAccessToken(User user){
-        Map<String,Object> claims = new HashMap<>();
-        claims.put("email",user.getEmail());
-
-        Date expiration = tokenizer.getTokenExpiration(tokenizer.getAccessTokenExpirationMinutes());
-        String base64EncodedSecretKeyString = tokenizer.secretKeyEncodeBase64(tokenizer.getSecretKeySting());
-        String subject=user.getEmail();
-
-        return tokenizer.generateAccessToken(claims,subject,expiration,base64EncodedSecretKeyString);
-
-    }
-
-    private String delegateRefreshToken(User user){
-
-        Date expiration = tokenizer.getTokenExpiration(tokenizer.getAccessTokenExpirationMinutes());
-        String base64EncodedSecretKeyString = tokenizer.secretKeyEncodeBase64(tokenizer.getSecretKeySting());
-        String subject=user.getEmail();
-
-        return tokenizer.generateRefreshToken(subject,expiration,base64EncodedSecretKeyString);
-
-    }
+    //TODO: 이전 토큰 생성 메서드
+//    private String delegateAccessToken(User user){
+//        Map<String,Object> claims = new HashMap<>();
+//        claims.put("email",user.getEmail());
+//
+//        Date expiration = tokenizer.getTokenExpiration(tokenizer.getAccessTokenExpirationMinutes());
+//        String base64EncodedSecretKeyString = tokenizer.secretKeyEncodeBase64(tokenizer.getSecretKeySting());
+//        String subject=user.getEmail();
+//
+//        return tokenizer.generateAccessToken(claims,subject,expiration,base64EncodedSecretKeyString);
+//
+//    }
+//
+//    private String delegateRefreshToken(User user){
+//
+//        Date expiration = tokenizer.getTokenExpiration(tokenizer.getAccessTokenExpirationMinutes());
+//        String base64EncodedSecretKeyString = tokenizer.secretKeyEncodeBase64(tokenizer.getSecretKeySting());
+//        String subject=user.getEmail();
+//
+//        return tokenizer.generateRefreshToken(subject,expiration,base64EncodedSecretKeyString);
+//
+//    }
 }
