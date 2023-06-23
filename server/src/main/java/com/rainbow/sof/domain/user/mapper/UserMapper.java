@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
     User userSignupPostToUser(UserDto.SignUpPost signUpPost);
-    UserDto.Response userToUserUserDtoResponse(User user);
 
     User userLoginPostTouser(UserDto.CreationLoginDto creationLoginDto);
     UserDto.LoginResponse userToLoginDto(User user);
@@ -33,7 +32,7 @@ public interface UserMapper {
         List<AnswerDto.MyPageAnswerResponse> AnsweList = user.getAnswerList().stream()
                 .map(answer ->AnswerDto.MyPageAnswerResponse.builder()
                         .answerId(answer.getAnswerId())
-                        .createdAt(answer.getModifiedAt())
+                        .modifiedAt(answer.getModifiedAt())
                         .modifiedAt(answer.getModifiedAt())
                         .content(answer.getContent())
                         .build())
@@ -43,7 +42,6 @@ public interface UserMapper {
                 .name(user.getName())
                 .createdAt(user.getCreatedAt())
                 .questionList(questionList)
-                .AnswerList(AnsweList)
                 .build();
     }
 }

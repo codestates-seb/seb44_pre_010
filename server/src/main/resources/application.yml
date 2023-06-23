@@ -12,16 +12,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            clientId: ${GOOGLE_CLIENTID}
-            clientSecret: ${GOOGLE_CLIENTSECRET}
-            scope:
-              - email
-              - profile
+
 logging:
   logback:
     rollingpolicy:
@@ -36,18 +27,3 @@ springdoc:
   swagger-ui:
     url: /docs/open-api-3.0.1.json
     path: /docs/swagger
-
-
-
-jwt:
-  key:
-    secret: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: ${ACCESS_EXPIRATION_MINUTES}
-  refresh-token-expiration-minutes: ${REFRESH_EXPIRATION_MINUTES}
-
-User:
-  mail:
-    admin: ${ADMIN_EMAIL}
-    disable: ${DISABLE_USER}
-##${ADMIN_EMAIL}
-##${DISABLE_USER}
