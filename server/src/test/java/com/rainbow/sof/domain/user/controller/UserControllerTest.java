@@ -78,9 +78,9 @@ public class UserControllerTest {
         questionList.add(
                 Question.builder()
                         .title("타이틀입니다타이틀입니다타이틀입니다타이틀입니다")
-                .content("내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다.")
-                .questionId(1L)
-                .build());
+                        .content("내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다.")
+                        .questionId(1L)
+                        .build());
         List<Answer> answerList =new ArrayList<>();
         answerList.add(
                 Answer.builder()
@@ -106,15 +106,15 @@ public class UserControllerTest {
     @Test
     @DisplayName("회원가입 테스트")
     public void createUserTest() throws Exception{
-        
+
         given(service.createUser(Mockito.any(User.class))).willReturn(testUserEntity);
         given(mapper.userSignupPostToUser(Mockito.any(UserDto.SignUpPost.class))).willReturn(testUserEntity);
 
         //MockMvcRequestBuilders 대신 RestDocumentationRequestBuilders 를 사용해야 문서화가 됨
         mockMvc.perform(RestDocumentationRequestBuilders.post(User_ORIGIN_URI+"/signup")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(userContext))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userContext))
 
                 .andExpect(MockMvcResultMatchers.status().isCreated())
 
@@ -134,7 +134,7 @@ public class UserControllerTest {
                                                 .responseFields()
                                                 .build()
                                 )
-                                )
+                        )
                 );
     }
 
@@ -156,45 +156,45 @@ public class UserControllerTest {
         given(mapper.userToMyPageDto(Mockito.any(User.class))).willReturn(responseDto);
 
         ResultActions actions =
-        mockMvc.perform(RestDocumentationRequestBuilders.get(User_USERDATA_ORIGIN_URI +"/{user-id}",testUserEntity.getUserId())
-                        .header(HttpHeaders.AUTHORIZATION, "\u200BBearer {ACCESS_TOKEN}") // ​ <- 특수 공백문자
-                        .accept(MediaType.APPLICATION_JSON))
+                mockMvc.perform(RestDocumentationRequestBuilders.get(User_USERDATA_ORIGIN_URI +"/{user-id}",testUserEntity.getUserId())
+                                .header(HttpHeaders.AUTHORIZATION, "\u200BBearer {ACCESS_TOKEN}") // ​ <- 특수 공백문자
+                                .accept(MediaType.APPLICATION_JSON))
 
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(
-                        MockMvcRestDocumentationWrapper.document("회원 정보 확인 예제",
-                                preprocessRequest(prettyPrint()),
-                                preprocessResponse(prettyPrint()),
-                                resource(
-                                        ResourceSnippetParameters.builder()
-                                                .description("회원 정보 확인")
-                                                .pathParameters(
-                                                        parameterWithName("user-id").description("회원 식별자")
-                                                )
-                                                .requestHeaders(
-                                                        headerWithName(HttpHeaders.AUTHORIZATION).description("발급 받은 인증 토큰")
-                                                )
-                                                .requestFields()
-                                                .responseFields(
-                                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
-                                                        fieldWithPath("data.name").type(JsonFieldType.STRING).description("회원 이름"),
-                                                        fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("회원 가입일"),
-                                                        fieldWithPath("data.questionList").type(JsonFieldType.ARRAY).description("질문 리스트"),
-                                                        fieldWithPath("data.questionList.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별Id"),
-                                                        fieldWithPath("data.questionList.[].title").type(JsonFieldType.STRING).description("질문 제목"),
-                                                        fieldWithPath("data.questionList.[].content").type(JsonFieldType.STRING).description("질문 내용"),
-                                                        fieldWithPath("data.questionList.[].createdAt").type(JsonFieldType.STRING).description("질문 등록일"),
-                                                        fieldWithPath("data.questionList.[].modifiedAt").type(JsonFieldType.STRING).description("질문 수정일"),
-                                                        fieldWithPath("data.answerList").type(JsonFieldType.ARRAY).description("답변 리스트"),
-                                                        fieldWithPath("data.answerList.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별Id"),
-                                                        fieldWithPath("data.answerList.[].content").type(JsonFieldType.STRING).description("답변 내용"),
-                                                        fieldWithPath("data.answerList.[].createdAt").type(JsonFieldType.STRING).description("답변 등록일"),
-                                                        fieldWithPath("data.answerList.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정일")
-                                                )
-                                                .build()
+                        .andExpect(MockMvcResultMatchers.status().isOk())
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("회원 정보 확인 예제",
+                                        preprocessRequest(prettyPrint()),
+                                        preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("회원 정보 확인")
+                                                        .pathParameters(
+                                                                parameterWithName("user-id").description("회원 식별자")
+                                                        )
+                                                        .requestHeaders(
+                                                                headerWithName(HttpHeaders.AUTHORIZATION).description("발급 받은 인증 토큰")
+                                                        )
+                                                        .requestFields()
+                                                        .responseFields(
+                                                                fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                                                fieldWithPath("data.name").type(JsonFieldType.STRING).description("회원 이름"),
+                                                                fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("회원 가입일"),
+                                                                fieldWithPath("data.questionList").type(JsonFieldType.ARRAY).description("질문 리스트"),
+                                                                fieldWithPath("data.questionList.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별Id"),
+                                                                fieldWithPath("data.questionList.[].title").type(JsonFieldType.STRING).description("질문 제목"),
+                                                                fieldWithPath("data.questionList.[].content").type(JsonFieldType.STRING).description("질문 내용"),
+                                                                fieldWithPath("data.questionList.[].createdAt").type(JsonFieldType.STRING).description("질문 등록일"),
+                                                                fieldWithPath("data.questionList.[].modifiedAt").type(JsonFieldType.STRING).description("질문 수정일"),
+                                                                fieldWithPath("data.answerList").type(JsonFieldType.ARRAY).description("답변 리스트"),
+                                                                fieldWithPath("data.answerList.[].answerId").type(JsonFieldType.NUMBER).description("답변 식별Id"),
+                                                                fieldWithPath("data.answerList.[].content").type(JsonFieldType.STRING).description("답변 내용"),
+                                                                fieldWithPath("data.answerList.[].createdAt").type(JsonFieldType.STRING).description("답변 등록일"),
+                                                                fieldWithPath("data.answerList.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정일")
+                                                        )
+                                                        .build()
+                                        )
                                 )
-                        )
-                );
+                        );
 
     }
 
@@ -211,24 +211,24 @@ public class UserControllerTest {
         mockMvc.perform(RestDocumentationRequestBuilders.patch(User_USERDATA_ORIGIN_URI +"/{user-id}",testUserEntity.getUserId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(HttpHeaders.AUTHORIZATION, "\u200BBearer {ACCESS_TOKEN}")
-                                .content(context)
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer {ACCESS_TOKEN}")
+                        .content(context)
                 )
 
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcRestDocumentationWrapper.document("회원 정보 수정 테스트",
-                        preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
-                        resource(
-                                ResourceSnippetParameters.builder()
-                                        .description("회원 정보 수정")
-                                        .pathParameters(
-                                                parameterWithName("user-id").description("회원 식별자")
-                                        )
-                                        .requestHeaders(
-                                                headerWithName(HttpHeaders.AUTHORIZATION).description("발급 받은 인증 토큰")
-                                        )
-                                        .build()
-                        )
+                                preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()),
+                                resource(
+                                        ResourceSnippetParameters.builder()
+                                                .description("회원 정보 수정")
+                                                .pathParameters(
+                                                        parameterWithName("user-id").description("회원 식별자")
+                                                )
+                                                .requestHeaders(
+                                                        headerWithName(HttpHeaders.AUTHORIZATION).description("발급 받은 인증 토큰")
+                                                )
+                                                .build()
+                                )
                         )
                 );
 
@@ -244,9 +244,9 @@ public class UserControllerTest {
     @DisplayName("회원 탈퇴 테스트")
     public void deleteUserTest() throws Exception{
         given(service.checkToFindByUserFromEmail(Mockito.anyString(),Mockito.anyLong())).willReturn(testUserEntity);
-        doNothing().when(service).deleteUser(Mockito.anyLong());
+        doNothing().when(service).deleteUser(Mockito.anyString(),Mockito.anyLong());
         mockMvc.perform(RestDocumentationRequestBuilders.delete(User_USERDATA_ORIGIN_URI +"/{user-id}",testUserEntity.getUserId())
-                        .header(HttpHeaders.AUTHORIZATION, "\u200BBearer {ACCESS_TOKEN}")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer ".concat("AccessToken"))
                         .accept(MediaType.APPLICATION_JSON))
 
                 .andExpect(MockMvcResultMatchers.status().isNoContent())

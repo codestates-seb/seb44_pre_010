@@ -75,10 +75,24 @@ public class QuestionService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Question> findPageQuestions(String sort, int Page) {
+    public Page<Question> findPageQuestions(String sort, int page) {
         if(sort.equals("Newest"))
-            return questionRepository.findAll(PageRequest.of(Page - 1, SIZE, Sort.by("questionId").descending()));
+            return questionRepository.findAll(PageRequest.of(page - 1, SIZE, Sort.by("questionId").descending()));
         else
-            return questionRepository.findAll(PageRequest.of(Page - 1, SIZE, Sort.by("questionId").ascending()));
+            return questionRepository.findAll(PageRequest.of(page - 1, SIZE, Sort.by("questionId").ascending()));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Question> findSearchPageQuestions(String keyword, String sort, int page) {
+        if(sort.equals("newest")){
+            return questionRepository.findByTitleContaining(
+                    PageRequest.of(page - 1, SIZE, Sort.by("questionId").descending()), keyword);
+        }
+
+        else{
+            return questionRepository.findByTitleContaining(
+                    PageRequest.of(page - 1, SIZE, Sort.by("questionId").ascending()), keyword);
+        }
+
     }
 }

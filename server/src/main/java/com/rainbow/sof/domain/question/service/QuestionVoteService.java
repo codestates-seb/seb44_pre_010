@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
 
 @RequiredArgsConstructor
@@ -21,14 +20,14 @@ public class QuestionVoteService {
     private final QuestionService questionService;
     private final UserService userService;
     private final QuestionVoteRepository questionVoteRepository;
-    public int createQuestionVote(String email, long id, String voteStatus) {
-        Question findQuestion = questionService.findVerifiedQuestion(id);
+    public int createQuestionVote(String email, long questionId, String voteStatus) {
+        Question findQuestion = questionService.findVerifiedQuestion(questionId);
         User findUser = userService.findByUserFromEmail(email);
         checkUserVoteStatusForQuestion(findQuestion, findUser);
 
         QuestionVote questionVote = QuestionVote.createSelf(findQuestion, findUser, voteStatus);
         questionVoteRepository.save(questionVote);
-        findQuestion.calculateVote(voteStatus);
+        findQuestion.calculatePostVote(questionVote.getQuestionVoteStatus());
         return findQuestion.getVote();
     }
 
@@ -39,4 +38,13 @@ public class QuestionVoteService {
         }
     }
 
+    public int deleteQuestionVote(String email, long questionId) {
+        Question findQuestion = questionService.findVerifiedQuestion(questionId);
+        User findUser = userService.findByUserFromEmail(email);
+        QuestionVote findVote = questionVoteRepository.findByQuestionQuestionIdAndUserUserId(questionId, findUser.getUserId())
+                .orElseThrow( ()-> new BusinessLogicException(ExceptionCode.QUESTION_VOTE_NOT_FOUND));
+        findQuestion.calculateDeleteVote(findVote.getQuestionVoteStatus());
+        questionVoteRepository.delete(findVote);
+        return findQuestion.getVote();
+    }
 }

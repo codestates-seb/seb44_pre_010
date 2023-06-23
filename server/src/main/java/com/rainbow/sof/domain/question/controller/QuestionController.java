@@ -49,9 +49,9 @@ public class QuestionController {
     }
 
     @GetMapping(params = {"tab","page"})
-    public ResponseEntity getQuestions(@RequestParam(name = "tab", defaultValue = "Newest")String sort,
+    public ResponseEntity getQuestions(@RequestParam(name = "tab", defaultValue = "newest")String sort,
                                        @RequestParam(name = "page", defaultValue = "1")int page){
-        Page<Question> pageQuestions = questionService.findPageQuestions(sort, page); // 30, 5
+        Page<Question> pageQuestions = questionService.findPageQuestions(sort, page);
         List<Question> questions = pageQuestions.getContent();
         List<QuestionDto.ListResponse> responses = questionMapper.questionToQuestionDtoResponseList(questions);
         responses.forEach(o -> o.setAnswerCnt(answerService.getAnswerCnt(o.getQuestionId())));
@@ -67,6 +67,18 @@ public class QuestionController {
         response.setAnswerCnt(answerService.getAnswerCnt(question.getQuestionId()));
         return new ResponseEntity(
                 new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity getSearchQuestion(@RequestParam(value="q")String keyword
+            ,@RequestParam(value = "tab", defaultValue = "newest") String sort
+            ,@RequestParam(name = "page", defaultValue = "1")int page){
+        Page<Question> pageQuestions = questionService.findSearchPageQuestions(keyword, sort, page);
+        List<Question> questions = pageQuestions.getContent();
+        List<QuestionDto.ListResponse> responses = questionMapper.questionToQuestionDtoResponseList(questions);
+        responses.forEach(o -> o.setAnswerCnt(answerService.getAnswerCnt(o.getQuestionId())));
+        return new ResponseEntity(
+                new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")

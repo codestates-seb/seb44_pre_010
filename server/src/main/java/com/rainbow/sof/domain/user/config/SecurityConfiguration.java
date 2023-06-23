@@ -47,9 +47,9 @@ public class SecurityConfiguration {
                 .apply(customFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        /*.antMatchers(HttpMethod.PATCH,"/api/v1/questions/**").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH,"/api/v1/questions/**").hasRole("USER")
                         .antMatchers(HttpMethod.POST,"/api/v1/questions/**").hasRole("USER")
-                        .antMatchers(HttpMethod.DELETE,"/api/v1/questions/**").hasRole("USER")*/
+                        .antMatchers(HttpMethod.DELETE,"/api/v1/questions/**").hasRole("USER")
                         .antMatchers(USER_DETAIL_URL+"/**").authenticated()// /api/v1/users 의 하위 경로는 인증되야지만 접근가능하다
                         .antMatchers(HttpMethod.POST, "/login").permitAll()
                         .anyRequest().permitAll());
@@ -67,10 +67,20 @@ public class SecurityConfiguration {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000");
+        CorsConfiguration config = new CorsConfiguration();
 
-//        configuration.setAllowedOrigins(Arrays.asList("*"));
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(List.of("http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com","http://localhost:3000"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setExposedHeaders(List.of("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+        /*CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        //configuration.addAllowedOrigin("http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com");
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
         configuration.setAllowedHeaders(
                 List.of("Authorization","X-AUTH-TOKEN")
@@ -81,8 +91,8 @@ public class SecurityConfiguration {
         );
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+        source.registerCorsConfiguration("/api/v1/**", configuration);
+        return source;*/
     }
 
 
