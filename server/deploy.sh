@@ -34,12 +34,13 @@ DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/log/deploy.log
 su - ec2-user -c "java -jar $DEPLOY_JAR" >> /home/ec2-user/log/deploy.log 2>/home/ec2-user/log/deploy_err.log &
 
-sleep 5
+sleep 60
 
-while [ -z $CURRENT_PID ]
-do
-  echo "> 실행되지 않았으므로 다시 실행합니다."    >> /home/ec2-user/log/deploy.log
+if [ -z $CURRENT_PID ]
+then
+  echo "> 현재 구동중인 애플리케이션이 없으므로 다시한번 실행합니다." >>  /home/ec2-user/log/deploy.log
+  echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/log/deploy.log
   su - ec2-user -c "java -jar $DEPLOY_JAR" >> /home/ec2-user/log/deploy.log 2>/home/ec2-user/log/deploy_err.log &
-  sleep 5
-done
-  echo "> 프로그램이 정상적으로 실행됐습니다." >> /home/ec2-user/log/deploy.log
+else
+  echo "> 실행이 완료됐습니다." >> /home/ec2-user/log/deploy.log
+fi
