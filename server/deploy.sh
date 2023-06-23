@@ -33,3 +33,13 @@ fi
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/log/deploy.log
 su - ec2-user -c "java -jar $DEPLOY_JAR" >> /home/ec2-user/log/deploy.log 2>/home/ec2-user/log/deploy_err.log &
+
+sleep 5
+
+while [ -z $CURRENT_PID ]
+do
+  echo "> 실행되지 않았으므로 다시 실행합니다."    >> /home/ec2-user/log/deploy.log
+  su - ec2-user -c "java -jar $DEPLOY_JAR" >> /home/ec2-user/log/deploy.log 2>/home/ec2-user/log/deploy_err.log &
+  sleep 5
+done
+  echo "> 프로그램이 정상적으로 실행됐습니다." >> /home/ec2-user/log/deploy.log
