@@ -20,7 +20,7 @@ import java.util.Optional;
 @Transactional
 @Service
 public class QuestionService {
-    private final int SIZE = 10;
+    private final int SIZE = 15;
     private final QuestionRepository questionRepository;
     private final UserService userService;
 
