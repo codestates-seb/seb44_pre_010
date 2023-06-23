@@ -48,5 +48,3 @@ User:
   mail:
     admin: ${ADMIN_EMAIL}
     disable: ${DISABLE_USER}
-##${ADMIN_EMAIL}
-##${DISABLE_USER}
