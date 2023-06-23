@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -28,21 +27,6 @@ public class UserService {
         user.updatePassword(passwordEncode);
         return saveUser(user);
     }
-
-    public User OauhtCreateUser(User user){
-        verifyExistsEmail(user.getEmail());
-        String passwordEncode = passwordEncoder.encode(user.getPassword());
-        user.updatePassword(passwordEncode);
-        return saveUser(user);
-    }
-
-//    public User createUser(Map<String, String> userdata){
-//        verifyExistsEmail(email);
-//        User user = findByUserFromEmail(email);
-//        String passwordEncode = passwordEncoder.encode(user.getPassword());
-//        user.updatePassword(passwordEncode);
-//        return saveUser(user);
-//    }
 
     public User updateUser(String email, long id, UserDto.Patch patchUser){
         verifyExistsEmail(patchUser.getName());
