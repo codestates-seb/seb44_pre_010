@@ -41,14 +41,6 @@ public class UserController {
     }
 
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> postLogin(@AuthenticationName String email){
-//        User user = service.findByUserFromEmail(email);
-//        URI location = UriCreator.createUri(USER_DEFAULT_URL,user.getUserId());
-//        response.setHeader("Location", String.valueOf(location));
-//        return ResponseEntity.ok().body(user.getUserId());
-//    }
-
 //    @PostMapping("/logout")
 //    public ResponseEntity<?> postLogin(){
 //
