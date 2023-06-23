@@ -19,17 +19,6 @@ public class WebConfig implements WebMvcConfigurer {
     private final AuthenticationArgumentResolver authenticationArgumentResolver;
 
     @Override
-    public void addCorsMappings(CorsRegistry registry){
-        registry.addMapping("/api/v1/**")
-                .allowedOrigins("http://localhost:3000","http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com")
-                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
-                .allowedHeaders("Authorization","X-AUTH-TOKEN")
-                .allowCredentials(false)
-                .maxAge(3000);
-    }
-
-
-    @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers){
         resolvers.add(authenticationArgumentResolver);
     }

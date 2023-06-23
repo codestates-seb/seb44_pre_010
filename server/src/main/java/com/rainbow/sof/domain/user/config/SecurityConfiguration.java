@@ -86,9 +86,20 @@ public class SecurityConfiguration {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000");
-        configuration.addAllowedOrigin("http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com");
+        CorsConfiguration config = new CorsConfiguration();
+
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(List.of("http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com","http://localhost:3000"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setExposedHeaders(List.of("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+        /*CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        //configuration.addAllowedOrigin("http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com");
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
         configuration.setAllowedHeaders(
                 List.of("Authorization","X-AUTH-TOKEN")
@@ -100,7 +111,7 @@ public class SecurityConfiguration {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/api/v1/**", configuration);
-        return source;
+        return source;*/
     }
 
 
