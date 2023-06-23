@@ -488,10 +488,7 @@ const UserId = styled.div`
     color: rgb(0, 116, 204);
     cursor: pointer;
     line-height: 0.75rem;
-    margin-bottom: 0.125rem;
-    margin-left: 0.125rem;
-    margin-right: 0.125rem;
-    margin-top: 0.125rem;
+    margin: -0.125rem;
   }
 `;
 const UserTime = styled.time`
@@ -519,7 +516,7 @@ const UserTime = styled.time`
 function Questions() {
   const [questions, setQuestions] = useState([]);
   // ⬇ 페이지 네이션 상태
-  const [limit] = useState(15); // 페이지 당 게시물 수 15개로 설정
+  const [limit, setLimit] = useState(15); // 페이지 당 게시물 수 15개로 설정
   const [page, setPage] = useState(1); // 현재 페이지의 번호
   const offset = (page - 1) * limit; // 페이지네이션 알고리즘, 현재 페이지 번호를 기준으로 표시해줘야할 게시물들의 범위
 
@@ -656,7 +653,8 @@ function Questions() {
             limit={limit}
             page={page}
             setPage={setPage}
-          />
+            setLimit={setLimit}
+          ></Pagination>
         </Mainbar>
       </Maincontainer>
     </>
