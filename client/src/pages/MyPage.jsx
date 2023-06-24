@@ -3,9 +3,8 @@ import pencilIcon from '../assets/icons/pencil.svg';
 import deleteIcon from '../assets/icons/delete.svg';
 import SortButtonGroup from '../components/SortButtonGroup.jsx';
 import { buttonData, panelData } from '../constants/MyPageConstants';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import UserAvatar from '../components/UserAvatar.jsx';
-import { useOutletContext } from 'react-router-dom';
 
 const MyPageContainer = styled.div`
   width: 100%;
@@ -109,7 +108,6 @@ function MyPage() {
     });
     return initialSortOptions;
   });
-  const { onHandleSelect } = useOutletContext();
 
   const handleSortOption = (option, type) => {
     setSortOptions((prevOptions) => ({
@@ -117,10 +115,6 @@ function MyPage() {
       [type]: option,
     }));
   };
-
-  useEffect(() => {
-    onHandleSelect(3);
-  }, []);
 
   return (
     <MyPageContainer>

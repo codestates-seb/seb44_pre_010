@@ -11,7 +11,6 @@ import App from '../../App';
 
 import { Provider as RTKProvider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import GlobalModal from '../modal/GlobalModal';
 
 const router = createBrowserRouter([
   {
@@ -26,17 +25,14 @@ const router = createBrowserRouter([
       { path: 'questions/:id', element: <QuestionDetail /> },
     ],
   },
-  { path: 'login', element: <Login /> },
-  { path: 'signup', element: <SignUp /> },
+  { path: '/login', element: <Login /> },
+  { path: '/signup', element: <SignUp /> },
 ]);
 
 export default function Providers({ children }) {
   return (
     <RTKProvider store={RTKStore}>
-      <RouterProvider router={router}>
-        {children}
-        <GlobalModal />
-      </RouterProvider>
+      <RouterProvider router={router}>{children}</RouterProvider>
     </RTKProvider>
   );
 }

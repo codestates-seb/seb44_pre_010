@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import Pagination from '../components/pagenation/Pagenation';
-
 import { useEffect, useState } from 'react';
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Pagination from '../components/pagenation/Pagenation';
 
 const Maincontainer = styled.div`
   max-width: 68.75rem;
@@ -403,6 +402,7 @@ const TagItemsList = styled.ul`
     }
   }
 `;
+
 const Block2 = styled.div`
   align-items: center;
   background-color: rgba(0, 0, 0, 0);
@@ -519,10 +519,8 @@ function Questions() {
   const [limit, setLimit] = useState(15); // 페이지 당 게시물 수 15개로 설정
   const [page, setPage] = useState(1); // 현재 페이지의 번호
   const offset = (page - 1) * limit; // 페이지네이션 알고리즘, 현재 페이지 번호를 기준으로 표시해줘야할 게시물들의 범위
-  const { onHandleSelect } = useOutletContext();
 
   useEffect(() => {
-    onHandleSelect(1);
     const getAllQuestions = async () => {
       const response = await fetch('/data/questions.json');
       const jsonData = await response.json();

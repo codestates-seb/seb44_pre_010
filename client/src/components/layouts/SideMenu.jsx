@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
-import { sideMenuList } from '../../constants/SideMenuContnats.js';
-
 import styled from 'styled-components';
+import { sideMenuList } from '../../constants/SideMenuContnats.js';
 
 const LeftSideBarContainer = styled.div`
   width: 164px;
