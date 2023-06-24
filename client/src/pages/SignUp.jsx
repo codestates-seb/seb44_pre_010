@@ -6,7 +6,6 @@ import { ReactComponent as FacebookLogo } from '../assets/icons/logo_facebook.sv
 import { ReactComponent as Logo } from '../assets/icons/logo.svg';
 import join from '../assets/imgs/join.png';
 
-
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
     box-sizing: border-box;
