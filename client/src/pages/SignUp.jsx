@@ -5,6 +5,8 @@ import { ReactComponent as GithubLogo } from '../assets/icons/logo_github.svg';
 import { ReactComponent as FacebookLogo } from '../assets/icons/logo_facebook.svg';
 import { ReactComponent as Logo } from '../assets/icons/logo.svg';
 import join from '../assets/imgs/join.png';
+import { useState } from 'react';
+import SignupModal from '../components/modal/SignupModal.jsx';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -27,7 +29,7 @@ const SignupContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 90vh;
+  height: 100vh;
   background-color: #f1f2f3;
 `;
 
@@ -94,7 +96,7 @@ const Label = styled.div`
   text-align: left;
   height: 1.1719rem;
   width: 15rem;
-  margin: 0.125rem 0 0.125rem 0;
+  margin: 0.925rem 0 0.125rem 0;
   padding: 0.0625rem 0.125rem 0.0625rem 0.125rem;
   min-height: auto;
   min-width: auto;
@@ -111,7 +113,6 @@ const Input = styled.input`
   min-width: auto;
   display: block;
   border-radius: 0.1875rem;
-  margin-bottom: 0.8rem;
 
   &:focus {
     outline: none;
@@ -132,10 +133,10 @@ const Button = styled.button`
   border: 0.0625rem solid #ffffff;
   background-color: hsl(206, 100%, 52%);
   color: #ffffff;
-  margin: 0.75rem 0;
   padding: 0.625rem;
   min-height: auto;
   min-width: auto;
+  margin-top: 0.8rem;
   position: relative;
   cursor: pointer;
   box-shadow: 0 0.0625rem 0 0 inset rgba(255, 255, 255, 0.4);
@@ -153,13 +154,97 @@ const Button = styled.button`
 const Guide = styled.span`
   font-size: 12px;
   color: #6a737c;
+  margin-top: 0.8rem;
 `;
 
 const Guide_blue = styled(Guide)`
   color: hsl(206, 100%, 52%);
 `;
 
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 0.75rem;
+  margin: 0.25rem 0 0 0;
+`;
+
 export default function SignUp() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [errors, setErrors] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+    const userData = {
+      name: displayName,
+      email: email,
+      password: password,
+    };
+
+    setErrors([]);
+
+    if (!displayName) {
+      setErrors((prevErrors) => [...prevErrors, 'Displayname_empty']);
+    } else if (!/^[a-zA-Z0-9]+$/.test(displayName)) {
+      setErrors((prevErrors) => [...prevErrors, 'Displayname_specialChars']);
+    } else if (displayName.length < 3) {
+      setErrors((prevErrors) => [...prevErrors, 'Displayname_short']);
+    }
+
+    if (!email) {
+      setErrors((prevErrors) => [...prevErrors, 'Email_empty']);
+    } else if (!email.includes('@')) {
+      setErrors((prevErrors) => [...prevErrors, 'Email_invalid']);
+    }
+
+    if (!password) {
+      setErrors((prevErrors) => [...prevErrors, 'Password_empty']);
+    } else if (!/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*]*$/.test(password)) {
+      setErrors((prevErrors) => [...prevErrors, 'Password_invalid']);
+    } else if (password.length < 8) {
+      setErrors((prevErrors) => [...prevErrors, 'Password_short']);
+    } else {
+      fetch(
+        'http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/signup',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        },
+      )
+        .then((response) => {
+          if (response.status === 201) {
+            return response.json().then((data) => {
+              // 요청 성공 시
+              const { userId } = data;
+              const userData = { userId };
+
+              localStorage.setItem('user', JSON.stringify(userData));
+              setModalOpen(true);
+              console.log('회원가입에 성공했습니다!', userData);
+            });
+          } else if (response.status === 409) {
+            // 로그인 실패 했을 경우
+            return response.json().then((data) => {
+              if (data.message === 'USER EXISTS') {
+                setErrors((prevErrors) => [...prevErrors, 'User_exists']);
+                throw new Error('이미 등록된 이메일입니다.');
+              } else {
+                throw new Error('회원가입에 실패했습니다.');
+              }
+            });
+          }
+        })
+
+        .catch((error) => {
+          console.error('회원가입 요청 중 오류가 발생했습니다.', error);
+        });
+    }
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -179,16 +264,59 @@ export default function SignUp() {
           <FacebookSignup>
             <FacebookLogo /> <Text>Sign up with Facebook</Text>
           </FacebookSignup>
-          <FormContainer>
-            <Label>Dispay name</Label>
-            <Input type="text"></Input>
+          <FormContainer onSubmit={handleSignup}>
+            <Label>Display name</Label>
+            <Input
+              type="text"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+            />
+            {errors.includes('Displayname_empty') && (
+              <ErrorMessage>Display name cannot be empty.</ErrorMessage>
+            )}
+            {errors.includes('Displayname_short') && (
+              <ErrorMessage>Must be 3 characters or more.</ErrorMessage>
+            )}
+            {errors.includes('Displayname_specialChars') && (
+              <ErrorMessage>English letters and numbers only.</ErrorMessage>
+            )}
             <Label>Email</Label>
-            <Input type="text"></Input>
+            <Input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {errors.includes('Email_empty') && (
+              <ErrorMessage>Email cannot be empty.</ErrorMessage>
+            )}
+
+            {errors.includes('Email_invalid') && (
+              <ErrorMessage>This email is not valid.</ErrorMessage>
+            )}
+            {errors.includes('User_exists') && (
+              <ErrorMessage>이미 가입된 이메일 입니다.</ErrorMessage>
+            )}
             <Label>Password</Label>
-            <Input type="text"></Input>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {errors.includes('Password_empty') && (
+              <ErrorMessage>Password cannot be empty.</ErrorMessage>
+            )}
+            {errors.includes('Password_invalid') && (
+              <ErrorMessage>
+                Must contain at least 1 letter and 1 number.
+              </ErrorMessage>
+            )}
+            {errors.includes('Password_short') && (
+              <ErrorMessage>Must be 8 characters or more.</ErrorMessage>
+            )}
+
             <Guide>
               Passwords must contain at least eight characters, including at
-              least 1 letter and 1 numner.
+              least 1 letter and 1 number.
             </Guide>
             <Button type="submit">Sign up</Button>
             <Guide>
@@ -201,6 +329,7 @@ export default function SignUp() {
           </FormContainer>
         </SignupContainer>
       </Container>
+      {modalOpen && <SignupModal />}
     </>
   );
 }

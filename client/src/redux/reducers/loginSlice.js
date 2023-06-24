@@ -10,19 +10,22 @@ const loginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {
-    loginSuccess(state, action) {
+    login: (state, action) => {
       state.isLoggedIn = true;
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
+      state.userId = action.payload.userId;
     },
-    logoutSuccess(state) {
+    logout: (state) => {
       state.isLoggedIn = false;
       state.accessToken = null;
       state.refreshToken = null;
+      state.userId = null;
     },
   },
 });
 
-export const { loginSuccess, logoutSuccess } = loginSlice.actions;
+export const { login, logout } = loginSlice.actions;
+export const loginState = (state) => state.login;
 
 export default loginSlice.reducer;
