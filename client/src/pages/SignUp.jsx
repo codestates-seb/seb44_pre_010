@@ -5,7 +5,9 @@ import { ReactComponent as GithubLogo } from '../assets/icons/logo_github.svg';
 import { ReactComponent as FacebookLogo } from '../assets/icons/logo_facebook.svg';
 import { ReactComponent as Logo } from '../assets/icons/logo.svg';
 import join from '../assets/imgs/join.png';
-
+import { useState } from 'react';
+import SignupModal from '../components/modal/SignupModal.jsx';
+//모달 Import
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
