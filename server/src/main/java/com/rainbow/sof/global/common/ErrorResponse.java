@@ -28,7 +28,10 @@ public class ErrorResponse {
     }
 
     public static ErrorResponse of(BindingResult bindingResult) {
-        return new ErrorResponse(FieldError.of(bindingResult), null);
+        ErrorResponse errorResponse = new ErrorResponse(FieldError.of(bindingResult),null);
+        errorResponse.status = HttpStatus.BAD_REQUEST.value();
+        errorResponse.message=HttpStatus.BAD_REQUEST.getReasonPhrase();
+        return errorResponse;
     }
 
     public static ErrorResponse of(Set<ConstraintViolation<?>> violations) {

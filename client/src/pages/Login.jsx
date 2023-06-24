@@ -7,8 +7,7 @@ import { ReactComponent as GoogleLogo } from '../assets/icons/logo_google.svg';
 import { ReactComponent as GithubLogo } from '../assets/icons/logo_github.svg';
 import { ReactComponent as FacebookLogo } from '../assets/icons/logo_facebook.svg';
 import { useNavigate } from 'react-router-dom';
-import { loginSuccess } from '../redux/reducers/loginSlice';
-import GlobalModal from '../components/modal/GlobalModal';
+P
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -61,7 +60,7 @@ const Label = styled.div`
   text-align: left;
   height: 1.1719rem;
   width: 15rem;
-  margin: 0.125rem 0 0.125rem 0;
+  margin: 0.925rem 0 0.125rem 0;
   padding: 0.0625rem 0.125rem 0.0625rem 0.125rem;
 `;
 
@@ -80,7 +79,6 @@ const Input = styled.input`
   padding: 0.5rem 0.5625rem 0.5rem 0.5625rem;
   display: block;
   border-radius: 0.1875rem;
-  margin-bottom: 0.8rem;
 
   &:focus {
     outline: none;
@@ -156,6 +154,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -173,20 +173,36 @@ const Login = () => {
       setErrors((prevErrors) => [...prevErrors, 'Password_empty']);
     } else {
       // 유효성 검사를 통과한 경우에만 로그인 시도
-      fetch('/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      fetch(
+        'http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username: email, password: password }),
         },
-        body: JSON.stringify({ username: email, password: password }),
-      })
+      )
         .then((response) => {
           if (
             // 헤더에 토큰이 포함된다면 로그인 성공
             response.headers.get('Authorization') &&
             response.headers.get('Refresh')
           ) {
-            return response.json();
+            const accessToken = response.headers
+              .get('Authorization')
+              .split(' ')[1]; // Bearer를 건너뛰고 실제 토큰 부분을 추출
+            const refreshToken = response.headers.get('Refresh');
+            const userId = response.json().userId;
+
+            // 토큰 저장 로직
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+
+            dispatch(login({ accessToken, refreshToken, userId }));
+
+            navigate('/');
+            return;
           } else if (response.status === 401) {
             // 로그인 실패 했을 경우
             return response.json().then((data) => {
@@ -202,19 +218,7 @@ const Login = () => {
             });
           }
         })
-        .then((data) => {
-          // 토큰 저장 로직
-          const accessToken = data.headers.get('Authorization').split(' ')[1]; // Bearer를 건너뛰고 실제 토큰 부분을 추출
-          const refreshToken = data.headers.get('Refresh');
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', refreshToken);
 
-          // 상태 변경
-          useDispatch(loginSuccess({ accessToken, refreshToken }));
-
-          // 로그인 성공한 경우 메인 페이지로 이동
-          useNavigate('/');
-        })
         .catch((error) => {
           console.error('로그인 요청 중 오류가 발생했습니다.', error);
         });
@@ -257,7 +261,7 @@ const Login = () => {
               </ErrorMessage>
             )}
             {errors.includes('NotMember') && (
-              <ErrorMessage>등록된 이메일이 아닙니다.</ErrorMessage>
+              <ErrorMessage>This is not a registered email.</ErrorMessage>
             )}
 
             <Label>
@@ -274,7 +278,7 @@ const Login = () => {
               <ErrorMessage>Password cannot be empty.</ErrorMessage>
             )}
             {errors.includes('WrongPassword') && (
-              <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
+              <ErrorMessage>Passwords do not match.</ErrorMessage>
             )}
             <Button type="submit" onClick={handleLogin}>
               Log In
