@@ -6,6 +6,7 @@ const ModalWrapper = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
+  font-size: 1rem;
 `;
 
 const ModalBackDrop = styled.div`
