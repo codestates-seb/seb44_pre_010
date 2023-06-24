@@ -217,7 +217,7 @@ export default function SignUp() {
         .then((response) => {
           if (response.status === 201) {
             return response.json().then((data) => {
-              // 요청 성공 시
+              // 요청 성공 시!
               const { userId } = data;
               const userData = { userId };
 
