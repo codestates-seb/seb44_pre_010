@@ -271,7 +271,7 @@ const QuelistConatiner = styled.div`
 `;
 const QueTitle = styled.h3`
   box-sizing: border-box;
-  color: rgb(35, 38, 41);
+  color: rgb(35, 38, 40);
   display: block;
   line-height: 1.389rem;
   margin-block-end: 0.312rem;

@@ -502,7 +502,7 @@ const UserTime = styled.time`
   line-height: 0.75rem;
   a {
     box-sizing: border-box;
-    color: rgb(59, 64, 69);
+    color: rgb(59, 64, 68);
     cursor: pointer;
     line-height: 0.75rem;
   }
