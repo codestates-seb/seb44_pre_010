@@ -198,7 +198,7 @@ const Login = () => {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
 
-            dispatch(login({ accessToken, refreshToken, userId }));
+            dispatch(Login({ accessToken, refreshToken, userId }));
 
             navigate('/');
             return;
