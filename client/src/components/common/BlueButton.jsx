@@ -17,6 +17,7 @@ const Button = styled(Link)`
   box-shadow: rgba(255, 255, 255, 0.4) 0rem 0.063rem 0rem 0rem inset;
   box-sizing: border-box;
   white-space: nowrap;
+  text-align: center;
 
   &:hover {
     background-color: rgb(7, 112, 192);

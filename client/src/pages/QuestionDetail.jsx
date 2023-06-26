@@ -199,7 +199,9 @@ export default function QuestionDetail() {
   const [answerValue, setAnswerValue] = useState(`type your answer...`);
   const navigation = useNavigate();
 
-  const { isLoggedIn, accessToken } = useSelector((state) => state.login);
+  const storedAccessToken = localStorage.getItem('accessToken');
+
+  const { isLoggedIn } = useSelector((state) => state.login);
 
   const { id } = useParams();
 
@@ -223,7 +225,7 @@ export default function QuestionDetail() {
         method: 'post',
         headers: {
           accept: '*/*',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${storedAccessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -232,25 +234,29 @@ export default function QuestionDetail() {
       },
     )
       .then((res) => {
-        console.log('navigate!!!');
-        navigation(0);
+        if (res.status === 201) {
+          navigation(0);
+        }
       })
       .catch((e) => console.log(e));
   };
 
   const onDeleteAnswer = (answerId) => {
-    console.log(answerId);
     fetch(
       `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${id}/answers/${answerId}`,
       {
         method: 'delete',
         headers: {
           accept: '*/*',
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${storedAccessToken}`,
         },
       },
     )
-      .then((res) => navigation(0))
+      .then((res) => {
+        if (res.status === 204) {
+          navigation(0);
+        }
+      })
       .catch((e) => console.log(e));
   };
 
@@ -294,7 +300,7 @@ export default function QuestionDetail() {
                     <Link>Share</Link>
                   </div>
                   <div>
-                    <Link>Edit</Link>
+                    <Link to={`/questions/${id}/edit`}>Edit</Link>
                   </div>
                   <div>
                     <Link>Delete</Link>
@@ -348,7 +354,7 @@ export default function QuestionDetail() {
                             <Link>Share</Link>
                           </div>
                           <div>
-                            <Link>Edit</Link>
+                            <Link to={`/questions/${id}/edit`}>Edit</Link>
                           </div>
                           <div>
                             <Link
@@ -362,7 +368,7 @@ export default function QuestionDetail() {
                           <UserCard
                             type="answerd"
                             created={answer.createdAt}
-                            name={question.user.name}
+                            name={answer.name}
                           />
                         </QuestionBottomRight>
                       </QuestionBottom>
