@@ -5,6 +5,7 @@ import { ReactComponent as LogOutIcon } from '../../assets/icons/logout.svg';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import UserAvatar from '../UserAvatar';
+import SearchBar from './SearchBar';
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -43,7 +44,7 @@ const LogoLink = styled(Link)`
   background-color: transparent;
 `;
 
-const SearchForm = styled.form`
+/*const SearchForm = styled.form`
   padding: 0 0.5rem;
   display: flex;
   align-items: center;
@@ -82,7 +83,7 @@ const SearchInputIcon = styled(SearchIcon)`
   position: absolute;
   left: 0.7rem;
   top: 50%;
-`;
+`;*/
 
 const Nav = styled.nav`
   height: 100%;
@@ -161,23 +162,7 @@ export default function Header() {
         <LogoLink to="/">
           <LogoIcon />
         </LogoLink>
-        <SearchForm id="search" role="search" action="" autoComplete="off">
-          <SearchFormInner>
-            <SearchInput
-              type="text"
-              role="combobox"
-              placeholder="Search..."
-              autoComplete="off"
-              maxLength="240"
-              value={searchKeyword}
-              onChange={onHandleChangeKeyword}
-              aria-label="Search"
-              aria-expanded="false"
-              aria-controls="top-serach"
-            />
-            <SearchInputIcon />
-          </SearchFormInner>
-        </SearchForm>
+        <SearchBar></SearchBar>
         <Nav>
           {!isLogin ? (
             <NavContainer>

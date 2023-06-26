@@ -6,6 +6,7 @@ import com.rainbow.sof.global.common.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -28,6 +29,12 @@ public class Answer extends BaseTimeEntity {
     @JoinColumn(name = "USERS_ID")
     private User user;
 
+    @Column(columnDefinition = "integer default 0")
+    private int vote;
+
+    @OneToMany(mappedBy = "answer")
+    private List<AnswerVote> answerVotes;
+
     public void insertUser(User user) {
         this.user = user;
     }
@@ -38,5 +45,14 @@ public class Answer extends BaseTimeEntity {
 
     public void updateContent(String content) {
         this.content = content;
+    }
+
+    public void calculatePostVote (AnswerVote.AnswerVoteStatus status) {
+        if (status.equals(AnswerVote.AnswerVoteStatus.VOTE_UP)) this.vote++;
+        else                                                    this.vote--;
+    }
+    public void calculateDeleteVote(AnswerVote.AnswerVoteStatus status) {
+        if (status.equals(AnswerVote.AnswerVoteStatus.VOTE_UP)) this.vote--;
+        else                                                    this.vote++;
     }
 }

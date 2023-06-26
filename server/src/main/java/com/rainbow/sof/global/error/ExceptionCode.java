@@ -8,6 +8,7 @@ public enum ExceptionCode {
     INVALID_TOKEN(401,"is not the same token as data"),
     UNAUTHORIZED(401,"invalid token Data"),
     EXPIRED_TOKEN(401,"Token has expired"),
+    ACCOUNT_RESTRICTED(403,"oauth account user"),
     USER_NOT_FOUND(404, "Member not found"),
     QUESTION_NOT_FOUND(404, "Question not found"),
     CANNOT_CHANGE_QUESTION(403,"Question can not change"),
@@ -16,7 +17,9 @@ public enum ExceptionCode {
     USER_EXISTS(409,"USER EXISTS"),
     USER_MISMATCH(403,"The login user and the author are different"),
     QUESTION_VOTE_ALREADY(403, "Already question voted"),
-    QUESTION_VOTE_NOT_FOUND(404, "Question vote not found");
+    QUESTION_VOTE_NOT_FOUND(404, "Question vote not found"),
+    ANSWER_VOTE_ALREADY(403, "Already answer voted"),
+    ANSWER_VOTE_NOT_FOUND(404, "Answer vote not found");
 
     @Getter
     private int status;

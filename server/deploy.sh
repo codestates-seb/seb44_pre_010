@@ -32,7 +32,7 @@ fi
 
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/log/deploy.log
-su - ec2-user -c "java -jar $DEPLOY_JAR" >> /home/ec2-user/log/deploy.log 2>/home/ec2-user/log/deploy_err.log &
+su - ec2-user -c "java -jar $DEPLOY_JAR" --spring.profiles.active=prod >> /home/ec2-user/log/deploy.log 2>/home/ec2-user/log/deploy_err.log &
 
 sleep 60
 
@@ -40,7 +40,7 @@ if [ -z $CURRENT_PID ]
 then
   echo "> 현재 구동중인 애플리케이션이 없으므로 다시한번 실행합니다." >>  /home/ec2-user/log/deploy.log
   echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/log/deploy.log
-  su - ec2-user -c "java -jar $DEPLOY_JAR" >> /home/ec2-user/log/deploy.log 2>/home/ec2-user/log/deploy_err.log &
+  su - ec2-user -c "java -jar $DEPLOY_JAR --spring.profiles.active=prod" >> /home/ec2-user/log/deploy.log 2>/home/ec2-user/log/deploy_err.log &
 else
   echo "> 실행이 완료됐습니다." >> /home/ec2-user/log/deploy.log
 fi

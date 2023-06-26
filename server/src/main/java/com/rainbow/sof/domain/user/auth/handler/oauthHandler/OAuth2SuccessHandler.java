@@ -7,9 +7,11 @@ import com.rainbow.sof.domain.user.service.UserService;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,68 +29,52 @@ import static com.rainbow.sof.domain.user.util.CustomEnumUri.*;
 @Slf4j
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final DelegateTokenService delegateTokenService;
-    private final UserService userService;
 
-    public OAuth2SuccessHandler(DelegateTokenService delegateTokenService, UserService userService) {
+    public OAuth2SuccessHandler(DelegateTokenService delegateTokenService) {
         this.delegateTokenService = delegateTokenService;
-        this.userService = userService;
     }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        OAuth2User UserData = (OAuth2User)authentication.getPrincipal();
-        String email = String.valueOf(UserData.getAttributes().get("email"));
-        String name = String.valueOf(UserData.getAttributes().get("name"));
+        User userData = (User) authentication.getPrincipal();
+        log.info("onAuthenticationSuccess userName: {}", userData.getName());
+        log.info("onAuthenticationSuccess: userEmail:  {}", userData.getEmail());
+        redirect(request, response,userData);
 
-        User createUser = User.builder().email(email)
-                .name(name)
-                        .password("Q1234123452234522").build();
-        User oAuth2User= saveUser(createUser);
-        log.info("onAuthenticationSuccess: {} ", oAuth2User.getName());
-        log.info("onAuthenticationSuccess: {}" ,oAuth2User.getEmail());
-        redirect(request, response,oAuth2User);
-
-    }
-
-    private User saveUser(User oAuth2User) {
-        try {
-            return userService.createUser(oAuth2User);
-        }catch (BusinessLogicException e){
-
-            return e.getExceptionCode().equals(ExceptionCode.USER_EXISTS) ?
-                    userService.findByUserFromEmail(oAuth2User.getEmail()) :
-                    null;
-        }
     }
 
     private void redirect(HttpServletRequest request, HttpServletResponse response, User user) throws IOException {
-        String accessToken = delegateTokenService.delegateAccessToken(user);
+        String accessToken = "Bearer "+delegateTokenService.delegateAccessToken(user);
         String refreshToken = delegateTokenService.delegateRefreshToken(user);
-
-
-        String uri = createURI().toString();
-        response.setHeader("Authorization", "Bearer " + accessToken);
-        response.setHeader("Refresh",refreshToken);
-
-        getRedirectStrategy().sendRedirect(request, response, "/mypage");
-        String s = getRedirectStrategy().toString();
+        String redirectURL = createURI(accessToken,refreshToken).toString();
+        getRedirectStrategy().sendRedirect(request, response,redirectURL);
     }
 
     //TODO: 클라이언트 주소로 변경 필요
-    private URI createURI() {
+    private URI createURI(String accessToken,String refreshToken) {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();// 순서 맞게 보내기위해 LinkedMultiValueMap 사용
+        queryParams.add("access_token", accessToken);
+        queryParams.add("refresh_token", refreshToken);
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
-                .host("localhost")
-//                .port(80)
-                .path("/receive-token.html")
+                .host("ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com")
+                .path("/oAuht")
+                .queryParams(queryParams)
                 .build()
                 .toUri();
+
+        // 로컬 클라이언트 테스트 URI
+//        return UriComponentsBuilder
+//                .newInstance()
+//                .scheme("http")
+//                .host("localhost")
+//                .port(3000)
+//                .path("/oAuht")
+//                .queryParams(queryParams)
+//                .build()
+//                .toUri();
     }
 
 
 }
-//    Map<String, String>  oAuth2UserData = new HashMap<>();
-//        oAuth2UserData.put("email", String.valueOf(oAuth2User.getAttributes().get("email")));
-//        oAuth2UserData.put("name", String.valueOf(oAuth2User.getAttributes().get("name")));
-//        User createUser= saveUser(oAuth2UserData);
