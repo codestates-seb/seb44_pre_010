@@ -563,7 +563,7 @@ function Questions() {
       <Maincontainer className="Maincontainer">
         <Mainbar>
           <TopQuestions>
-            <H1> All Questions</H1>
+            <H1>Search Results</H1>
             <AQuecontainer>
               <BlueButton onClick={handleClick} link="/askquestions">
                 Ask Question
