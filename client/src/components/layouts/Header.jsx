@@ -107,7 +107,6 @@ const IconListItem = styled(Link)`
 `;
 
 export default function Header() {
-  const { accessToken } = useSelector((state) => state.login);
   const { isLoggedIn } = useSelector((state) => state.login) || false;
   const dispatch = useDispatch();
 
