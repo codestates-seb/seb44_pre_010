@@ -8,6 +8,7 @@ public enum ExceptionCode {
     INVALID_TOKEN(401,"is not the same token as data"),
     UNAUTHORIZED(401,"invalid token Data"),
     EXPIRED_TOKEN(401,"Token has expired"),
+    ACCOUNT_RESTRICTED(403,"oauth account user"),
     USER_NOT_FOUND(404, "Member not found"),
     QUESTION_NOT_FOUND(404, "Question not found"),
     CANNOT_CHANGE_QUESTION(403,"Question can not change"),
