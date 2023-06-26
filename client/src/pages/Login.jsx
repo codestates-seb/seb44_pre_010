@@ -201,6 +201,8 @@ const Login = () => {
               // 토큰 저장
               localStorage.setItem('accessToken', accessToken);
               localStorage.setItem('refreshToken', refreshToken);
+              localStorage.setItem('userId', userId);
+
               // 상태 변경
               dispatch(login({ accessToken, refreshToken, userId }));
 

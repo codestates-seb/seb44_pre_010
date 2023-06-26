@@ -530,12 +530,17 @@ function Questions() {
     const getAllQuestions = async () => {
       const response = await fetch(
         `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions?tab=newest&page=${page}`,
+
+       
+
       );
       const jsonData = await response.json();
 
       setQuestions(jsonData.data);
       setIsFetching(false);
+
       setTotal(jsonData.pageInfo.totalPages);
+
       console.log(jsonData.data);
     };
 

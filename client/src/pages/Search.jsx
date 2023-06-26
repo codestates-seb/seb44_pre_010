@@ -514,7 +514,7 @@ const UserTime = styled.time`
   }
 `;
 
-function Questions() {
+function Search() {
   const [questions, setQuestions] = useState([]);
   // ⬇ 페이지 네이션 상태
   const [limit, setLimit] = useState(15); // 페이지 당 게시물 수 15개로 설정
@@ -674,4 +674,4 @@ function Questions() {
   );
 }
 
-export default Questions;
+export default Search;
