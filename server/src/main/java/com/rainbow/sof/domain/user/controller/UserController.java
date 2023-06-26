@@ -37,17 +37,9 @@ public class UserController {
         User user = mapper.userSignupPostToUser(signUpPost);
         User createUser=service.createUser(user);
         URI location = UriCreator.createUri(USER_DEFAULT_URL.getUri(), createUser.getUserId());
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(mapper.userToUserUserDtoResponse(user));
     }
 
-
-//    @PostMapping("/login")
-//    public ResponseEntity<?> postLogin(@AuthenticationName String email){
-//        User user = service.findByUserFromEmail(email);
-//        URI location = UriCreator.createUri(USER_DEFAULT_URL,user.getUserId());
-//        response.setHeader("Location", String.valueOf(location));
-//        return ResponseEntity.ok().body(user.getUserId());
-//    }
 
 //    @PostMapping("/logout")
 //    public ResponseEntity<?> postLogin(){
