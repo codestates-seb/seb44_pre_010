@@ -498,6 +498,7 @@ function Home() {
                           </QueTitle>
 
                           <Tag>
+                            <Block2></Block2>
                             <Block2>
                               <UserImg
                                 to={`https://stackoverflow.com/users/${question.user.userId}/${question.name}`}
