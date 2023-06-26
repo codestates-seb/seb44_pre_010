@@ -61,18 +61,20 @@ export default function SearchBar() {
   const onHandleChangeKeyword = (e) => {
     setSearchKeyword(e.target.value);
   };
+
   const handleEnterSearch = (e) => {
     e.preventDefault(); // 새로고침 방지
     if (searchKeyword.trim() !== '') {
       // 공백 방지
-      navigate(`/search?keyword=${encodeURIComponent(searchKeyword)}`);
+      navigate(`/search`);
     }
   };
+
   const handleClickSearch = (e) => {
     e.preventDefault(); // 새로고침 방지
     if (searchKeyword.trim() !== '') {
       // 공백 방지
-      navigate(`/search?keyword=${encodeURIComponent(searchKeyword)}`);
+      navigate(`/search`);
     }
   };
   return (
