@@ -7,7 +7,8 @@ import Footer from './components/layouts/Footer.jsx';
 import SideMenu from './components/layouts/SideMenu.jsx';
 import MainContent from './components/layouts/MainContent.jsx';
 import GlobalModal from './components/modal/GlobalModal.jsx';
-import { sideMenuList } from './constants/SideMenuContnats.js';
+import { useDispatch } from 'react-redux';
+import { setLoginStatus } from './redux/reducers/loginSlice';
 
 const MainWrapper = styled.main`
   max-width: 1264px;
@@ -20,12 +21,21 @@ const MainWrapper = styled.main`
 function App() {
   const [isSelect, setIsSelect] = useState(0);
 
+  const dispatch = useDispatch();
+
   const onHandleSelect = (index) => {
     setIsSelect(index);
   };
 
   useEffect(() => {
     setIsSelect(0);
+    // 새로고침 시 로컬스토리지에서 토큰확인하고 상태변경
+    const storedAccessToken = localStorage.getItem('accessToken');
+    if (storedAccessToken) {
+      dispatch(setLoginStatus({ isLoggedIn: true }));
+    } else {
+      dispatch(setLoginStatus({ isLoggedIn: false }));
+    }
   }, []);
 
   return (

@@ -11,7 +11,8 @@ import cake from '../assets/icons/cake.svg';
 import { calculateTimeSince } from '../utils/calculateTimeSince';
 import { changeTimeFormat } from '../utils/changeTimeFormat.js';
 import Pagination from '../components/pagenation/Pagenation';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLoginStatus } from '../redux/reducers/loginSlice';
 
 const MyPageContainer = styled.div`
   width: 100%;
@@ -167,6 +168,7 @@ const MyPageEmptyPanel = styled.span`
 `;
 
 function MyPage() {
+  const dispatch = useDispatch();
   const userId = localStorage.getItem('userId');
   console.log(userId);
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
@@ -200,7 +202,14 @@ function MyPage() {
   });
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    // 새로고침 시 로컬스토리지에서 토큰확인하고 상태변경
+    if (accessToken) {
+      dispatch(setLoginStatus({ isLoggedIn: true }));
+    }
+  }, [dispatch, accessToken]);
+
+  useEffect(() => {
+    if (!accessToken) {
       alert('로그인이 필요합니다.');
       navigate('/login');
     }

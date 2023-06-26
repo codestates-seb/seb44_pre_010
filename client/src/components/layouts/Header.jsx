@@ -122,6 +122,8 @@ export default function Header() {
     const storedAccessToken = localStorage.getItem('accessToken');
     if (storedAccessToken) {
       dispatch(setLoginStatus({ isLoggedIn: true }));
+    } else {
+      dispatch(setLoginStatus({ isLoggedIn: false }));
     }
   }, []);
 
