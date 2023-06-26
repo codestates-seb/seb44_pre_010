@@ -170,7 +170,6 @@ const MyPageEmptyPanel = styled.span`
 function MyPage() {
   const dispatch = useDispatch();
   const userId = localStorage.getItem('userId');
-  console.log(userId);
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const accessToken = localStorage.getItem('accessToken');
   const navigate = useNavigate();
@@ -210,7 +209,6 @@ function MyPage() {
 
   useEffect(() => {
     if (!accessToken) {
-
       alert('로그인이 필요합니다.');
       navigate('/login');
     }
@@ -234,6 +232,7 @@ function MyPage() {
     error,
   } = useUserData(userId, accessToken);
   const userData = fetchedData?.data;
+  console.log(userData);
 
   const getSortedPanelList = (panelId) => {
     const sortFunction = buttonData.find(
