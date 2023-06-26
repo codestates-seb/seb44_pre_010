@@ -16,7 +16,9 @@ public enum ExceptionCode {
     USER_EXISTS(409,"USER EXISTS"),
     USER_MISMATCH(403,"The login user and the author are different"),
     QUESTION_VOTE_ALREADY(403, "Already question voted"),
-    QUESTION_VOTE_NOT_FOUND(404, "Question vote not found");
+    QUESTION_VOTE_NOT_FOUND(404, "Question vote not found"),
+    ANSWER_VOTE_ALREADY(403, "Already answer voted"),
+    ANSWER_VOTE_NOT_FOUND(404, "Answer vote not found");
 
     @Getter
     private int status;

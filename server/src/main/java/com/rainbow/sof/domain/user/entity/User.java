@@ -2,6 +2,7 @@ package com.rainbow.sof.domain.user.entity;
 
 
 import com.rainbow.sof.domain.answer.domain.Answer;
+import com.rainbow.sof.domain.answer.domain.AnswerVote;
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.domain.QuestionVote;
 import com.rainbow.sof.global.common.BaseTimeEntity;
@@ -60,6 +61,11 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<QuestionVote> questionVotes;
+
+    // @comment AnswerVote 를 위한 매핑입니다.
+    // @author 박경민
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<AnswerVote> answerVotes;
 
     public enum Status{
         USER_ACTIVE("활성상태"),
