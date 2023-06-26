@@ -13,6 +13,7 @@ import App from '../../App';
 import { Provider as RTKProvider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import GlobalModal from '../modal/GlobalModal';
+import QuestionEditPage from '../../pages/QuestionEditPage';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
       { path: 'tags', element: <Tags /> },
       { path: 'mypage', element: <MyPage /> },
       { path: 'questions/:id', element: <QuestionDetail /> },
+      { path: 'questions/:id/edit', element: <QuestionEditPage /> },
       { path: 'search', element: <Search /> },
     ],
   },

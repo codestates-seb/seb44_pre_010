@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 import UserAvatar from '../UserAvatar';
 import SearchBar from './SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, setLoginStatus } from '../../redux/reducers/loginSlice';
-import { useEffect } from 'react';
+import { logout } from '../../redux/reducers/loginSlice';
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -117,15 +116,15 @@ export default function Header() {
     localStorage.removeItem('refreshToken');
   };
 
-  useEffect(() => {
-    // 새로고침 시 로컬스토리지에서 토큰확인하고 상태변경
-    const storedAccessToken = localStorage.getItem('accessToken');
-    if (storedAccessToken) {
-      dispatch(setLoginStatus({ isLoggedIn: true }));
-    } else {
-      dispatch(setLoginStatus({ isLoggedIn: false }));
-    }
-  }, []);
+  // useEffect(() => {
+  //   // 새로고침 시 로컬스토리지에서 토큰확인하고 상태변경
+  //   const storedAccessToken = localStorage.getItem('accessToken');
+  //   if (storedAccessToken) {
+  //     dispatch(setLoginStatus({ isLoggedIn: true }));
+  //   } else {
+  //     dispatch(setLoginStatus({ isLoggedIn: false }));
+  //   }
+  // }, []);
 
   return (
     <HeaderContainer>
