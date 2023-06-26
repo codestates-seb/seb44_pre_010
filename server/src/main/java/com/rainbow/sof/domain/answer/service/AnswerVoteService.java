@@ -33,6 +33,16 @@ public class AnswerVoteService {
         return findAnswer.getVote();
     }
 
+    public int deleteAnswerVote (long answerId, String email) {
+        Answer findAnswer = answerService.findVerifiedAnswer(answerId);
+        User findUser = userService.findByUserFromEmail(email);
+        AnswerVote findVote = answerVoteRepository.findByAnswerAnswerIdAndUserUserId(answerId,
+                findUser.getUserId()).orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_VOTE_NOT_FOUND));
+        findAnswer.calculateDeleteVote(findVote.getAnswerVoteStatus());
+        answerVoteRepository.delete(findVote);
+        return findAnswer.getVote();
+    }
+
     public void checkUserVoteStatusForAnswer (Answer answer, User user) {
         for (AnswerVote answerVote : user.getAnswerVotes()) {
             if (Objects.equals(answerVote.getAnswer().getAnswerId(), answer.getAnswerId()))

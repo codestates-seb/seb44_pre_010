@@ -6,8 +6,8 @@ import lombok.Getter;
 
 public class AnswerVoteDto {
     @Getter
-    @AllArgsConstructor
     @Builder
+    @AllArgsConstructor
     public static class Response {
         private int vote;
     }

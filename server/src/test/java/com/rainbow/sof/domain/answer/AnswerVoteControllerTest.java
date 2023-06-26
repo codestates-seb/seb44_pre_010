@@ -2,12 +2,9 @@ package com.rainbow.sof.domain.answer;
 
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
-import com.epages.restdocs.apispec.ResourceDocumentation;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.rainbow.sof.domain.answer.controller.AnswerVoteController;
 import com.rainbow.sof.domain.answer.service.AnswerVoteService;
 import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
-import com.rainbow.sof.domain.user.config.SecurityConfiguration;
 import com.rainbow.sof.helper.StubData;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -92,6 +89,44 @@ public class AnswerVoteControllerTest {
                                                         )
                                                         .requestParameters(
                                                                 parameterWithName("status").description("질문 상태(up/down)")
+                                                        )
+                                                        .responseFields(
+                                                                fieldWithPath("vote").type(JsonFieldType.NUMBER).description("답변 투표 수")
+                                                        )
+                                                        .build()
+                                        )
+                                )
+                        );
+    }
+
+    @Test
+    @DisplayName("답변 투표 취소")
+    void deleteAnswerVote() throws Exception {
+        //given
+        BDDMockito.given(answerVoteService.deleteAnswerVote(Mockito.anyLong(), Mockito.anyString())).willReturn(0);
+
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                                RestDocumentationRequestBuilders.delete(ANSWER_VOTE_DEFAULT_URL + "/{answer-id}/vote", 1L)
+                                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenForUser)
+                                        .accept(MediaType.APPLICATION_JSON)
+                        )
+                        //then
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.vote").value(0))
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("답변 투표 취소 예제",
+                                        preprocessRequest(prettyPrint()),
+                                        preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("답변 투표")
+                                                        .requestHeaders(
+                                                                headerWithName("Authorization").description("발급받은 인증 토큰")
+                                                        )
+                                                        .pathParameters(
+                                                                parameterWithName("answer-id").description("답변 식별자")
                                                         )
                                                         .responseFields(
                                                                 fieldWithPath("vote").type(JsonFieldType.NUMBER).description("답변 투표 수")
