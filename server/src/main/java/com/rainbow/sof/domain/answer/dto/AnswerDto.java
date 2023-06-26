@@ -41,11 +41,10 @@ public class AnswerDto {
         private String content;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
+        private long vote;
 
         @Setter(AccessLevel.NONE)
         private Long questionId;
-
-        // TODO: Users 추후에 추가
     }
 
     /**
