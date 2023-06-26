@@ -274,6 +274,7 @@ export default function QuestionDetail() {
     )
       .then((res) => {
         if (res.status === 204) {
+          alert('게시글이 삭제되었습니당!!');
           navigation(0);
         }
       })
