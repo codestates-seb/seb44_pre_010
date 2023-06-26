@@ -245,6 +245,7 @@ export default function QuestionDetail() {
         method: 'delete',
         headers: {
           accept: '*/*',
+          Authorization: `Bearer ${accessToken}`,
         },
       },
     );
