@@ -24,28 +24,29 @@ const Cancel = styled(Link)`
   color: var(--blue);
 `;
 
-export default function EditPage({ title, content, qid }) {
+export default function EditPage({ title, content, qid, aid }) {
   const [newText, setNewText] = useState('');
   const navigate = useNavigate();
 
   const storedAccessToken = localStorage.getItem('accessToken');
 
   const onPostEdit = () => {
-    fetch(
-      `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${qid}`,
-      {
-        method: 'PATCH',
-        headers: {
-          accept: '*/*',
-          Authorization: `Bearer ${storedAccessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title: title,
-          content: newText,
-        }),
+    const url = title
+      ? `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${qid}`
+      : `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${qid}/answers/${aid}`;
+
+    fetch(url, {
+      method: 'PATCH',
+      headers: {
+        accept: '*/*',
+        Authorization: `Bearer ${storedAccessToken}`,
+        'Content-Type': 'application/json',
       },
-    )
+      body: JSON.stringify({
+        title: title,
+        content: newText,
+      }),
+    })
       .then((res) => {
         if (res.status === 201) {
           navigate(`/questions/${qid}`);
@@ -64,7 +65,7 @@ export default function EditPage({ title, content, qid }) {
 
   return (
     <div>
-      <Title>Body</Title>
+      {title ? <Title>Body</Title> : <Title>Answer</Title>}
       <MarkDownEditor value={newText} onChange={setNewText} />
       <PostText>{content}</PostText>
       <div>

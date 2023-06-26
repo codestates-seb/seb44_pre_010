@@ -14,14 +14,13 @@ import { Provider as RTKProvider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import GlobalModal from '../modal/GlobalModal';
 
-
 import QuestionEditPage from '../../pages/QuestionEditPage';
-
 
 import DeleteProfile from '../../pages/DeleteProfile';
 import EditProfile from '../../pages/EditProfile';
 
 import AskQuestions from '../../pages/AskQuestions';
+import AnswerEditPage from '../../pages/AnswerEditPage';
 
 const router = createBrowserRouter([
   {
@@ -37,7 +36,7 @@ const router = createBrowserRouter([
       { path: 'questions/:id/edit', element: <QuestionEditPage /> },
       {
         path: 'questions/:id/answers/:aid/edit',
-        element: <QuestionEditPage />,
+        element: <AnswerEditPage />,
       },
       { path: 'search', element: <Search /> },
       { path: 'mypage/edit', element: <EditProfile /> },
