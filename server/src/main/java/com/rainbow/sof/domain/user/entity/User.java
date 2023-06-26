@@ -52,6 +52,10 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private Status status =Status.USER_ACTIVE;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private oAuthCheck oAuth =oAuthCheck.NO_OAUTH;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Question> questionList;
 
@@ -72,6 +76,21 @@ public class User extends BaseTimeEntity {
             this.status = status;
         }
     }
+
+    public enum oAuthCheck{
+        GOOGLE("GOOGLE"),
+        FACEBOOK("FACEBOOK"),
+        NO_OAUTH("No_Oauth_User");
+
+        @Getter
+        private final String status;
+
+        oAuthCheck(String status) {
+            this.status = status;
+        }
+    }
+
+    public void updateOAuth(oAuthCheck oAuth) {this.oAuth = oAuth;}
 
     public void updateStatus(Status status) {
         this.status = status;

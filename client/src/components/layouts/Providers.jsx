@@ -8,7 +8,7 @@ import Login from '../../pages/Login.jsx';
 import SignUp from '../../pages/SignUp.jsx';
 import QuestionDetail from '../../pages/QuestionDetail.jsx';
 import App from '../../App';
-
+import OAuht from "../../pages/OAuht";
 import { Provider as RTKProvider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -27,6 +27,7 @@ const router = createBrowserRouter([
   },
   { path: '/login', element: <Login /> },
   { path: '/signup', element: <SignUp /> },
+  {path: '/oAuht', element: <OAuht />}
 ]);
 
 export default function Providers({ children }) {
