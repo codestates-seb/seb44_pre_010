@@ -652,7 +652,6 @@ function Questions() {
                                 </UserTime>
                               </Block2>
                             </Tag>
-                            PPP
                           </QuelistConatiner>
                         </Questionlist>
                       );
