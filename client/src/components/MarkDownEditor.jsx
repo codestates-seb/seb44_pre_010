@@ -4,7 +4,6 @@ import MDEditor from '@uiw/react-md-editor';
 const EditorWrapper = styled.div`
   margin-bottom: 1rem;
 `;
-
 export default function MarkDownEditor(props) {
   return (
     <EditorWrapper data-color-mode={props.theme || 'light'}>
