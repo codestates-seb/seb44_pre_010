@@ -69,7 +69,7 @@ const ModalButton = styled.button`
 export default function signupModal() {
   const navigate = useNavigate();
   const handleOkClick = () => {
-    navigate('/');
+    navigate('/login');
   };
   return (
     <ModalWrapper>

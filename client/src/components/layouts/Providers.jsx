@@ -6,6 +6,7 @@ import Questions from '../../pages/Questions.jsx';
 import Tags from '../../pages/Tags.jsx';
 import Login from '../../pages/Login.jsx';
 import SignUp from '../../pages/SignUp.jsx';
+import Search from '../../pages/Search.jsx';
 import QuestionDetail from '../../pages/QuestionDetail.jsx';
 import App from '../../App';
 
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: 'tags', element: <Tags /> },
       { path: 'mypage', element: <MyPage /> },
       { path: 'questions/:id', element: <QuestionDetail /> },
+      { path: 'search', element: <Search /> },
     ],
   },
   { path: 'login', element: <Login /> },

@@ -5,6 +5,7 @@ import com.rainbow.sof.domain.user.auth.jwt.DelegateTokenService;
 import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
 import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import com.rainbow.sof.domain.user.entity.User;
+import com.rainbow.sof.global.error.BusinessLogicException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             UserDto.CreationLoginDto creationLoginDto = objectMapper.readValue(request.getInputStream(), UserDto.CreationLoginDto.class);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(creationLoginDto.getUsername(),creationLoginDto.getPassword());
+            //BadCredentialsException 발생시점 ->
+            //authenticationProvider 에 올바른 토큰이 오지 않아서 크래댄셜 인증시 db의 내용과
+            //입력 받은 유저 정보(비밀번호만 다르면)가 다를 때 발생함.
+            //---> 유저 정보는?
+            //유저가 없다면 usersDetail 서비스에서 userNotFound 에러를 출력함
+            //이 외의 에러는 즉, 비밀번호가 일치하지 않을때 BadCredentialsException 발생 !
             return authenticationManager.authenticate(authenticationToken);
         } catch (IOException e) {
             throw new RuntimeException("읽어올 수 없는 사용자 정보 입니다.");

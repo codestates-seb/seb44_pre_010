@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg';
 import { ReactComponent as Logo } from '../../assets/imgs/mainLogo.svg';
 import { ReactComponent as LogOutIcon } from '../../assets/icons/logout.svg';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import UserAvatar from '../UserAvatar';
-import { useSelector } from 'react-redux';
+import SearchBar from './SearchBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, setLoginStatus } from '../../redux/reducers/loginSlice';
+import { useEffect } from 'react';
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -42,47 +43,6 @@ const LogoLink = styled(Link)`
   display: flex;
   align-items: center;
   background-color: transparent;
-`;
-
-const SearchForm = styled.form`
-  padding: 0 0.5rem;
-  display: flex;
-  align-items: center;
-  flex-shrink: 1000;
-  flex-grow: 1;
-  box-sizing: border-box;
-`;
-
-const SearchFormInner = styled.div`
-  position: relative;
-  flex-grow: 1;
-`;
-
-const SearchInput = styled.input`
-  border: 1px solid var(--black-200);
-  background-color: white;
-  color: var(--black-700);
-  font-size: 13px;
-  border-radius: 3px;
-  line-height: calc((13 + 2) / 13);
-  padding: 0.5rem 0.6rem 0.5rem 2rem;
-  width: 100%;
-  margin: 0;
-  box-sizing: border-box;
-
-  &::placeholder {
-    color: var(--black-200);
-    font-size: 12px;
-  }
-`;
-
-const SearchInputIcon = styled(SearchIcon)`
-  color: var(--black-400);
-  margin-top: -9px;
-  pointer-events: none;
-  position: absolute;
-  left: 0.7rem;
-  top: 50%;
 `;
 
 const Nav = styled.nav`
@@ -147,13 +107,25 @@ const IconListItem = styled(Link)`
 `;
 
 export default function Header() {
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const { isLoggedIn } = useSelector((state) => state.login) || false;
+  const dispatch = useDispatch();
 
-  const { isLoggedIn } = useSelector((state) => state.login);
-
-  const onHandleChangeKeyword = (e) => {
-    setSearchKeyword(e.target.value);
+  // 로그아웃 시 토큰 삭제
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   };
+
+  useEffect(() => {
+    // 새로고침 시 로컬스토리지에서 토큰확인하고 상태변경
+    const storedAccessToken = localStorage.getItem('accessToken');
+    if (storedAccessToken) {
+      dispatch(setLoginStatus({ isLoggedIn: true }));
+    } else {
+      dispatch(setLoginStatus({ isLoggedIn: false }));
+    }
+  }, []);
 
   return (
     <HeaderContainer>
@@ -161,23 +133,7 @@ export default function Header() {
         <LogoLink to="/">
           <LogoIcon />
         </LogoLink>
-        <SearchForm id="search" role="search" action="" autoComplete="off">
-          <SearchFormInner>
-            <SearchInput
-              type="text"
-              role="combobox"
-              placeholder="Search..."
-              autoComplete="off"
-              maxLength="240"
-              value={searchKeyword}
-              onChange={onHandleChangeKeyword}
-              aria-label="Search"
-              aria-expanded="false"
-              aria-controls="top-serach"
-            />
-            <SearchInputIcon />
-          </SearchFormInner>
-        </SearchForm>
+        <SearchBar></SearchBar>
         <Nav>
           {!isLoggedIn ? (
             <NavContainer>
@@ -196,7 +152,7 @@ export default function Header() {
                 </Link>
               </IconListItem>
               <IconListItem>
-                <Link to="/">
+                <Link to="/" onClick={handleLogout}>
                   <LogOutIcon fill="var(--orange)" />
                 </Link>
               </IconListItem>

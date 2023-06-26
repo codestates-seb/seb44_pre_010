@@ -1,7 +1,8 @@
-package com.rainbow.sof.domain.user.auth.util.userDetailService;
+package com.rainbow.sof.domain.user.auth.util.service;
 
 import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
 import com.rainbow.sof.domain.user.auth.util.userDetail.UsersDetail;
+import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import com.rainbow.sof.domain.user.entity.User;
 import com.rainbow.sof.domain.user.repository.UserRepository;
 import com.rainbow.sof.global.error.BusinessLogicException;
@@ -31,7 +32,13 @@ public class UsersDetailService implements UserDetailsService {
         User user = optionalUser.orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
         );
+        checkOAuthUser(user);
         return new UsersDetail(user);
+    }
+    private void checkOAuthUser(User user) {
+        if (user.getOAuth().equals(User.oAuthCheck.GOOGLE)){
+            throw new BusinessLogicException(ExceptionCode.ACCOUNT_RESTRICTED);
+        }
     }
 
 
