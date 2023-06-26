@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import Pagination from '../components/pagenation/Pagenation';
 import BlueButton from '../components/common/BlueButton';
-import { useEffect, useState } from 'react';
+import { Children, useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import profile from '../assets/imgs/profile.png';
+import AskQuestions from './AskQuestions';
 
 const Maincontainer = styled.div`
   max-width: 68.75rem;
@@ -554,6 +555,10 @@ function Questions() {
     return minutes;
   };
 
+  const handleClick = () => {
+    return;
+  };
+
   return (
     <>
       <Maincontainer className="Maincontainer">
@@ -561,7 +566,9 @@ function Questions() {
           <TopQuestions>
             <H1> All Questions</H1>
             <AQuecontainer>
-              <BlueButton> Ask Question </BlueButton>
+              <BlueButton onClick={handleClick} link="/askquestions">
+                Ask Question
+              </BlueButton>
             </AQuecontainer>
           </TopQuestions>
           <Category>
@@ -618,7 +625,6 @@ function Questions() {
                                 {question.title}
                               </Link>
                             </QueTitle>
-
                             <Tag>
                               {/* ⬇ 여기가  Tags 컴포넌트 최상위  */}
                               <Block2></Block2>
@@ -647,6 +653,7 @@ function Questions() {
                                 </UserTime>
                               </Block2>
                             </Tag>
+                            PPP
                           </QuelistConatiner>
                         </Questionlist>
                       );

@@ -23,6 +23,10 @@ const Button = styled(Link)`
   }
 `;
 
-export default function BlueButton({ children, onClick }) {
-  return <Button onClick={onClick}>{children}</Button>;
+export default function BlueButton({ children, onClick, link }) {
+  return (
+    <Button to={link} onClick={onClick}>
+      {children}
+    </Button>
+  );
 }

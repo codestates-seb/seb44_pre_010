@@ -4,7 +4,7 @@ import BlueButton from '../components/common/BlueButton';
 import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import profile from '../assets/imgs/profile.png';
-
+import AskQuestions from './AskQuestions';
 const Maincontainer = styled.div`
   max-width: 68.75rem;
   width: calc(100% - 10.25rem);
@@ -447,7 +447,13 @@ function Home() {
     console.log(minutes);
     return minutes;
   };
-
+  const clickButton = () => {
+    return (
+      <Link to="/ask-questions">
+        <AskQuestions />;
+      </Link>
+    );
+  };
   return (
     <>
       <Maincontainer className="Maincontainer">
@@ -455,7 +461,7 @@ function Home() {
           <TopQuestions>
             <H1> Top Questions</H1>
             <AQuecontainer>
-              <BlueButton> Ask Question </BlueButton>
+              <BlueButton link="/askquestions">Ask Question</BlueButton>
             </AQuecontainer>
           </TopQuestions>
           <Category>

@@ -12,6 +12,7 @@ import App from '../../App';
 import { Provider as RTKProvider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import GlobalModal from '../modal/GlobalModal';
+import AskQuestions from '../../pages/AskQuestions';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: 'tags', element: <Tags /> },
       { path: 'mypage', element: <MyPage /> },
       { path: 'questions/:id', element: <QuestionDetail /> },
+      { path: '/askquestions', element: <AskQuestions /> },
     ],
   },
   { path: 'login', element: <Login /> },
