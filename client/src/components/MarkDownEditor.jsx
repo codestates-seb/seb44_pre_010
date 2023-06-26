@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+/*import { forwardRef } from 'react';
 import '@toast-ui/editor/dist/toastui-editor.css'; // Editor 스타일
 import { Editor } from '@toast-ui/react-editor';
 import styled from 'styled-components';
@@ -16,4 +16,4 @@ const MarkDownEditor = (props, ref) => (
   </EditorWrapper>
 );
 
-export default forwardRef(MarkDownEditor);
+export default forwardRef(MarkDownEditor);*/

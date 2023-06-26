@@ -7,7 +7,7 @@ import { ReactComponent as GoogleLogo } from '../assets/icons/logo_google.svg';
 import { ReactComponent as GithubLogo } from '../assets/icons/logo_github.svg';
 import { ReactComponent as FacebookLogo } from '../assets/icons/logo_facebook.svg';
 import { useNavigate } from 'react-router-dom';
-P
+import { login } from '../redux/reducers/loginSlice';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -195,12 +195,12 @@ const Login = () => {
             const refreshToken = response.headers.get('Refresh');
             const userId = response.json().userId;
 
-            // 토큰 저장 로직
+            // 토큰 저장
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
-
+            // 상태 변경
             dispatch(login({ accessToken, refreshToken, userId }));
-
+            // 메인페지이로 이동
             navigate('/');
             return;
           } else if (response.status === 401) {
