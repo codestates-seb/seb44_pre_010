@@ -523,21 +523,24 @@ function Questions() {
   const { onHandleSelect } = useOutletContext();
   const [isFetching, setIsFetching] = useState(true);
   const [sortedQuestions, setSortedQuestions] = useState([]);
+  const [Total, setTotal] = useState(0);
 
   useEffect(() => {
     onHandleSelect(1);
     const getAllQuestions = async () => {
       const response = await fetch(
-        'http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/top',
+        `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions?tab=newest&page=${page}`,
       );
       const jsonData = await response.json();
 
       setQuestions(jsonData.data);
       setIsFetching(false);
+      setTotal(jsonData.pageInfo.totalPages);
+      console.log(jsonData.data);
     };
 
     getAllQuestions();
-  }, []);
+  }, [page, Total]);
 
   useEffect(() => {
     // Questions 페이지 최신순으로 정렬
@@ -600,73 +603,61 @@ function Questions() {
               <Questioncontainer>
                 {/* ⬇모든 Question Items를 포함하는 컴포넌트 최상위
                  */}
-                {Array.isArray(sortedQuestions) &&
-                  sortedQuestions
-                    .slice(offset, offset + limit)
-                    ?.map((question) => {
-                      const createdMinutes = formatTime(question.createdAt);
-                      return (
-                        <Questionlist key={question.questionId}>
-                          <Qinformation>
-                            <Votes>
-                              <span> {question.vote} </span> votes
-                            </Votes>
-                            <Answers>
-                              <span> {question.answerCount} </span> answerd
-                            </Answers>
-                            <Views>
-                              <span> {question.view} </span> views
-                            </Views>
-                          </Qinformation>
-                          <QuelistConatiner>
-                            <QueTitle>
-                              <Link to={`/questions/${question.questionId}`}>
-                                {question.title}
-                              </Link>
-                            </QueTitle>
-                            <Tag>
-                              {/* ⬇ 여기가  Tags 컴포넌트 최상위  */}
-                              <Block2></Block2>
-                              <Block2>
-                                <UserImg>
-                                  <div>
-                                    <img
-                                      src={profile}
-                                      alt="유저 이미지 사진"
-                                    ></img>
-                                  </div>
-                                </UserImg>
-                                <UserIdList>
-                                  <UserId>
-                                    <span>{question.user.name}</span>
-                                  </UserId>
-                                  <UserCommit>
-                                    <li>
-                                      <span> {2} </span>
-                                    </li>
-                                  </UserCommit>
-                                </UserIdList>
-                                <UserTime>
-                                  asked <span>{createdMinutes} mins ago</span>
-                                  {/*분만 출력 */}
-                                </UserTime>
-                              </Block2>
-                            </Tag>
-                          </QuelistConatiner>
-                        </Questionlist>
-                      );
-                    })}
+                {questions.map((question) => {
+                  const createdMinutes = formatTime(question.createdAt);
+                  return (
+                    <Questionlist key={question.questionId}>
+                      <Qinformation>
+                        <Votes>
+                          <span> {question.vote} </span> votes
+                        </Votes>
+                        <Answers>
+                          <span> {question.answerCount} </span> answerd
+                        </Answers>
+                        <Views>
+                          <span> {question.view} </span> views
+                        </Views>
+                      </Qinformation>
+                      <QuelistConatiner>
+                        <QueTitle>
+                          <Link to={`/questions/${question.questionId}`}>
+                            {question.title}
+                          </Link>
+                        </QueTitle>
+                        <Tag>
+                          {/* ⬇ 여기가  Tags 컴포넌트 최상위  */}
+                          <Block2></Block2>
+                          <Block2>
+                            <UserImg>
+                              <div>
+                                <img src={profile} alt="유저 이미지 사진"></img>
+                              </div>
+                            </UserImg>
+                            <UserIdList>
+                              <UserId>
+                                <span>{question.user.name}</span>
+                              </UserId>
+                              <UserCommit>
+                                <li>
+                                  <span> {2} </span>
+                                </li>
+                              </UserCommit>
+                            </UserIdList>
+                            <UserTime>
+                              asked <span>{createdMinutes} mins ago</span>
+                              {/*분만 출력 */}
+                            </UserTime>
+                          </Block2>
+                        </Tag>
+                      </QuelistConatiner>
+                    </Questionlist>
+                  );
+                })}
               </Questioncontainer>
             </Questionminilist>
           </Qlistwrapper>
           {/* 여기서 페이지네이션 구현  */}
-          <Pagination
-            total={questions.length}
-            limit={limit}
-            page={page}
-            setPage={setPage}
-            setLimit={setLimit}
-          ></Pagination>
+          <Pagination total={Total} page={page} setPage={setPage}></Pagination>
         </Mainbar>
       </Maincontainer>
     </>
