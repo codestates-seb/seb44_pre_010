@@ -65,9 +65,14 @@ const QuestionVoteItem = styled.div`
 `;
 
 const QuestionVoteButtonItem = styled(QuestionVoteItem)`
-  border: 1px solid var(--black-100);
+  border: 1px solid ${(props) => props.color};
   border-radius: 100%;
   padding: 0.625rem;
+  color: ${(props) => props.color};
+
+  & > svg {
+    fill: ${(props) => props.color};
+  }
 `;
 
 const QuestionVoteCountItem = styled(QuestionVoteItem)`
@@ -197,6 +202,8 @@ export default function QuestionDetail() {
   const [question, setQuestion] = useState({});
   const [isFetching, setIsFetching] = useState(true);
   const [answerValue, setAnswerValue] = useState(`type your answer...`);
+  const [questionVote, setQuestionVote] = useState('');
+
   const navigation = useNavigate();
 
   const storedAccessToken = localStorage.getItem('accessToken');
@@ -281,6 +288,53 @@ export default function QuestionDetail() {
       .catch((e) => console.log(e));
   };
 
+  const onHandleVote = (status) => {
+    fetch(
+      `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${id}/vote?status=${status}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${storedAccessToken}`,
+        },
+      },
+    ).then((res) => {
+      if (status === questionVote) {
+        // 취소
+        setQuestionVote('');
+        onHandleVoteCancel();
+        return;
+      }
+
+      if (res.status === 201) {
+        console.log(`vote ${status}!`);
+        setQuestionVote(status);
+        console.log(questionVote);
+      } else if (res.status >= 400) {
+        onHandleVoteCancel();
+        // onHandleVote(status);
+      }
+    });
+  };
+
+  const onHandleVoteCancel = () => {
+    fetch(
+      `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${id}/vote`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${storedAccessToken}`,
+        },
+      },
+    ).then((res) => {
+      if (res.status === 200) {
+        console.log('cancel vote!');
+        console.log(res);
+      }
+    });
+  };
+
   return (
     <>
       {!isFetching && (
@@ -305,11 +359,19 @@ export default function QuestionDetail() {
           </QuestionsInfoContainer>
           <QuestionContentContainer>
             <QuestionVoteContainer>
-              <QuestionVoteButtonItem>
+              <QuestionVoteButtonItem
+                onClick={() => onHandleVote('up')}
+                color={questionVote === 'up' ? 'var(--orange)' : 'var(--black)'}
+              >
                 <VoteUp />
               </QuestionVoteButtonItem>
               <QuestionVoteCountItem>{question.vote}</QuestionVoteCountItem>
-              <QuestionVoteButtonItem>
+              <QuestionVoteButtonItem
+                onClick={() => onHandleVote('down')}
+                color={
+                  questionVote === 'down' ? 'var(--orange)' : 'var(--black)'
+                }
+              >
                 <VoteDown />
               </QuestionVoteButtonItem>
             </QuestionVoteContainer>
