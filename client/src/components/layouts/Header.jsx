@@ -107,7 +107,8 @@ const IconListItem = styled(Link)`
 `;
 
 export default function Header() {
-  const { isLoggedIn } = useSelector((state) => state.login);
+  const { accessToken } = useSelector((state) => state.login);
+  const { isLoggedIn } = useSelector((state) => state.login) || false;
   const dispatch = useDispatch();
 
   // 로그아웃 시 토큰 삭제
@@ -118,10 +119,12 @@ export default function Header() {
   };
 
   useEffect(() => {
-    // 페이지 로드 시 로컬 스토리지에서 로그인 상태 확인하여 Redux 상태 설정
-    const storedLoginStatus = localStorage.getItem('isLoggedIn');
-    if (storedLoginStatus === 'true') {
+    // 새로고침 시 로컬스토리지에서 토큰확인하고 상태변경
+    const storedAccessToken = localStorage.getItem('accessToken');
+    if (storedAccessToken) {
       dispatch(setLoginStatus({ isLoggedIn: true }));
+    } else {
+      dispatch(setLoginStatus({ isLoggedIn: false }));
     }
   }, []);
 
