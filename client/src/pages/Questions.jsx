@@ -528,12 +528,13 @@ function Questions() {
     onHandleSelect(1);
     const getAllQuestions = async () => {
       const response = await fetch(
-        'http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/top',
+        `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions?tab=newest&page=1`,
       );
       const jsonData = await response.json();
 
       setQuestions(jsonData.data);
       setIsFetching(false);
+      console.log(jsonData.data);
     };
 
     getAllQuestions();
