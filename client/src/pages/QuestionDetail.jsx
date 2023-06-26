@@ -242,6 +242,7 @@ export default function QuestionDetail() {
     fetch(
       `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${id}/answers/${answerId}`,
       {
+        method: 'delete',
         headers: {
           accept: '*/*',
         },
@@ -260,15 +261,15 @@ export default function QuestionDetail() {
           <QuestionsInfoContainer>
             <QuestionsInfoItem>
               <span>Asked</span>
-              <time>{formatAgo(question.createdAt)}</time>
+              <span>{formatAgo(question.createdAt)}</span>
             </QuestionsInfoItem>
             <QuestionsInfoItem>
               <span>Modified</span>
-              <time>{formatAgo(question.modifiedAt)}</time>
+              <span>{formatAgo(question.modifiedAt)}</span>
             </QuestionsInfoItem>
             <QuestionsInfoItem>
               <span>Viewed</span>
-              <time>{question.view} times</time>
+              <span>{question.view} times</span>
             </QuestionsInfoItem>
           </QuestionsInfoContainer>
           <QuestionContentContainer>
