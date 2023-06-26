@@ -22,10 +22,13 @@ const loginSlice = createSlice({
       state.refreshToken = null;
       state.userId = null;
     },
+    setLoginStatus: (state, action) => {
+      state.isLoggedIn = action.payload.isLoggedIn;
+    },
   },
 });
 
-export const { login, logout } = loginSlice.actions;
+export const { login, logout, setLoginStatus } = loginSlice.actions;
 export const loginState = (state) => state.login;
 
 export default loginSlice.reducer;
