@@ -1,13 +1,13 @@
 # We are the Rainbow
 ![스택오버플로우](https://user-images.githubusercontent.com/97720335/234835985-4f9ad932-0653-4ebd-a937-b552dc54bdf9.png)
 
-**Team name**: rainbow
+- **Team name**: rainbow
 
-**Project**: Stackoverflow Clone Coding
+- **Project**: Stackoverflow Clone Coding
 
-**Development Duration**: 2023.06.14~2023.06.26
+- **Development Duration**: 2023.06.14~2023.06.26
 
-**Deploy URI**: [Stackoverflow clone project](http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com/)
+- **Deploy URI**: [Stackoverflow clone project](http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com/)
 
 ## 👪Team
 ### Frontend
