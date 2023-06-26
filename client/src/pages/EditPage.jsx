@@ -30,6 +30,7 @@ export default function EditPage({ title, content, qid }) {
   const storedAccessToken = localStorage.getItem('accessToken');
 
   const onPostEdit = () => {
+    console.log(newText);
     fetch(
       `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${qid}`,
       {
@@ -39,10 +40,10 @@ export default function EditPage({ title, content, qid }) {
           Authorization: `Bearer ${storedAccessToken}`,
           'Content-Type': 'application/json',
         },
-        body: {
+        body: JSON.stringify({
           title: title,
           content: newText,
-        },
+        }),
       },
     );
   };
