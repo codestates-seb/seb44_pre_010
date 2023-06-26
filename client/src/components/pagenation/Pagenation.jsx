@@ -68,7 +68,7 @@ function Pagination({ total, limit, setPage, page, setLimit }) {
           <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
             Pre
           </Button>
-          {Array(numPages)
+          {Array(total)
             .fill()
             .map((_, i) => (
               <Button

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import BlueButton from '../components/common/BlueButton';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Title = styled.h2`
   font-size: 0.813rem;
@@ -26,11 +26,11 @@ const Cancel = styled(Link)`
 
 export default function EditPage({ title, content, qid }) {
   const [newText, setNewText] = useState('');
+  const navigate = useNavigate();
 
   const storedAccessToken = localStorage.getItem('accessToken');
 
   const onPostEdit = () => {
-    console.log(newText);
     fetch(
       `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${qid}`,
       {
@@ -45,7 +45,17 @@ export default function EditPage({ title, content, qid }) {
           content: newText,
         }),
       },
-    );
+    )
+      .then((res) => {
+        if (res.status === 201) {
+          navigate(`/questions/${qid}`);
+        } else if (res.status >= 400) {
+          new Error(
+            `[ERROR] error is occured! th status code is ${res.status}`,
+          );
+        }
+      })
+      .catch((e) => console.log(e));
   };
 
   useEffect(() => {
