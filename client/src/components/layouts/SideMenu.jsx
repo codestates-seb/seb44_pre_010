@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import { sideMenuList } from '../../constants/SideMenuContnats.js';
+
+import styled from 'styled-components';
 
 const LeftSideBarContainer = styled.div`
   width: 164px;
@@ -11,7 +12,7 @@ const LeftSideBarContainer = styled.div`
 const Inner = styled.div`
   position: sticky;
   max-height: calc(100vh - 56px);
-  height: 100%;
+  height: fit-content;
   width: auto;
   padding-top: 24px;
   margin-bottom: 8px;

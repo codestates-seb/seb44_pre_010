@@ -4,31 +4,40 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.google.gson.Gson;
 import com.rainbow.sof.domain.answer.service.AnswerService;
+
 import com.rainbow.sof.domain.question.domain.Question;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
 import com.rainbow.sof.domain.question.mapper.QuestionMapper;
 import com.rainbow.sof.domain.question.service.QuestionService;
+import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
 import com.rainbow.sof.helper.StubData;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
 import org.springframework.data.domain.Page;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
+
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 
 import java.util.ArrayList;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -36,11 +45,10 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class QuestionControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -48,16 +56,22 @@ public class QuestionControllerTest {
     private Gson gson;
     @MockBean
     private QuestionService service;
-
     @MockBean
     private AnswerService answerService;
-
     @MockBean
     private QuestionMapper mapper;
-
     private final String QUESTION_DEFAULT_URL = "/api/v1/questions";
 
+    private String accessTokenForUser;
+    @Autowired
+    private JwtTokenizer jwtTokenizer;
+
+    @BeforeAll
+    public void init() {
+        accessTokenForUser = StubData.MockSecurity.getValidAccessToken(jwtTokenizer.getSecretKeySting(), "USER");
+    }
     @Test
+    @WithMockUser
     @DisplayName("Question을 추가한다.(저장)")
     void postQuestion() throws Exception {
         //given
@@ -72,6 +86,7 @@ public class QuestionControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                                 post(QUESTION_DEFAULT_URL)
+                                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenForUser)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .content(jsonData)
                         )
@@ -84,6 +99,9 @@ public class QuestionControllerTest {
                                         resource(
                                                 ResourceSnippetParameters.builder()
                                                         .description("질문 등록")
+                                                        .requestHeaders(
+                                                                headerWithName("Authorization").description("발급받은 인증 토큰")
+                                                        )
                                                         .requestFields(
                                                                 fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
                                                                 fieldWithPath("content").type(JsonFieldType.STRING).description("질문 세부내용")
@@ -141,12 +159,14 @@ public class QuestionControllerTest {
                                                                 fieldWithPath("data.answers.[].content").type(JsonFieldType.STRING).description("답변 세부내용"),
                                                                 fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("답변 작성일"),
                                                                 fieldWithPath("data.answers.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정일"),
+                                                                fieldWithPath("data.answers.[].vote").type(JsonFieldType.NUMBER).description("답변 추천수"),
                                                                 fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변의 질문 식별자"),
                                                                 fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                                                 fieldWithPath("data.title").type(JsonFieldType.STRING).description("질문 제목"),
                                                                 fieldWithPath("data.content").type(JsonFieldType.STRING).description("질문 내용"),
                                                                 fieldWithPath("data.view").type(JsonFieldType.NUMBER).description("조회수"),
                                                                 fieldWithPath("data.answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                                                fieldWithPath("data.vote").type(JsonFieldType.NUMBER).description("투표 개수"),
                                                                 fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("작성일"),
                                                                 fieldWithPath("data.modifiedAt").type(JsonFieldType.STRING).description("수정일")
                                                         )
@@ -172,6 +192,7 @@ public class QuestionControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                                 patch(QUESTION_DEFAULT_URL + "/{question-id}", 1)
+                                        .header(HttpHeaders.AUTHORIZATION, "Bearer ".concat(accessTokenForUser))
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .content(jsonData)
                         )
@@ -186,6 +207,9 @@ public class QuestionControllerTest {
                                                         .description("질문 수정")
                                                         .pathParameters(
                                                                 parameterWithName("question-id").description("질문 식별자")
+                                                        )
+                                                        .requestHeaders(
+                                                                headerWithName("Authorization").description("발급받은 인증 토큰")
                                                         )
                                                         .requestFields(
                                                                 fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
@@ -207,6 +231,7 @@ public class QuestionControllerTest {
         // when
         mockMvc.perform(
                         delete(QUESTION_DEFAULT_URL + "/{question-id}", 1L)
+                                .header("Authorization", "Bearer ".concat(accessTokenForUser))
                         // then
                 ).andExpect(status().isNoContent())
                 .andDo(MockMvcRestDocumentationWrapper.document("질문 삭제 예제",
@@ -215,6 +240,9 @@ public class QuestionControllerTest {
                                 resource(
                                         ResourceSnippetParameters.builder()
                                                 .description("질문 삭제 예제")
+                                                .requestHeaders(
+                                                        headerWithName("Authorization").description("발급받은 인증 토큰")
+                                                )
                                                 .pathParameters(
                                                         parameterWithName("question-id").description("질문 식별자")
                                                 )
@@ -260,6 +288,7 @@ public class QuestionControllerTest {
                                                                 fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("질문 내용"),
                                                                 fieldWithPath("data.[].view").type(JsonFieldType.NUMBER).description("조회수"),
                                                                 fieldWithPath("data.[].answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                                                fieldWithPath("data.[].vote").type(JsonFieldType.NUMBER).description("투표 개수"),
                                                                 fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성일"),
                                                                 fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정일")
                                                         )
@@ -281,7 +310,7 @@ public class QuestionControllerTest {
         ResultActions actions =
                 mockMvc.perform(
                                 get(QUESTION_DEFAULT_URL)
-                                        .param("tab", "Newest")
+                                        .param("tab", "newest")
                                         .param("page","1")
                                         .accept(MediaType.APPLICATION_JSON)
                         )
@@ -297,8 +326,8 @@ public class QuestionControllerTest {
                                                 ResourceSnippetParameters.builder()
                                                         .description("질문 페이징 리스트 조회")
                                                         .requestParameters(
-                                                                parameterWithName("tab").description("정렬"),
-                                                                parameterWithName("page").description("페이징")
+                                                                parameterWithName("tab").description("정렬(newest/oldest) 입력되지 않으면 newest로 처리"),
+                                                                parameterWithName("page").description("페이지, 입력되지 않으면 1로 처리")
                                                         )
                                                         .requestFields()
                                                         .responseFields(
@@ -311,6 +340,66 @@ public class QuestionControllerTest {
                                                                 fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("질문 내용"),
                                                                 fieldWithPath("data.[].view").type(JsonFieldType.NUMBER).description("조회수"),
                                                                 fieldWithPath("data.[].answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                                                fieldWithPath("data.[].vote").type(JsonFieldType.NUMBER).description("투표 개수"),
+                                                                fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성일"),
+                                                                fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정일"),
+                                                                fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이징 정보"),
+                                                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
+                                                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("한 페이지에 속하는 데이터 개수"),
+                                                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 데이터 개수"),
+                                                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 개수")
+                                                        )
+                                                        .build()
+                                        )
+                                )
+                        );
+
+    }
+
+    @Test
+    @DisplayName("검색해서 페이지네이션이 적용된 리스트를 가져온다.")
+    void getSearchPageQuestions() throws Exception {
+        //given
+        given(service.findSearchPageQuestions(Mockito.anyString(),Mockito.anyString(), Mockito.anyInt())).willReturn(Page.empty());
+        given(mapper.questionToQuestionDtoResponseList(Mockito.anyList())).willReturn(StubData.MockQuestion.getMultiResponseBody());
+        given(answerService.getAnswerCnt(Mockito.anyLong())).willReturn(0L);
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                                get(QUESTION_DEFAULT_URL + "/search")
+                                        .param("q","제목")
+                                        .param("tab", "newest")
+                                        .param("page","1")
+                                        .accept(MediaType.APPLICATION_JSON)
+                        )
+                        //then
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.data.size()").value(2))
+                        .andExpect(jsonPath("$.pageInfo.page").value(1))
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("질문 검색 페이징 리스트 조회 예제",
+                                        preprocessRequest(prettyPrint()),
+                                        preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("질문 페이징 리스트 조회")
+                                                        .requestParameters(
+                                                                parameterWithName("q").description("검색할 키워드"),
+                                                                parameterWithName("tab").description("정렬(newest/oldest) 입력되지 않으면 newest로 처리"),
+                                                                parameterWithName("page").description("페이지, 입력되지 않으면 1로 처리")
+                                                        )
+                                                        .requestFields()
+                                                        .responseFields(
+                                                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                                                fieldWithPath("data.[].user").type(JsonFieldType.OBJECT).description("회원 정보"),
+                                                                fieldWithPath("data.[].user.userId").type(JsonFieldType.NUMBER).description("회원 식별자"),
+                                                                fieldWithPath("data.[].user.name").type(JsonFieldType.STRING).description("회원 닉네임"),
+                                                                fieldWithPath("data.[].questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
+                                                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("질문 제목"),
+                                                                fieldWithPath("data.[].content").type(JsonFieldType.STRING).description("질문 내용"),
+                                                                fieldWithPath("data.[].view").type(JsonFieldType.NUMBER).description("조회수"),
+                                                                fieldWithPath("data.[].answerCnt").type(JsonFieldType.NUMBER).description("답변 개수"),
+                                                                fieldWithPath("data.[].vote").type(JsonFieldType.NUMBER).description("투표 개수"),
                                                                 fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성일"),
                                                                 fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정일"),
                                                                 fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이징 정보"),
