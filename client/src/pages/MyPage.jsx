@@ -1,11 +1,17 @@
 import styled from 'styled-components';
-import pencilIcon from '../assets/icons/pencil.svg';
-import deleteIcon from '../assets/icons/delete.svg';
+import editIcon from '../assets/icons/edit_profile.svg';
+import deleteIcon from '../assets/icons/delete_profile.svg';
 import SortButtonGroup from '../components/SortButtonGroup.jsx';
 import { buttonData, panelData } from '../constants/MyPageConstants';
 import { useEffect, useState } from 'react';
 import UserAvatar from '../components/UserAvatar.jsx';
-import { useOutletContext } from 'react-router-dom';
+import { Link, useOutletContext, useNavigate } from 'react-router-dom';
+import { useUserData } from '../hooks/useUserData';
+import cake from '../assets/icons/cake.svg';
+import { calculateTimeSince } from '../utils/calculateTimeSince';
+import { changeTimeFormat } from '../utils/changeTimeFormat.js';
+import Pagination from '../components/pagenation/Pagenation';
+import { useSelector } from 'react-redux';
 
 const MyPageContainer = styled.div`
   width: 100%;
@@ -17,6 +23,13 @@ const MyPageInfoContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
   margin: 0.5rem;
+  justify-content: space-between;
+  position: relative;
+`;
+
+const MyInfo = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 const MyInfoText = styled.div`
@@ -33,6 +46,12 @@ const MyInfoText = styled.div`
     font-size: 0.813rem;
     margin: 0.72rem;
     color: var(--black-500);
+    vertical-align: inherit;
+  }
+
+  img {
+    margin-right: 0.25rem;
+    vertical-align: sub;
   }
 `;
 
@@ -40,15 +59,18 @@ const MyPageButtonContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 0.188rem;
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 
-const MyPageButton = styled.div`
+const MyPageButton = styled(Link)`
   box-sizing: border-box;
   width: fit-content;
   height: 2.19rem;
-  border: 0.0625rem solid var(--black-300);
+  border: 0.0625rem solid var(--black-200);
   border-radius: 0.1875rem;
-  margin-left: 0.225rem;
+  margin-left: 0.4rem;
   color: var(--black-500);
   background-color: var(--white);
   align-items: center;
@@ -56,12 +78,17 @@ const MyPageButton = styled.div`
   padding: 0.6rem;
   cursor: pointer;
   font-size: 0.75rem;
+  overflow-clip-margin: content-box;
+  overflow: clip;
 
   & > img {
     display: inline-flex;
     margin: 0.225rem;
     width: 0.875rem;
     height: 0.875rem;
+    object-fit: cover;
+    width: 15px;
+    height: 15px;
   }
 
   &:hover {
@@ -72,7 +99,7 @@ const MyPageButton = styled.div`
 const MyPageInfoPanelContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 1.5rem;
+  margin: 3rem 1.5rem;
 `;
 
 const MyPageInfoPanelTitle = styled.div`
@@ -85,23 +112,68 @@ const MyPageInfoPanelTitle = styled.div`
   }
 `;
 
-const MyPageInfoPanel = styled.ul`
+const MyPageInfoPanel = styled.div`
   border: 0.0625rem solid var(--black-100);
+  margin-bottom: 0.5rem;
   height: 100%;
   display: flex;
-  padding: 1.5rem;
   justify-content: center;
   align-items: center;
-  text-align: center;
   border-radius: 0.1875rem;
+  flex-direction: column;
 
-  & > li {
-    font-size: 0.813rem;
+  & > div:not(:last-child) {
+    border-bottom: 0.0625rem solid var(--black-100);
+  }
+`;
+const MyPageInfoPanelList = styled.div`
+  width: 100%;
+  padding: 0.4rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & > span {
     color: var(--black-500);
+    text-align: right;
+    padding: 1rem;
+    min-width: fit-content;
+    font-size: 0.875rem;
   }
 `;
 
+const MyPageInfoPanelLink = styled(Link)`
+  font-size: 0.938rem;
+  color: var(--blue-600);
+  padding: 1rem;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  align-items: baseline;
+
+  & > img {
+    margin-right: 1rem;
+    vertical-align: middle;
+  }
+`;
+
+const MyPageEmptyPanel = styled.span`
+  font-size: 0.813rem;
+  color: var(--black-500);
+  padding: 2rem 0rem;
+  width: 100%;
+  text-align: center;
+`;
+
 function MyPage() {
+  const userId = useSelector((state) => state.login.userId);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const accessToken = localStorage.getItem('accessToken');
+  const navigate = useNavigate();
+
+  const { onHandleSelect } = useOutletContext();
+
   const [sortOptions, setSortOptions] = useState(() => {
     const initialSortOptions = {};
     panelData.forEach((panel) => {
@@ -109,7 +181,54 @@ function MyPage() {
     });
     return initialSortOptions;
   });
-  const { onHandleSelect } = useOutletContext();
+
+  const [panelPage, setPanelPage] = useState(() => {
+    const initialPanelPage = {};
+    panelData.forEach((panel) => {
+      initialPanelPage[panel.id] = 1;
+    });
+    return initialPanelPage;
+  });
+
+  const [panelLimits, setPanelLimits] = useState(() => {
+    const initialLimits = {};
+    panelData.forEach((panel) => {
+      initialLimits[panel.id] = 5;
+    });
+    return initialLimits;
+  });
+
+  useEffect(() => {
+    onHandleSelect(3);
+  }, []);
+
+  useEffect(() => {
+    const initialPanelPage = {};
+    panelData.forEach((panel) => {
+      initialPanelPage[panel.id] = 1;
+    });
+    setPanelPage(initialPanelPage);
+  }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/login');
+    }
+  }, [isLoggedIn, navigate]);
+
+  const {
+    data: fetchedData,
+    isLoading,
+    error,
+  } = useUserData(userId, accessToken);
+  const userData = fetchedData?.data;
+
+  const getSortedPanelList = (panelId) => {
+    const sortFunction = buttonData.find(
+      (btn) => btn.id === sortOptions[panelId],
+    ).sortFunction;
+    return [...(userData[`${panelId}List`] || [])].sort(sortFunction);
+  };
 
   const handleSortOption = (option, type) => {
     setSortOptions((prevOptions) => ({
@@ -118,27 +237,52 @@ function MyPage() {
     }));
   };
 
-  useEffect(() => {
-    onHandleSelect(3);
-  }, []);
+  const handlePanelLimitChange = (panelId, newLimit) => {
+    setPanelLimits((prevLimits) => ({
+      ...prevLimits,
+      [panelId]: newLimit,
+    }));
+  };
+
+  const handlePanelPageChange = (panelId, newPage) => {
+    setPanelPage((prevPanelPage) => ({
+      ...prevPanelPage,
+      [panelId]: newPage,
+    }));
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <MyPageContainer>
       <MyPageInfoContainer>
-        <UserAvatar hasShadow={true} />
-        <MyInfoText>
-          <h1>username</h1>
-          <span>Registration date</span>
-        </MyInfoText>
+        <MyInfo>
+          <UserAvatar hasShadow={true} />
+          <MyInfoText>
+            <h1>{userData.name}</h1>
+            <span>
+              <img src={cake} alt="cake" />
+              Member for {calculateTimeSince(userData.createdAt)}
+            </span>
+          </MyInfoText>
+        </MyInfo>
         <MyPageButtonContainer>
-          <MyPageButton>
-            <img src={pencilIcon} alt="pencil" />
-            Edit Profile
-          </MyPageButton>
-          <MyPageButton>
-            <img src={deleteIcon} alt="delete" />
-            Delete Profile
-          </MyPageButton>
+          <div>
+            <MyPageButton
+              to={`/mypage/edit`}
+              state={{ username: userData.name }}
+            >
+              <img src={editIcon} alt="pencil" />
+              Edit Profile
+            </MyPageButton>
+          </div>
+          <div>
+            <MyPageButton to={`/mypage/delete`}>
+              <img src={deleteIcon} alt="delete" />
+              Delete Profile
+            </MyPageButton>
+          </div>
         </MyPageButtonContainer>
       </MyPageInfoContainer>
       {panelData.map((panel) => (
@@ -152,8 +296,36 @@ function MyPage() {
             />
           </MyPageInfoPanelTitle>
           <MyPageInfoPanel>
-            <li>You have not {panel.emptyMessage}</li>
+            {(userData[`${panel.id}List`] || []).length === 0 ? (
+              <MyPageEmptyPanel>
+                You have not {panel.emptyMessage}
+              </MyPageEmptyPanel>
+            ) : (
+              getSortedPanelList(panel.id)
+                .slice(
+                  (panelPage[panel.id] - 1) * panelLimits[panel.id],
+                  panelPage[panel.id] * panelLimits[panel.id],
+                )
+                .map((item) => (
+                  <MyPageInfoPanelList key={item[`${panel.id}Id`]}>
+                    <MyPageInfoPanelLink
+                      to={`questions/${item[`${panel.id}Id`]}`}
+                    >
+                      <img src={panel.icon} alt={`${panel.id} icon`} />
+                      {item.title || item.content}
+                    </MyPageInfoPanelLink>
+                    <span>{changeTimeFormat(item.createdAt)}</span>
+                  </MyPageInfoPanelList>
+                ))
+            )}
           </MyPageInfoPanel>
+          <Pagination
+            total={(userData[`${panel.id}List`] || []).length}
+            limit={panelLimits[panel.id]}
+            page={panelPage[panel.id] || 1}
+            setPage={(newPage) => handlePanelPageChange(panel.id, newPage)}
+            setLimit={(newLimit) => handlePanelLimitChange(panel.id, newLimit)}
+          />
         </MyPageInfoPanelContainer>
       ))}
     </MyPageContainer>
