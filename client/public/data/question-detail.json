@@ -1,5 +1,5 @@
 {
-    "data": {
+    "data": [{
       "user": {
         "userId": 1,
         "name": "테스트용"
@@ -28,5 +28,20 @@
       "vote": 0,
       "createdAt": "2023-06-23T09:27:03.109916",
       "modifiedAt": "2023-06-23T09:27:03.109925"
+    },
+    {
+      "user": {
+        "userId": 1,
+        "name": "홍길동"
+      },
+      "questionId": 2,
+      "title": "ddddㅇㅇㅇㅇddzzzzzzzzzzzzzzzzzzzzzㄴㄴㅇddd",
+      "content": "ㄴㄴㄴㄴ23ㄴㄴㄴs3ㅇㅇda4aaㄴㄴㄴlㄴㄴㄴㄴ",
+      "view": 27,
+      "answerCnt": 0,
+      "vote": -1,
+      "createdAt": "2023-06-26T15:24:17",
+      "modifiedAt": "2023-06-26T16:41:52"
     }
+  ]
   }

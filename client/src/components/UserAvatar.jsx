@@ -10,6 +10,7 @@ const UserAvatarContainer = styled.div`
   overflow: clip;
 
   box-shadow: ${({ hasShadow }) => (hasShadow ? 'var(--bs-sm)' : 'none')};
+  cursor: ${({ onClick }) => (onClick ? 'pointer' : 'default')};
 `;
 
 const UserAvatarImage = styled.img`
@@ -18,9 +19,14 @@ const UserAvatarImage = styled.img`
   object-fit: cover;
 `;
 
-function UserAvatar({ profileUrl = profile, size = 128, hasShadow = false }) {
+function UserAvatar({
+  profileUrl = profile,
+  size = 128,
+  hasShadow = false,
+  onClick,
+}) {
   return (
-    <UserAvatarContainer size={size} hasShadow={hasShadow}>
+    <UserAvatarContainer size={size} hasShadow={hasShadow} onClick={onClick}>
       <UserAvatarImage src={profileUrl} alt="user avatar" />
     </UserAvatarContainer>
   );

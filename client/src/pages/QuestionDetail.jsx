@@ -4,11 +4,12 @@ import UserCard from '../components/UserCard';
 import BlueButton from '../components/common/BlueButton';
 
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ReactComponent as VoteUp } from '../assets/icons/voteup.svg';
 import { ReactComponent as VoteDown } from '../assets/icons/votedown.svg';
 import { formatAgo } from '../utils/date';
 import MarkDownEditor from '../components/MarkDownEditor';
+import { useDispatch, useSelector } from 'react-redux';
 
 const QuestionDetailWrapper = styled.div`
   width: 100%;
@@ -196,7 +197,9 @@ export default function QuestionDetail() {
   const [question, setQuestion] = useState({});
   const [isFetching, setIsFetching] = useState(true);
   const [answerValue, setAnswerValue] = useState(`type your answer...`);
-  const isLogin = true; // 로그인 구현 전 임시변수
+  const navigation = useNavigate();
+
+  const { isLoggedIn, accessToken } = useSelector((state) => state.login);
 
   const { id } = useParams();
 
@@ -218,15 +221,37 @@ export default function QuestionDetail() {
       `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${id}/answers`,
       {
         method: 'post',
-        mode: 'cors',
-        credentials: 'include',
         headers: {
-          'Content-Type': 'qpplication/json',
-          authorization: '',
+          accept: '*/*',
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(content),
+        body: JSON.stringify({
+          content: content,
+        }),
       },
-    ).then((res) => console.log(res));
+    )
+      .then((res) => {
+        console.log('navigate!!!');
+        navigation(0);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const onDeleteAnswer = (answerId) => {
+    console.log(answerId);
+    fetch(
+      `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${id}/answers/${answerId}`,
+      {
+        method: 'delete',
+        headers: {
+          accept: '*/*',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    )
+      .then((res) => navigation(0))
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -240,15 +265,15 @@ export default function QuestionDetail() {
           <QuestionsInfoContainer>
             <QuestionsInfoItem>
               <span>Asked</span>
-              <time>{formatAgo(question.createdAt)}</time>
+              <span>{formatAgo(question.createdAt)}</span>
             </QuestionsInfoItem>
             <QuestionsInfoItem>
               <span>Modified</span>
-              <time>{formatAgo(question.modifiedAt)}</time>
+              <span>{formatAgo(question.modifiedAt)}</span>
             </QuestionsInfoItem>
             <QuestionsInfoItem>
               <span>Viewed</span>
-              <time>{question.view} times</time>
+              <span>{question.view} times</span>
             </QuestionsInfoItem>
           </QuestionsInfoContainer>
           <QuestionContentContainer>
@@ -326,7 +351,11 @@ export default function QuestionDetail() {
                             <Link>Edit</Link>
                           </div>
                           <div>
-                            <Link>Delete</Link>
+                            <Link
+                              onClick={() => onDeleteAnswer(answer.answerId)}
+                            >
+                              Delete
+                            </Link>
                           </div>
                         </QuestionBottomLeft>
                         <QuestionBottomRight>
@@ -347,7 +376,7 @@ export default function QuestionDetail() {
               </AnswerEmptyImageWrapper>
             )}
           </AnswersContainer>
-          {isLogin && (
+          {isLoggedIn && (
             <>
               <AnswerWriteHeader>
                 <AnswerHeaderTitle>Your Answer</AnswerHeaderTitle>
