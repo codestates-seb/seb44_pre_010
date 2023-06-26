@@ -3,7 +3,7 @@ import emptyImage from '../assets/imgs/empty.png';
 import UserCard from '../components/UserCard';
 import BlueButton from '../components/common/BlueButton';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ReactComponent as VoteUp } from '../assets/icons/voteup.svg';
 import { ReactComponent as VoteDown } from '../assets/icons/votedown.svg';
@@ -196,7 +196,6 @@ export default function QuestionDetail() {
   const [question, setQuestion] = useState({});
   const [isFetching, setIsFetching] = useState(true);
   const [answerValue, setAnswerValue] = useState(`type your answer...`);
-  const editorRef = useRef();
   const isLogin = true; // 로그인 구현 전 임시변수
 
   const { id } = useParams();
@@ -353,11 +352,7 @@ export default function QuestionDetail() {
               <AnswerWriteHeader>
                 <AnswerHeaderTitle>Your Answer</AnswerHeaderTitle>
               </AnswerWriteHeader>
-              <MarkDownEditor
-                ref={editorRef}
-                value={answerValue}
-                onChange={setAnswerValue}
-              />
+              <MarkDownEditor value={answerValue} onChange={setAnswerValue} />
               <BlueButton onClick={() => onPostEditor(answerValue)}>
                 Post Your Answer
               </BlueButton>
