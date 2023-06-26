@@ -203,6 +203,7 @@ function MyPage() {
 
   useEffect(() => {
     // 새로고침 시 로컬스토리지에서 토큰확인하고 상태변경
+    onHandleSelect(3);
     if (accessToken) {
       dispatch(setLoginStatus({ isLoggedIn: true }));
     }
@@ -214,10 +215,6 @@ function MyPage() {
       navigate('/login');
     }
   }, [isLoggedIn, navigate]);
-
-  useEffect(() => {
-    onHandleSelect(3);
-  }, []);
 
   useEffect(() => {
     const initialPanelPage = {};

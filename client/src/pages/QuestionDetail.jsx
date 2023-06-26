@@ -241,6 +241,26 @@ export default function QuestionDetail() {
       .catch((e) => console.log(e));
   };
 
+  const onDeleteQuestion = () => {
+    fetch(
+      `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${id}`,
+      {
+        method: 'delete',
+        headers: {
+          accept: '*/*',
+          Authorization: `Bearer ${storedAccessToken}`,
+        },
+      },
+    )
+      .then((res) => {
+        if (res.status === 204) {
+          alert('게시글이 삭제되었습니당!!');
+          navigation('/questions');
+        }
+      })
+      .catch((e) => console.log(e));
+  };
+
   const onDeleteAnswer = (answerId) => {
     fetch(
       `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${id}/answers/${answerId}`,
@@ -254,6 +274,7 @@ export default function QuestionDetail() {
     )
       .then((res) => {
         if (res.status === 204) {
+          alert('게시글이 삭제되었습니당!!');
           navigation(0);
         }
       })
@@ -303,7 +324,7 @@ export default function QuestionDetail() {
                     <Link to={`/questions/${id}/edit`}>Edit</Link>
                   </div>
                   <div>
-                    <Link>Delete</Link>
+                    <Link onClick={onDeleteQuestion}>Delete</Link>
                   </div>
                 </QuestionBottomLeft>
                 <QuestionBottomRight>
@@ -354,7 +375,11 @@ export default function QuestionDetail() {
                             <Link>Share</Link>
                           </div>
                           <div>
-                            <Link to={`/questions/${id}/edit`}>Edit</Link>
+                            <Link
+                              to={`/questions/${id}/answers/${answer.answerId}/edit`}
+                            >
+                              Edit
+                            </Link>
                           </div>
                           <div>
                             <Link
