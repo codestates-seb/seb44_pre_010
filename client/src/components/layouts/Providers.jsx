@@ -19,7 +19,6 @@ import EditProfile from '../../pages/EditProfile';
 
 import AskQuestions from '../../pages/AskQuestions';
 
-
 const router = createBrowserRouter([
   {
     path: '/',
