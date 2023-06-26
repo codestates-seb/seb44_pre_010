@@ -40,17 +40,23 @@ public class UserAuthenticationFailureHandler implements AuthenticationFailureHa
                 ) ? IssueAtAuthenticationProvider :
                         exception.getMessage();
 
-        ErrorResponse errorResponse = getErrorResponse(exceptionMassage);
+        ErrorResponse errorResponse = getErrorResponse(exceptionMassage,response);
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
         response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
     }
 
-    private static ErrorResponse getErrorResponse(String exceptionMassage) {
+    private static ErrorResponse getErrorResponse(String exceptionMassage,HttpServletResponse response) {
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+
         if (exceptionMassage == null || exceptionMassage.equals(IssueAtAuthenticationProvider)){
+
             return ErrorResponse.of(HttpStatus.UNAUTHORIZED);
+        }
+        else if(exceptionMassage.equals(ExceptionCode.ACCOUNT_RESTRICTED.getMessage())){
+            response.setStatus(HttpStatus.FORBIDDEN.value());
+            return ErrorResponse.of(HttpStatus.FORBIDDEN, exceptionMassage);
         }
         return ErrorResponse.of(HttpStatus.UNAUTHORIZED, exceptionMassage +" : "+HttpStatus.UNAUTHORIZED.getReasonPhrase());
     }

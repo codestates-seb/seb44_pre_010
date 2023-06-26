@@ -3,6 +3,7 @@ import com.rainbow.sof.domain.user.auth.handler.authError.UserAuthenticationEntr
 import com.rainbow.sof.domain.user.auth.handler.oauthHandler.OAuth2SuccessHandler;
 import com.rainbow.sof.domain.user.auth.jwt.DelegateTokenService;
 import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
+import com.rainbow.sof.domain.user.auth.util.service.CustomOAuth2UserService;
 import com.rainbow.sof.domain.user.config.CustomFilterConfigurer;
 import com.rainbow.sof.domain.user.service.UserService;
 import lombok.SneakyThrows;
@@ -31,14 +32,14 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final DelegateTokenService delegateTokenService;
-    private final UserService userService;
+    private final CustomOAuth2UserService oAuth2UserService;
 
     private final static String USER_DETAIL_URL="/api/v1/users";
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, DelegateTokenService delegateTokenService, UserService userService) {
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, DelegateTokenService delegateTokenService, CustomOAuth2UserService oAuth2UserService) {
         this.jwtTokenizer = jwtTokenizer;
         this.delegateTokenService = delegateTokenService;
-        this.userService = userService;
+        this.oAuth2UserService = oAuth2UserService;
     }
 
     @Bean
@@ -58,7 +59,10 @@ public class SecurityConfiguration {
                 .and()
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/api/v1/oath/login")
-                        .successHandler(new OAuth2SuccessHandler(delegateTokenService,userService))
+                        .userInfoEndpoint()
+                        .userService(oAuth2UserService)
+                        .and()
+                        .successHandler(new OAuth2SuccessHandler(delegateTokenService))
                 )
                 .apply(customFilterConfigurers())
                 .and()

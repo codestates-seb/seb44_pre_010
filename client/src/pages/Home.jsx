@@ -432,7 +432,6 @@ function Home() {
       );
       const jsonData = await response.json();
 
-      console.log(jsonData.data);
       setQuestions(jsonData.data);
       setIsFetching(false);
     };
@@ -476,7 +475,6 @@ function Home() {
             <Questionminilist>
               <Questioncontainer>
                 {/* ⬇모든 Question Items를 포함하는 컴포넌트 최상위 */}
-                {console.log(questions)}
                 {Array.isArray(questions) &&
                   questions?.map((question) => {
                     return (

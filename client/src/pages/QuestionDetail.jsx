@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 import emptyImage from '../assets/imgs/empty.png';
+import UserCard from '../components/UserCard';
+import BlueButton from '../components/common/BlueButton';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ReactComponent as VoteUp } from '../assets/icons/voteup.svg';
 import { ReactComponent as VoteDown } from '../assets/icons/votedown.svg';
-
-import MarkDownEditor from '../components/MarkDownEditor';
-import UserCard from '../components/UserCard';
 import { formatAgo } from '../utils/date';
-import BlueButton from '../components/common/BlueButton';
+import MarkDownEditor from '../components/MarkDownEditor';
 
 const QuestionDetailWrapper = styled.div`
   width: 100%;
@@ -196,8 +195,7 @@ const AnswerWriteHeader = styled.div`
 export default function QuestionDetail() {
   const [question, setQuestion] = useState({});
   const [isFetching, setIsFetching] = useState(true);
-  const editorRef = useRef(); // Editor DOM 선택
-
+  const [answerValue, setAnswerValue] = useState(`type your answer...`);
   const isLogin = true; // 로그인 구현 전 임시변수
 
   const { id } = useParams();
@@ -215,15 +213,18 @@ export default function QuestionDetail() {
       });
   }, []);
 
-  const onPostEditor = () => {
-    const content = editorRef.current?.getInstance().getMarkdown();
-
+  const onPostEditor = (content) => {
     fetch(
       `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${id}/answers`,
       {
         method: 'post',
-        authorization: '',
-        content: content,
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'qpplication/json',
+          authorization: '',
+        },
+        body: JSON.stringify(content),
       },
     ).then((res) => console.log(res));
   };
@@ -239,11 +240,11 @@ export default function QuestionDetail() {
           <QuestionsInfoContainer>
             <QuestionsInfoItem>
               <span>Asked</span>
-              <time>{formatAgo(question.createdAt, 'ko')}</time>
+              <time>{formatAgo(question.createdAt)}</time>
             </QuestionsInfoItem>
             <QuestionsInfoItem>
               <span>Modified</span>
-              <time>{formatAgo(question.modifiedAt, 'ko')}</time>
+              <time>{formatAgo(question.modifiedAt)}</time>
             </QuestionsInfoItem>
             <QuestionsInfoItem>
               <span>Viewed</span>
@@ -351,8 +352,10 @@ export default function QuestionDetail() {
               <AnswerWriteHeader>
                 <AnswerHeaderTitle>Your Answer</AnswerHeaderTitle>
               </AnswerWriteHeader>
-              <MarkDownEditor ref={editorRef} />
-              <BlueButton onClick={onPostEditor}>Post Your Answer</BlueButton>
+              <MarkDownEditor value={answerValue} onChange={setAnswerValue} />
+              <BlueButton onClick={() => onPostEditor(answerValue)}>
+                Post Your Answer
+              </BlueButton>
             </>
           )}
         </QuestionDetailWrapper>

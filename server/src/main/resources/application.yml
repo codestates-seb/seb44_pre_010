@@ -1,18 +1,4 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_PATH}
-    username: ${DB_USERNAME}
-    password: ${DB_PW}
-    hikari:
-      maximum-pool-size: 4
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-  profiles:
-    include: etc
   security:
     oauth2:
       client:
@@ -23,6 +9,17 @@ spring:
             scope:
               - email
               - profile
+jwt:
+  key:
+    secret: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: ${ACCESS_EXPIRATION_MINUTES}
+  refresh-token-expiration-minutes: ${REFRESH_EXPIRATION_MINUTES}
+
+User:
+  mail:
+    admin: ${ADMIN_EMAIL}
+    disable: ${DISABLE_USER}
+
 logging:
   logback:
     rollingpolicy:
@@ -37,14 +34,3 @@ springdoc:
   swagger-ui:
     url: /docs/open-api-3.0.1.json
     path: /docs/swagger
-
-jwt:
-  key:
-    secret: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: ${ACCESS_EXPIRATION_MINUTES}
-  refresh-token-expiration-minutes: ${REFRESH_EXPIRATION_MINUTES}
-
-User:
-  mail:
-    admin: ${ADMIN_EMAIL}
-    disable: ${DISABLE_USER}
