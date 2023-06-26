@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import Pagination from '../components/pagenation/Pagenation';
 import BlueButton from '../components/common/BlueButton';
-import { Children, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import profile from '../assets/imgs/profile.png';
+import { formatAgo } from '../utils/date';
 
 const Maincontainer = styled.div`
   max-width: 68.75rem;
@@ -72,34 +73,6 @@ const AQuecontainer = styled.div`
   line-height: 2.194rem;
   margin-left: 0.75rem;
   text-align: left;
-`;
-const Askquestion = styled(Link)`
-  background-color: rgb(10, 149, 255);
-  color: white;
-  border-bottom-left-radius: 0.188rem;
-  border-bottom-right-radius: 0.188rem;
-  border-bottom-style: solid;
-  border-bottom-width: 0.063rem;
-  cursor: pointer;
-  display: inline-block;
-  font-weight: 25rem;
-  line-height: 0.938rem;
-  padding-bottom: 0.65rem;
-  padding-left: 0.65rem;
-  padding-right: 0.65rem;
-  padding-top: 0.65rem;
-  position: relative;
-  text-align: center;
-  box-shadow: rgba(255, 255, 255, 0.4) 0rem 0.063rem 0rem 0rem inset;
-  box-sizing: border-box;
-  text-decoration-color: rgb(255, 255, 255);
-  text-decoration-line: none;
-  text-decoration-style: solid;
-  border-top-left-radius: 0.188rem;
-  border-top-right-radius: 0.188rem;
-  &:hover {
-    background-color: rgb(7, 112, 192);
-  }
 `;
 const Category = styled.div`
   display: flex;
@@ -335,75 +308,6 @@ const Tag = styled.div`
   vertical-align: baseline;
   word-wrap: break-word;
 `;
-const TagItems = styled.div`
-  box-sizing: border-box;
-  color: rgb(35, 38, 41);
-  column-gap: 0.25rem;
-  display: block;
-  flex-wrap: wrap;
-  float: left;
-  border-bottom-color: rgb(35, 38, 41);
-  border-bottom-style: none;
-  border-left-color: rgb(35, 38, 41);
-  border-left-style: none;
-  border-left-width: 0rem;
-  border-right-color: rgb(35, 38, 41);
-  border-right-style: none;
-  border-right-width: rem;
-  border-top-color: rgb(35, 38, 41);
-  border-top-style: none;
-  border-top-width: 0rem;
-  box-sizing: border-box;
-  color: rgb(35, 38, 41);
-  row-gap: 0.25rem;
-  text-align: left;
-  line-height: 1.125rem;
-`;
-const TagItemsList = styled.ul`
-  box-sizing: border-box;
-  color: rgb(35, 38, 41);
-  display: inline;
-  line-height: 1.125rem;
-  text-align: left;
-  vertical-align: baseline;
-  margin-block-end: 0.813rem;
-  margin-bottom: 0.813rem;
-  li {
-    box-sizing: border-box;
-    color: rgb(35, 38, 41);
-    display: inline;
-    line-height: 1.125rem;
-    margin-right: 0.25rem;
-    text-align: left;
-    vertical-align: baseline;
-    a {
-      color: rgb(57, 115, 157);
-      cursor: pointer;
-      display: inline-block;
-      background-color: rgb(225, 236, 244);
-      border-bottom-left-radius: 0.188rem;
-      border-bottom-right-radius: 0.188rem;
-      border-bottom-style: solid;
-      border-left-color: rgba(0, 0, 0, 0);
-      border-left-style: solid;
-      font-size: 0.75rem;
-      line-height: 0.75rem;
-      list-style-position: outside;
-      list-style-type: none;
-      margin-bottom: 0.125rem;
-      margin-right: 0.125rem;
-      opacity: 1;
-      padding-bottom: 0.3rem;
-      padding-left: 0.375rem;
-      padding-right: 0.375rem;
-      padding-top: 0.3rem;
-      text-align: center;
-      text-decoration-color: rgb(57, 115, 157);
-      text-decoration-line: none;
-      text-decoration-style: solid;
-    }
-  }
-`;
 const Block2 = styled.div`
   align-items: center;
   background-color: rgba(0, 0, 0, 0);
@@ -523,21 +427,26 @@ function Questions() {
   const { onHandleSelect } = useOutletContext();
   const [isFetching, setIsFetching] = useState(true);
   const [sortedQuestions, setSortedQuestions] = useState([]);
+  const [Total, setTotal] = useState(0);
 
   useEffect(() => {
     onHandleSelect(1);
     const getAllQuestions = async () => {
       const response = await fetch(
-        'http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/top',
+        `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions?tab=newest&page=${page}`,
       );
       const jsonData = await response.json();
 
       setQuestions(jsonData.data);
       setIsFetching(false);
+
+      setTotal(jsonData.pageInfo.totalPages);
+
+      console.log(jsonData.data);
     };
 
     getAllQuestions();
-  }, []);
+  }, [page, Total]);
 
   useEffect(() => {
     // Questions 페이지 최신순으로 정렬
@@ -600,73 +509,60 @@ function Questions() {
               <Questioncontainer>
                 {/* ⬇모든 Question Items를 포함하는 컴포넌트 최상위
                  */}
-                {Array.isArray(sortedQuestions) &&
-                  sortedQuestions
-                    .slice(offset, offset + limit)
-                    ?.map((question) => {
-                      const createdMinutes = formatTime(question.createdAt);
-                      return (
-                        <Questionlist key={question.questionId}>
-                          <Qinformation>
-                            <Votes>
-                              <span> {question.vote} </span> votes
-                            </Votes>
-                            <Answers>
-                              <span> {question.answerCount} </span> answerd
-                            </Answers>
-                            <Views>
-                              <span> {question.view} </span> views
-                            </Views>
-                          </Qinformation>
-                          <QuelistConatiner>
-                            <QueTitle>
-                              <Link to={`/questions/${question.questionId}`}>
-                                {question.title}
-                              </Link>
-                            </QueTitle>
-                            <Tag>
-                              {/* ⬇ 여기가  Tags 컴포넌트 최상위  */}
-                              <Block2></Block2>
-                              <Block2>
-                                <UserImg>
-                                  <div>
-                                    <img
-                                      src={profile}
-                                      alt="유저 이미지 사진"
-                                    ></img>
-                                  </div>
-                                </UserImg>
-                                <UserIdList>
-                                  <UserId>
-                                    <span>{question.user.name}</span>
-                                  </UserId>
-                                  <UserCommit>
-                                    <li>
-                                      <span> {2} </span>
-                                    </li>
-                                  </UserCommit>
-                                </UserIdList>
-                                <UserTime>
-                                  asked <span>{createdMinutes} mins ago</span>
-                                  {/*분만 출력 */}
-                                </UserTime>
-                              </Block2>
-                            </Tag>
-                          </QuelistConatiner>
-                        </Questionlist>
-                      );
-                    })}
+                {questions.map((question) => {
+                  return (
+                    <Questionlist key={question.questionId}>
+                      <Qinformation>
+                        <Votes>
+                          <span> {question.vote} </span> votes
+                        </Votes>
+                        <Answers>
+                          <span> {question.answerCount} </span> answerd
+                        </Answers>
+                        <Views>
+                          <span> {question.view} </span> views
+                        </Views>
+                      </Qinformation>
+                      <QuelistConatiner>
+                        <QueTitle>
+                          <Link to={`/questions/${question.questionId}`}>
+                            {question.title}
+                          </Link>
+                        </QueTitle>
+                        <Tag>
+                          {/* ⬇ 여기가  Tags 컴포넌트 최상위  */}
+                          <Block2></Block2>
+                          <Block2>
+                            <UserImg>
+                              <div>
+                                <img src={profile} alt="유저 이미지 사진"></img>
+                              </div>
+                            </UserImg>
+                            <UserIdList>
+                              <UserId>
+                                <span>{question.user.name}</span>
+                              </UserId>
+                              <UserCommit>
+                                <li>
+                                  <span> {2} </span>
+                                </li>
+                              </UserCommit>
+                            </UserIdList>
+                            <UserTime>
+                              asked <span>{formatAgo(question.createdAt)}</span>
+                              {/*분만 출력 */}
+                            </UserTime>
+                          </Block2>
+                        </Tag>
+                      </QuelistConatiner>
+                    </Questionlist>
+                  );
+                })}
               </Questioncontainer>
             </Questionminilist>
           </Qlistwrapper>
           {/* 여기서 페이지네이션 구현  */}
-          <Pagination
-            total={questions.length}
-            limit={limit}
-            page={page}
-            setPage={setPage}
-            setLimit={setLimit}
-          ></Pagination>
+          <Pagination total={Total} page={page} setPage={setPage}></Pagination>
         </Mainbar>
       </Maincontainer>
     </>

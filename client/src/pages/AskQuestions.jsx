@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import MarkDownEditor from '../components/MarkDownEditor';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { link } from '@uiw/react-md-editor';
 const Maincontainer = styled.div`
   min-height: 750px;
   overflow: visible;
@@ -94,12 +95,9 @@ const Input = styled.input`
     color: rgb(186, 191, 196);
   }
 `;
-const ReviewButton = styled.button`
-  background-color: rgb(10, 149, 255);
-  border-bottom-left-radius: 0.188rem;
-  border-bottom-right-radius: 0.188rem;
-  border-bottom-style: solid;
-  border-bottom-width: 0.063rem;
+const ReviewButton = styled(Link)`
+  background-color: white;
+  color: #418df1;
   cursor: pointer;
   display: inline-block;
   font-weight: 25rem;
@@ -110,18 +108,24 @@ const ReviewButton = styled.button`
   padding-top: 0.65rem;
   position: relative;
   text-align: center;
-  box-shadow: rgba(255, 255, 255, 0.4) 0rem 0.063rem 0rem 0rem inset;
   box-sizing: border-box;
   text-decoration-color: rgb(255, 255, 255);
   text-decoration-line: none;
   text-decoration-style: solid;
   border-top-left-radius: 0.188rem;
   border-top-right-radius: 0.188rem;
+  box-shadow: rgba(255, 255, 255, 0.4) 0rem 0.063rem 0rem 0rem inset;
   &:hover {
-    background-color: rgb(7, 112, 192);
+    background-color: rgb(219, 219, 219);
   }
+  margin-left: 10px;
 `;
-const DeleteButton = styled.button`
+
+const ErrorMessage = styled.div`
+  padding: 0.6rem 0rem 0rem 1rem;
+  color: red;
+`;
+const DeleteButton = styled(Link)`
   background-color: white;
   color: red;
   cursor: pointer;
@@ -146,17 +150,14 @@ const DeleteButton = styled.button`
   }
   margin-left: 10px;
 `;
-const ErrorMessage = styled.div`
-  padding: 0.6rem 0rem 0rem 1rem;
-  color: red;
-`;
+
 function AskQuestions() {
   const [title, setTitle] = useState('');
   const [content, setcontent] = useState('');
   const [titleError, setTitleError] = useState('');
   const [contentError, setcontentError] = useState('');
   const storedAccessToken = localStorage.getItem('accessToken'); // 받아온 토큰
-  const navigation = useNavigate();
+  const navigation = useNavigate('/questions');
   console.log(storedAccessToken);
   useEffect(() => {
     // title 값이 업데이트될 때 실행
@@ -260,7 +261,9 @@ function AskQuestions() {
         <ReviewButton onClick={handleQuestionsSave}>
           Review your question
         </ReviewButton>
-        <DeleteButton>Discard draft</DeleteButton>
+        <DeleteButton to={'http://localhost:3000/questions'}>
+          Discard draft
+        </DeleteButton>
       </Maincontainer>
     </>
   );

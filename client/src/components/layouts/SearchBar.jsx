@@ -61,20 +61,53 @@ export default function SearchBar() {
   const onHandleChangeKeyword = (e) => {
     setSearchKeyword(e.target.value);
   };
-  const handleEnterSearch = (e) => {
+
+  const handleEnterSearch = async (e) => {
     e.preventDefault(); // 새로고침 방지
     if (searchKeyword.trim() !== '') {
-      // 공백 방지
-      navigate(`/search?keyword=${encodeURIComponent(searchKeyword)}`);
+      try {
+        const response = await fetch(
+          `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/search?q=${encodeURIComponent(
+            searchKeyword,
+          )}`,
+        );
+        if (response.ok) {
+          const data = await response.json();
+          // 검색 결과를 처리하는 로직을 작성해주세요.
+          console.log(data);
+          navigate('/search', { state: { searchResults: data } });
+        } else {
+          throw new Error('API 요청이 실패했습니다.');
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
-  const handleClickSearch = (e) => {
+
+  const handleClickSearch = async (e) => {
     e.preventDefault(); // 새로고침 방지
     if (searchKeyword.trim() !== '') {
-      // 공백 방지
-      navigate(`/search?keyword=${encodeURIComponent(searchKeyword)}`);
+      try {
+        const response = await fetch(
+          `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/search?q=${encodeURIComponent(
+            searchKeyword,
+          )}`,
+        );
+        if (response.ok) {
+          const data = await response.json();
+          // 검색 결과를 처리하는 로직을 작성해주세요.
+          console.log(data);
+          navigate('/search', { state: { searchResults: data } });
+        } else {
+          throw new Error('API 요청이 실패했습니다.');
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
+
   return (
     <SearchForm
       id="search"

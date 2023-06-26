@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Pagination from '../components/pagenation/Pagenation';
 import BlueButton from '../components/common/BlueButton';
 import { Children, useEffect, useState } from 'react';
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link, useOutletContext, useLocation } from 'react-router-dom';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import profile from '../assets/imgs/profile.png';
@@ -514,44 +514,178 @@ const UserTime = styled.time`
   }
 `;
 
-function Questions() {
-  const [questions, setQuestions] = useState([]);
-  // ⬇ 페이지 네이션 상태
-  const [limit, setLimit] = useState(15); // 페이지 당 게시물 수 15개로 설정
-  const [page, setPage] = useState(1); // 현재 페이지의 번호
-  const offset = (page - 1) * limit; // 페이지네이션 알고리즘, 현재 페이지 번호를 기준으로 표시해줘야할 게시물들의 범위
-  const { onHandleSelect } = useOutletContext();
-  const [isFetching, setIsFetching] = useState(true);
-  const [sortedQuestions, setSortedQuestions] = useState([]);
+// function Search() {
+//   const [questions, setQuestions] = useState([]);
+//   // ⬇ 페이지 네이션 상태
+//   const [limit, setLimit] = useState(15); // 페이지 당 게시물 수 15개로 설정
+//   const [page, setPage] = useState(1); // 현재 페이지의 번호
+//   const offset = (page - 1) * limit; // 페이지네이션 알고리즘, 현재 페이지 번호를 기준으로 표시해줘야할 게시물들의 범위
+//   const { onHandleSelect } = useOutletContext();
+//   const [isFetching, setIsFetching] = useState(true);
+//   const [sortedQuestions, setSortedQuestions] = useState([]);
 
-  useEffect(() => {
-    onHandleSelect(1);
-    const getAllQuestions = async () => {
-      const response = await fetch(
-        'http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/top',
-      );
-      const jsonData = await response.json();
+//   useEffect(() => {
+//     onHandleSelect(1);
+//     const getAllQuestions = async () => {
+//       const response = await fetch(
+//         'http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/top',
+//       );
+//       const jsonData = await response.json();
 
-      setQuestions(jsonData.data);
-      setIsFetching(false);
-    };
+//       setQuestions(jsonData.data);
+//       setIsFetching(false);
+//     };
 
-    getAllQuestions();
-  }, []);
+//     getAllQuestions();
+//   }, []);
 
-  useEffect(() => {
-    // Questions 페이지 최신순으로 정렬
-    const sorted = [...questions].sort(
-      (a, b) => formatTime(a.createdAt) - formatTime(b.createdAt),
-    );
-    setSortedQuestions(sorted);
-  }, [questions]);
+//   useEffect(() => {
+//     // Questions 페이지 최신순으로 정렬
+//     const sorted = [...questions].sort(
+//       (a, b) => formatTime(a.createdAt) - formatTime(b.createdAt),
+//     );
+//     setSortedQuestions(sorted);
+//   }, [questions]);
+
+//   const formatTime = (createdAt) => {
+//     const dateObj = new Date(createdAt);
+//     const minutes = dateObj.getMinutes();
+//     console.log(minutes);
+//     return minutes;
+//   };
+
+//   const handleClick = () => {
+//     return;
+//   };
+
+//   return (
+//     <>
+//       <Maincontainer className="Maincontainer">
+//         <Mainbar>
+//           <TopQuestions>
+//             <H1>Search Results</H1>
+//             <AQuecontainer>
+//               <BlueButton onClick={handleClick} link="/askquestions">
+//                 Ask Question
+//               </BlueButton>
+//             </AQuecontainer>
+//           </TopQuestions>
+//           <Category>
+//             <Blockitem>23,766,947 questions</Blockitem>
+//             <Categorylist>
+//               <Categorylink>
+//                 <Categoryitem1 to="https://stackoverflow.com/?tab=interesting">
+//                   Newset
+//                 </Categoryitem1>
+//                 <Categoryitem to="https://stackoverflow.com/?tab=month">
+//                   Active
+//                 </Categoryitem>
+//                 <Categoryitem to="https://stackoverflow.com/?tab=bounties">
+//                   <span>226</span> Bountied
+//                 </Categoryitem>
+//                 <Categoryitem to="https://stackoverflow.com/?tab=hot">
+//                   More
+//                 </Categoryitem>
+//                 <Categoryitem to="https://stackoverflow.com/?tab=week">
+//                   {/* filter는 버튼만 만들고 정렬은 api를 이용해서 최신순으로 정렬 */}
+//                   Filter &nbsp;
+//                   <FontAwesomeIcon icon={faBars} />
+//                 </Categoryitem>
+//               </Categorylink>
+//             </Categorylist>
+//           </Category>
+
+//           <Qlistwrapper>
+//             <Questionminilist>
+//               <Questioncontainer>
+//                 {/* ⬇모든 Question Items를 포함하는 컴포넌트 최상위
+//                  */}
+//                 {Array.isArray(sortedQuestions) &&
+//                   sortedQuestions
+//                     .slice(offset, offset + limit)
+//                     ?.map((question) => {
+//                       const createdMinutes = formatTime(question.createdAt);
+//                       return (
+//                         <Questionlist key={question.questionId}>
+//                           <Qinformation>
+//                             <Votes>
+//                               <span> {question.vote} </span> votes
+//                             </Votes>
+//                             <Answers>
+//                               <span> {question.answerCount} </span> answerd
+//                             </Answers>
+//                             <Views>
+//                               <span> {question.view} </span> views
+//                             </Views>
+//                           </Qinformation>
+//                           <QuelistConatiner>
+//                             <QueTitle>
+//                               <Link to={`/questions/${question.questionId}`}>
+//                                 {question.title}
+//                               </Link>
+//                             </QueTitle>
+//                             <Tag>
+//                               {/* ⬇ 여기가  Tags 컴포넌트 최상위  */}
+//                               <Block2></Block2>
+//                               <Block2>
+//                                 <UserImg>
+//                                   <div>
+//                                     <img
+//                                       src={profile}
+//                                       alt="유저 이미지 사진"
+//                                     ></img>
+//                                   </div>
+//                                 </UserImg>
+//                                 <UserIdList>
+//                                   <UserId>
+//                                     <span>{question.user.name}</span>
+//                                   </UserId>
+//                                   <UserCommit>
+//                                     <li>
+//                                       <span> {2} </span>
+//                                     </li>
+//                                   </UserCommit>
+//                                 </UserIdList>
+//                                 <UserTime>
+//                                   asked <span>{createdMinutes} mins ago</span>
+//                                   {/*분만 출력 */}
+//                                 </UserTime>
+//                               </Block2>
+//                             </Tag>
+//                             PPP
+//                           </QuelistConatiner>
+//                         </Questionlist>
+//                       );
+//                     })}
+//               </Questioncontainer>
+//             </Questionminilist>
+//           </Qlistwrapper>
+//           {/* 여기서 페이지네이션 구현  */}
+//           <Pagination
+//             total={questions.length}
+//             limit={limit}
+//             page={page}
+//             setPage={setPage}
+//             setLimit={setLimit}
+//           ></Pagination>
+//         </Mainbar>
+//       </Maincontainer>
+//     </>
+//   );
+// }
+
+// export default Search;
+function Search() {
+  const location = useLocation();
+  const { searchResults } = location.state || { searchResults: [] };
+  const [limit, setLimit] = useState(15);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
 
   const formatTime = (createdAt) => {
     const dateObj = new Date(createdAt);
-    const minutes = dateObj.getMinutes();
-    console.log(minutes);
-    return minutes;
+    const hours = dateObj.getHours(); // 시간(hour) 추출
+    return hours;
   };
 
   const handleClick = () => {
@@ -571,7 +705,9 @@ function Questions() {
             </AQuecontainer>
           </TopQuestions>
           <Category>
-            <Blockitem>23,766,947 questions</Blockitem>
+            <Blockitem>
+              {searchResults && searchResults.length} questions
+            </Blockitem>
             <Categorylist>
               <Categorylink>
                 <Categoryitem1 to="https://stackoverflow.com/?tab=interesting">
@@ -587,7 +723,6 @@ function Questions() {
                   More
                 </Categoryitem>
                 <Categoryitem to="https://stackoverflow.com/?tab=week">
-                  {/* filter는 버튼만 만들고 정렬은 api를 이용해서 최신순으로 정렬 */}
                   Filter &nbsp;
                   <FontAwesomeIcon icon={faBars} />
                 </Categoryitem>
@@ -598,80 +733,70 @@ function Questions() {
           <Qlistwrapper>
             <Questionminilist>
               <Questioncontainer>
-                {/* ⬇모든 Question Items를 포함하는 컴포넌트 최상위
-                 */}
-                {Array.isArray(sortedQuestions) &&
-                  sortedQuestions
-                    .slice(offset, offset + limit)
-                    ?.map((question) => {
-                      const createdMinutes = formatTime(question.createdAt);
-                      return (
-                        <Questionlist key={question.questionId}>
-                          <Qinformation>
-                            <Votes>
-                              <span> {question.vote} </span> votes
-                            </Votes>
-                            <Answers>
-                              <span> {question.answerCount} </span> answerd
-                            </Answers>
-                            <Views>
-                              <span> {question.view} </span> views
-                            </Views>
-                          </Qinformation>
-                          <QuelistConatiner>
-                            <QueTitle>
-                              <Link to={`/questions/${question.questionId}`}>
-                                {question.title}
-                              </Link>
-                            </QueTitle>
-                            <Tag>
-                              {/* ⬇ 여기가  Tags 컴포넌트 최상위  */}
-                              <Block2></Block2>
-                              <Block2>
-                                <UserImg>
-                                  <div>
-                                    <img
-                                      src={profile}
-                                      alt="유저 이미지 사진"
-                                    ></img>
-                                  </div>
-                                </UserImg>
-                                <UserIdList>
-                                  <UserId>
-                                    <span>{question.user.name}</span>
-                                  </UserId>
-                                  <UserCommit>
-                                    <li>
-                                      <span> {2} </span>
-                                    </li>
-                                  </UserCommit>
-                                </UserIdList>
-                                <UserTime>
-                                  asked <span>{createdMinutes} mins ago</span>
-                                  {/*분만 출력 */}
-                                </UserTime>
-                              </Block2>
-                            </Tag>
-                            PPP
-                          </QuelistConatiner>
-                        </Questionlist>
-                      );
-                    })}
+                {Array.isArray(searchResults) &&
+                  searchResults.slice(offset, offset + limit)?.map((data) => {
+                    const createdMinutes = formatTime(data.createdAt);
+                    return (
+                      <Questionlist key={data.questionId}>
+                        <Qinformation>
+                          <Votes>
+                            <span> {data.vote} </span> votes
+                          </Votes>
+                          <Answers>
+                            <span> {data.answerCnt} </span> answerd
+                          </Answers>
+                          <Views>
+                            <span> {data.view} </span> views
+                          </Views>
+                        </Qinformation>
+                        <QuelistConatiner>
+                          <QueTitle>
+                            <Link to={`/questions/${data.questionId}`}>
+                              {data.title}
+                            </Link>
+                          </QueTitle>
+                          <Tag>
+                            <Block2></Block2>
+                            <Block2>
+                              <UserImg>
+                                <div>
+                                  <img src={profile} alt="유저 이미지 사진" />
+                                </div>
+                              </UserImg>
+                              <UserIdList>
+                                <UserId>
+                                  <span>{data.user.name}</span>
+                                </UserId>
+                                <UserCommit>
+                                  <li>
+                                    <span> {2} </span>
+                                  </li>
+                                </UserCommit>
+                              </UserIdList>
+                              <UserTime>
+                                asked <span>{createdMinutes} mins ago</span>
+                              </UserTime>
+                            </Block2>
+                          </Tag>
+                        </QuelistConatiner>
+                      </Questionlist>
+                    );
+                  })}
               </Questioncontainer>
             </Questionminilist>
           </Qlistwrapper>
-          {/* 여기서 페이지네이션 구현  */}
+
           <Pagination
-            total={questions.length}
+            total={searchResults && searchResults.length}
             limit={limit}
             page={page}
             setPage={setPage}
             setLimit={setLimit}
-          ></Pagination>
+          />
         </Mainbar>
       </Maincontainer>
     </>
   );
 }
 
-export default Questions;
+export default Search;
