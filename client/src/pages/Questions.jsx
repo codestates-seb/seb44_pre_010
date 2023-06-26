@@ -103,7 +103,7 @@ const Askquestion = styled(Link)`
 `;
 const Category = styled.div`
   display: flex;
-  line-height: 1.063rem;
+  line-height: 1.062rem;
   margin-top: 1rem;
   vertical-align: baseline;
   align-items: center;
