@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import emptyImage from '../assets/imgs/empty.png';
 import UserCard from '../components/UserCard';
 import BlueButton from '../components/common/BlueButton';
-import MDEditor from '@uiw/react-md-editor';
 
 import { useEffect, useState, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
@@ -242,11 +241,11 @@ export default function QuestionDetail() {
           <QuestionsInfoContainer>
             <QuestionsInfoItem>
               <span>Asked</span>
-              <time>{formatAgo(question.createdAt, 'ko')}</time>
+              <time>{formatAgo(question.createdAt)}</time>
             </QuestionsInfoItem>
             <QuestionsInfoItem>
               <span>Modified</span>
-              <time>{formatAgo(question.modifiedAt, 'ko')}</time>
+              <time>{formatAgo(question.modifiedAt)}</time>
             </QuestionsInfoItem>
             <QuestionsInfoItem>
               <span>Viewed</span>

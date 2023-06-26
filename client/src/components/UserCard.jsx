@@ -25,7 +25,7 @@ export default function UserCard({ type, created, name }) {
   return (
     <UserInfo>
       <UserInfoTop>
-        {type} <span> {formatAgo(created, 'ko')} </span>
+        {type} <span> {formatAgo(created)} </span>
       </UserInfoTop>
       <UserInfoBottom>
         <UserAvatar size={32} />
