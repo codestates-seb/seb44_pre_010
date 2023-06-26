@@ -56,7 +56,7 @@ public class AnswerVoteControllerTest {
     }
 
     @Test
-    @DisplayName("답변 추천")
+    @DisplayName("답변 투표")
     void PostAnswerVote() throws Exception {
         //given
         BDDMockito.given(answerVoteService.createAnswerVote(Mockito.anyLong(), Mockito.anyString(), Mockito.anyString()))
@@ -121,7 +121,7 @@ public class AnswerVoteControllerTest {
                                         preprocessResponse(prettyPrint()),
                                         resource(
                                                 ResourceSnippetParameters.builder()
-                                                        .description("답변 투표")
+                                                        .description("답변 투표 취소")
                                                         .requestHeaders(
                                                                 headerWithName("Authorization").description("발급받은 인증 토큰")
                                                         )
