@@ -26,4 +26,13 @@ public class AnswerVoteController {
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{answer-id}/vote")
+    public ResponseEntity deleteAnswerVote(@PathVariable("answer-id") @Positive long answerId,
+                                           @AuthenticationName String email) {
+        int answerVoteCnt = answerVoteService.deleteAnswerVote(answerId, email);
+        AnswerVoteDto.Response response = new AnswerVoteDto.Response(answerVoteCnt);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
