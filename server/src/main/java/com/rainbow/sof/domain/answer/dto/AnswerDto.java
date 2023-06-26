@@ -42,7 +42,7 @@ public class AnswerDto {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private long vote;
-
+        private String name;
         @Setter(AccessLevel.NONE)
         private Long questionId;
     }

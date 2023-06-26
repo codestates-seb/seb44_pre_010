@@ -160,6 +160,7 @@ public class QuestionControllerTest {
                                                                 fieldWithPath("data.answers.[].createdAt").type(JsonFieldType.STRING).description("답변 작성일"),
                                                                 fieldWithPath("data.answers.[].modifiedAt").type(JsonFieldType.STRING).description("답변 수정일"),
                                                                 fieldWithPath("data.answers.[].vote").type(JsonFieldType.NUMBER).description("답변 추천수"),
+                                                                fieldWithPath("data.answers.[].name").type(JsonFieldType.STRING).description("사용자 닉네임"),
                                                                 fieldWithPath("data.answers.[].questionId").type(JsonFieldType.NUMBER).description("답변의 질문 식별자"),
                                                                 fieldWithPath("data.questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
                                                                 fieldWithPath("data.title").type(JsonFieldType.STRING).description("질문 제목"),

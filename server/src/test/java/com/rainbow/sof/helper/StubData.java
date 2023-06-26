@@ -129,6 +129,7 @@ public class StubData {
                             .content("ㅎㅇㅎㅇ11")
                             .createdAt(LocalDateTime.now())
                             .modifiedAt(LocalDateTime.now())
+                            .name("작성자")
                             .questionId(1L)
                             .build(),
 
@@ -137,6 +138,7 @@ public class StubData {
                             .content("ㅎㅇㅎㅇ22")
                             .createdAt(LocalDateTime.now())
                             .modifiedAt(LocalDateTime.now())
+                            .name("작성자")
                             .questionId(1L)
                             .build()
             );
