@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-import { close } from '../../redux/reducers/modalSlice';
-import { useDispatch } from 'react-redux';
+import { ReactComponent as CheckIcon } from '../../assets/icons/check.svg';
+import { useNavigate } from 'react-router-dom';
 
 const ModalWrapper = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  font-size: 1rem;
 `;
 
 const ModalBackDrop = styled.div`
@@ -32,9 +31,9 @@ const ModalMain = styled.div`
 `;
 
 const ModalIconWrapper = styled.div`
-  width: 3rem;
-  height: 3rem;
-  border: 3px solid ${(props) => props.color};
+  width: 6rem;
+  height: 6rem;
+  border: 3px solid green;
   border-radius: 100%;
   padding: 1rem;
   opacity: 0.5;
@@ -46,9 +45,9 @@ const ModalIconWrapper = styled.div`
   }
 
   svg > path {
-    stroke: ${(props) => props.color};
+    stroke: green;
     stroke-width: 0.1;
-    fill: ${(props) => props.color};
+    fill: green;
   }
 `;
 
@@ -67,23 +66,20 @@ const ModalButton = styled.button`
   cursor: pointer;
 `;
 
-export default function Modal({ icon, text, color }) {
-  const dispatch = useDispatch();
-  const closeModal = () => {
-    dispatch(
-      close({
-        isOpen: false,
-      }),
-    );
+export default function signupModal() {
+  const navigate = useNavigate();
+  const handleOkClick = () => {
+    navigate('/');
   };
-
   return (
     <ModalWrapper>
-      <ModalBackDrop onClick={closeModal}>
-        <ModalMain onClick={(e) => e.stopPropagation()}>
-          <ModalIconWrapper color={color}>{icon}</ModalIconWrapper>
-          <ModalText>{text}</ModalText>
-          <ModalButton onClick={closeModal}>OK</ModalButton>
+      <ModalBackDrop>
+        <ModalMain>
+          <ModalIconWrapper>
+            <CheckIcon />
+          </ModalIconWrapper>
+          <ModalText>회원가입이 완료 되었습니다!</ModalText>
+          <ModalButton onClick={handleOkClick}>OK</ModalButton>
         </ModalMain>
       </ModalBackDrop>
     </ModalWrapper>
