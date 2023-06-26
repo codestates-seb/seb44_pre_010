@@ -3,6 +3,7 @@ import BlueButton from '../components/common/BlueButton';
 
 import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
+import UserAvatar from '../components/UserAvatar';
 
 const Maincontainer = styled.div`
   max-width: 68.75rem;
@@ -445,7 +446,7 @@ function Home() {
           <TopQuestions>
             <H1> Top Questions</H1>
             <AQuecontainer>
-              <BlueButton> Ask Question </BlueButton>
+              <BlueButton link="/askquestions"> Ask Question </BlueButton>
             </AQuecontainer>
           </TopQuestions>
           <Category>
@@ -500,16 +501,7 @@ function Home() {
                           <Tag>
                             <Block2></Block2>
                             <Block2>
-                              <UserImg
-                                to={`https://stackoverflow.com/users/${question.user.userId}/${question.name}`}
-                              >
-                                <div>
-                                  <img
-                                    src={question.user.profile_image}
-                                    alt="유저 이미지 사진"
-                                  ></img>
-                                </div>
-                              </UserImg>
+                              <UserAvatar size={16} hasShadow={true} />
                               <UserIdList>
                                 <UserId>
                                   <Link to={`${question.user.link}`}>

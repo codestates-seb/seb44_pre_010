@@ -374,7 +374,11 @@ export default function QuestionDetail() {
                             <Link>Share</Link>
                           </div>
                           <div>
-                            <Link to={`/questions/${id}/edit`}>Edit</Link>
+                            <Link
+                              to={`/questions/${id}/answers/${answer.answerId}/edit`}
+                            >
+                              Edit
+                            </Link>
                           </div>
                           <div>
                             <Link

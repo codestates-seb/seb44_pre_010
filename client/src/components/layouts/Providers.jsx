@@ -32,6 +32,10 @@ const router = createBrowserRouter([
       { path: 'mypage', element: <MyPage /> },
       { path: 'questions/:id', element: <QuestionDetail /> },
       { path: 'questions/:id/edit', element: <QuestionEditPage /> },
+      {
+        path: 'questions/:id/answers/:aid/edit',
+        element: <QuestionEditPage />,
+      },
       { path: 'search', element: <Search /> },
       { path: 'mypage/edit', element: <EditProfile /> },
       { path: 'mypage/delete', element: <DeleteProfile /> },
