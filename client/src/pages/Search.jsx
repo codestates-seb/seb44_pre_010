@@ -681,6 +681,7 @@ function Search() {
   const [limit, setLimit] = useState(15);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
+  console.log('searchResults:', searchResults);
 
   const formatTime = (createdAt) => {
     const dateObj = new Date(createdAt);
