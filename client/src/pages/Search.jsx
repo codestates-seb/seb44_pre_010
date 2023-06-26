@@ -681,6 +681,7 @@ function Search() {
   const [limit, setLimit] = useState(15);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
+  const searchData = searchResults.data;
 
   const formatTime = (createdAt) => {
     const dateObj = new Date(createdAt);
@@ -706,7 +707,7 @@ function Search() {
           </TopQuestions>
           <Category>
             <Blockitem>
-              {searchResults && searchResults.length} questions
+              {searchResults && searchData.length} questions
             </Blockitem>
             <Categorylist>
               <Categorylink>
@@ -733,8 +734,8 @@ function Search() {
           <Qlistwrapper>
             <Questionminilist>
               <Questioncontainer>
-                {Array.isArray(searchResults) &&
-                  searchResults.slice(offset, offset + limit)?.map((data) => {
+                {Array.isArray(searchData) &&
+                  searchData.slice(offset, offset + limit)?.map((data) => {
                     const createdMinutes = formatTime(data.createdAt);
                     return (
                       <Questionlist key={data.questionId}>
