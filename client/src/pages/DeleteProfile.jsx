@@ -4,6 +4,7 @@ import { useState } from 'react';
 import useDeleteUser from '../hooks/useDeleteUser';
 import { useDispatch, useSelector } from 'react-redux';
 import { open } from '../redux/reducers/modalSlice';
+import { logout } from '../redux/reducers/loginSlice';
 
 const MyInfoText = styled.div`
   border-bottom: 1px solid var(--bc-medium);
@@ -92,7 +93,7 @@ function DeleteProfile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userId = useSelector((state) => state.login.userId);
+  const userId = localStorage.getItem('userId');
 
   const { deleteUser, isLoading } = useDeleteUser();
 
@@ -104,13 +105,23 @@ function DeleteProfile() {
     const accessToken = localStorage.getItem('accessToken');
 
     try {
-      await deleteUser(userId, accessToken);
-      console.log('User deletion successful');
-      navigate('/mypage');
-      // dispatch(open({ modalType: 'deleteProfileSuccess', isOpen: true }));
+      const isSuccess = await deleteUser(userId, accessToken);
+      if (isSuccess) {
+        console.log('회원 탈퇴 성공');
+        dispatch(logout());
+        dispatch(
+          open({
+            modalType: 'deleteUserSuccess',
+            isOpen: true,
+          }),
+        );
+        navigate('/');
+      } else {
+        throw new Error('회원 탈퇴 실패');
+      }
     } catch (error) {
-      console.log('User deletion failed');
-      // dispatch(open({ modalType: 'deleteProfileFail', isOpen: true }));
+      console.log('회원 탈퇴 실패');
+      dispatch(open({ modalType: 'deleteUserfail', isOpen: true }));
     }
   };
 

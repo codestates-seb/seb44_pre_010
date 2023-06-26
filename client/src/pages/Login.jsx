@@ -193,15 +193,21 @@ const Login = () => {
               .get('Authorization')
               .split(' ')[1]; // Bearer를 건너뛰고 실제 토큰 부분을 추출
             const refreshToken = response.headers.get('Refresh');
-            const userId = response.json().userId;
 
-            // 토큰 저장
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-            // 상태 변경
-            dispatch(login({ accessToken, refreshToken, userId }));
-            // 메인페지이로 이동
-            navigate('/');
+            response.json().then((data) => {
+              const userId = data.userId;
+              console.log(userId);
+
+              // 토큰 저장
+              localStorage.setItem('accessToken', accessToken);
+              localStorage.setItem('refreshToken', refreshToken);
+              localStorage.setItem('userId', userId);
+              // 상태 변경
+              dispatch(login({ accessToken, refreshToken, userId }));
+
+              // 메인페지이로 이동
+              navigate('/');
+            });
             return;
           } else if (response.status === 401) {
             // 로그인 실패 했을 경우
