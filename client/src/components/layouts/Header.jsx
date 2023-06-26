@@ -5,6 +5,7 @@ import { ReactComponent as LogOutIcon } from '../../assets/icons/logout.svg';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import UserAvatar from '../UserAvatar';
+import { useSelector } from 'react-redux';
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -147,9 +148,8 @@ const IconListItem = styled(Link)`
 
 export default function Header() {
   const [searchKeyword, setSearchKeyword] = useState('');
-  const isLogin = true;
-  // const [isLogin, setIsLogin] = useState(false); // 임시 로그인 상태값입니다. 차후 로그인 세션 구현이 되면 리팩토링 예정
-  // const dispatch = useDispatch();
+
+  const { isLoggedIn } = useSelector((state) => state.login);
 
   const onHandleChangeKeyword = (e) => {
     setSearchKeyword(e.target.value);
@@ -179,7 +179,7 @@ export default function Header() {
           </SearchFormInner>
         </SearchForm>
         <Nav>
-          {!isLogin ? (
+          {!isLoggedIn ? (
             <NavContainer>
               <li>
                 <Button to="/login">Log in</Button>
