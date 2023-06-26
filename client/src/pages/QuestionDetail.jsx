@@ -239,6 +239,7 @@ export default function QuestionDetail() {
   };
 
   const onDeleteAnswer = (answerId) => {
+    console.log(answerId);
     fetch(
       `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${id}/answers/${answerId}`,
       {
@@ -248,7 +249,9 @@ export default function QuestionDetail() {
           Authorization: `Bearer ${accessToken}`,
         },
       },
-    );
+    )
+      .then((res) => navigation(0))
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -349,7 +352,7 @@ export default function QuestionDetail() {
                           </div>
                           <div>
                             <Link
-                              onClick={(answerId) => onDeleteAnswer(answerId)}
+                              onClick={() => onDeleteAnswer(answer.answerId)}
                             >
                               Delete
                             </Link>
