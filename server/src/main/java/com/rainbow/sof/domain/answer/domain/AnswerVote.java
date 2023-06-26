@@ -5,11 +5,11 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Entity
 public class AnswerVote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
