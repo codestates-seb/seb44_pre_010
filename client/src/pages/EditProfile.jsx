@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import profile from '../assets/imgs/profile.png';
 import UserAvatar from '../components/UserAvatar';
-import { useSelector } from 'react-redux';
 import { useEditUser } from '../hooks/useEditUser';
 
 const MyPageContainer = styled.div`
@@ -92,8 +91,7 @@ function EditProfile() {
     setName(username);
   }, [username]);
 
-  const userId = useSelector((state) => state.login.userId);
-  console.log(userId);
+  const userId = localStorage.getItem('userId');
   const [Image, setImage] = useState(profile);
   const fileInput = useRef(null);
   const [errors, setErrors] = useState('');

@@ -167,7 +167,8 @@ const MyPageEmptyPanel = styled.span`
 `;
 
 function MyPage() {
-  const userId = useSelector((state) => state.login.userId);
+  const userId = localStorage.getItem('userId');
+  console.log(userId);
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const accessToken = localStorage.getItem('accessToken');
   const navigate = useNavigate();
@@ -199,6 +200,13 @@ function MyPage() {
   });
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+    }
+  }, [isLoggedIn, navigate]);
+
+  useEffect(() => {
     onHandleSelect(3);
   }, []);
 
@@ -209,12 +217,6 @@ function MyPage() {
     });
     setPanelPage(initialPanelPage);
   }, []);
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      navigate('/login');
-    }
-  }, [isLoggedIn, navigate]);
 
   const {
     data: fetchedData,
