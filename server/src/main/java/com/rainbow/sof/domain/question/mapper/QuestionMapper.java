@@ -49,6 +49,7 @@ public interface QuestionMapper {
                     .createdAt(o.getCreatedAt())
                     .modifiedAt(o.getModifiedAt())
                     .questionId(o.getQuestion().getQuestionId())
+                    .name(o.getUser().getName())
                     .build();
             return commentDto;
         }).collect(Collectors.toList()));

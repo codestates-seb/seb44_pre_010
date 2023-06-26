@@ -15,6 +15,12 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import GlobalModal from '../modal/GlobalModal';
 import QuestionEditPage from '../../pages/QuestionEditPage';
 
+import DeleteProfile from '../../pages/DeleteProfile';
+import EditProfile from '../../pages/EditProfile';
+
+import AskQuestions from '../../pages/AskQuestions';
+
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -28,6 +34,9 @@ const router = createBrowserRouter([
       { path: 'questions/:id', element: <QuestionDetail /> },
       { path: 'questions/:id/edit', element: <QuestionEditPage /> },
       { path: 'search', element: <Search /> },
+      { path: 'mypage/edit', element: <EditProfile /> },
+      { path: 'mypage/delete', element: <DeleteProfile /> },
+      { path: 'askquestions', element: <AskQuestions /> },
     ],
   },
   { path: 'login', element: <Login /> },
