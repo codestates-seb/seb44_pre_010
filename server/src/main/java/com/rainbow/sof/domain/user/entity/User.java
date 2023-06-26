@@ -2,7 +2,9 @@ package com.rainbow.sof.domain.user.entity;
 
 
 import com.rainbow.sof.domain.answer.domain.Answer;
+import com.rainbow.sof.domain.answer.domain.AnswerVote;
 import com.rainbow.sof.domain.question.domain.Question;
+import com.rainbow.sof.domain.question.domain.QuestionVote;
 import com.rainbow.sof.global.common.BaseTimeEntity;
 import com.rainbow.sof.global.error.BusinessLogicException;
 import com.rainbow.sof.global.error.ExceptionCode;
@@ -40,22 +42,34 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String password;
     @Email
-    @Column(nullable = false, updatable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String name;
 
-//    @Builder.Default
+    //    @Builder.Default
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Status status =Status.USER_ACTIVE;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private oAuthCheck oAuth =oAuthCheck.NO_OAUTH;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Question> questionList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Answer> answerList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<QuestionVote> questionVotes;
+
+    // @comment AnswerVote 를 위한 매핑입니다.
+    // @author 박경민
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<AnswerVote> answerVotes;
 
     public enum Status{
         USER_ACTIVE("활성상태"),
@@ -68,6 +82,21 @@ public class User extends BaseTimeEntity {
             this.status = status;
         }
     }
+
+    public enum oAuthCheck{
+        GOOGLE("GOOGLE"),
+        FACEBOOK("FACEBOOK"),
+        NO_OAUTH("No_Oauth_User");
+
+        @Getter
+        private final String status;
+
+        oAuthCheck(String status) {
+            this.status = status;
+        }
+    }
+
+    public void updateOAuth(oAuthCheck oAuth) {this.oAuth = oAuth;}
 
     public void updateStatus(Status status) {
         this.status = status;

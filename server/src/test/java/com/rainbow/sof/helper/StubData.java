@@ -2,16 +2,33 @@ package com.rainbow.sof.helper;
 
 import com.rainbow.sof.domain.answer.dto.AnswerDto;
 import com.rainbow.sof.domain.question.dto.QuestionDto;
+import com.rainbow.sof.domain.user.auth.jwt.JwtTokenizer;
 import com.rainbow.sof.domain.user.dto.singleDto.UserDto;
 import org.springframework.http.HttpMethod;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StubData {
 
+    public static class MockSecurity{
+        public static String getValidAccessToken(String secretKey, String role) {
+            JwtTokenizer jwtTokenizer = new JwtTokenizer();
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("email","test@test.com");
+
+            String subject = "test access token";
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, 1);
+            Date expiration = calendar.getTime();
+
+            String base64EncodedSecretKey = jwtTokenizer.secretKeyEncodeBase64(secretKey);
+
+            String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
+
+            return accessToken;
+        }
+    }
     public static class MockUser {
         public static UserDto.QuestionResponse getSingleResponseBody() {
             return UserDto.QuestionResponse.builder()
@@ -86,20 +103,17 @@ public class StubData {
     }
 
     public static class MockAnswer {
-        private final static String content = "이건 댓글의 내용입니다. 내용이요. 내용.";
+        private final static String content = "이건 댓글의 내용입니다. 내용이요. 내용12312321121231231233123.";
         private static Map<HttpMethod, Object> stubRequestBody;
 
         static {
             stubRequestBody = new HashMap<>();
             AnswerDto.Post post = AnswerDto.Post.builder()
-                    .questionId(1L)
                     .content(content)
                     .build();
             stubRequestBody.put(HttpMethod.POST, post);
             AnswerDto.Patch patch = AnswerDto.Patch.builder()
-                    .questionId(1L)
                     .content(content)
-                    .answerId(1L)
                     .build();
             stubRequestBody.put(HttpMethod.PATCH, patch);
         }

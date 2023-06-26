@@ -10,6 +10,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.util.List;
 
+import static com.rainbow.sof.domain.question.domain.QuestionVote.QuestionVoteStatus.VOTE_UP;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,7 +28,7 @@ public class Question extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column
+    @Column(columnDefinition = "integer default 0")
     private int view;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,6 +37,11 @@ public class Question extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "question")
     private List<Answer> answers;
+
+    @Column(columnDefinition = "integer default 0")
+    private int vote;
+    @OneToMany(mappedBy = "question")
+    private List<QuestionVote> questionVotes;
 
     public void updateTitle(String title){
         this.title = title;
@@ -56,4 +63,13 @@ public class Question extends BaseTimeEntity {
         return !this.answers.isEmpty();
     }
 
+    public void calculatePostVote(QuestionVote.QuestionVoteStatus status){
+        if(status.equals(VOTE_UP)) this.vote++;
+        else                       this.vote--;
+    }
+
+    public void calculateDeleteVote(QuestionVote.QuestionVoteStatus status){
+        if(status.equals(VOTE_UP)) this.vote--;
+        else                       this.vote++;
+    }
 }

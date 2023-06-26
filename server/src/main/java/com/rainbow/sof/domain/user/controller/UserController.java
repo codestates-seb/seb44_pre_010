@@ -37,17 +37,9 @@ public class UserController {
         User user = mapper.userSignupPostToUser(signUpPost);
         User createUser=service.createUser(user);
         URI location = UriCreator.createUri(USER_DEFAULT_URL.getUri(), createUser.getUserId());
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(mapper.userToUserUserDtoResponse(user));
     }
 
-
-//    @PostMapping("/login")
-//    public ResponseEntity<?> postLogin(@AuthenticationName String email){
-//        User user = service.findByUserFromEmail(email);
-//        URI location = UriCreator.createUri(USER_DEFAULT_URL,user.getUserId());
-//        response.setHeader("Location", String.valueOf(location));
-//        return ResponseEntity.ok().body(user.getUserId());
-//    }
 
 //    @PostMapping("/logout")
 //    public ResponseEntity<?> postLogin(){
@@ -68,7 +60,7 @@ public class UserController {
 
     @PatchMapping("/users/{user-id}")
     public ResponseEntity<?> patchUser(@AuthenticationName String email,
-                                         @Valid @PathVariable("user-id") @Positive long id,
+                                       @Valid @PathVariable("user-id") @Positive long id,
                                        @RequestBody UserDto.Patch patch){
         User updateUser = service.updateUser(email,id,patch);
         URI location = UriCreator.createUri(USER_DEFAULT_URL.getUri(), updateUser.getUserId());
@@ -77,9 +69,8 @@ public class UserController {
 
     @DeleteMapping("/users/{user-id}")
     public ResponseEntity<?> deleteUser(@AuthenticationName String email,
-            @Valid @PathVariable("user-id") @Positive long id){
-        User user = service.checkToFindByUserFromEmail(email,id);
-        service.deleteUser(user.getUserId());
+                                        @Valid @PathVariable("user-id") @Positive long id){
+        service.deleteUser(email,id);
         URI location = UriCreator.createUri(DELETE_ACTION_URL.getUri());
         return ResponseEntity.noContent().location(location).build();
     }

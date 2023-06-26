@@ -8,6 +8,7 @@ import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -18,16 +19,21 @@ import java.util.*;
 public class JwtTokenizer {
 
     @Getter
-    private String ADMIN_SUBJECT = "ADMIN@ADMIN.com";
+    @Value("${User.mail.admin}")
+    private static String ADMIN_SUBJECT = "ADMIN@ADMIN.com";
+
     @Getter
-    @Value("thisIsTestScretKeythisIsTestScretKeythisIsTestScretKeythisIsTestScretKey")
+    @Value("${User.mail.disable}")
+    private static String USER_DISABLE_MAIL="disable@disable.com";
+    @Getter
+    @Value("${jwt.key.secret}")
     private String secretKeySting;
 
     @Getter
-    @Value("60")
+    @Value("${jwt.access-token-expiration-minutes}")
     private int accessTokenExpirationMinutes;
     @Getter
-    @Value("300")
+    @Value("${jwt.refresh-token-expiration-minutes}")
     private int refreshTokenExpirationMinutes;
 
     //시크릿키로 이용할 무작위 문자열을 바이트배열로 변환

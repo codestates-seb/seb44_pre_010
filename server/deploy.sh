@@ -26,10 +26,11 @@ then
 else
   echo "> kill -9 $CURRENT_PID" >> /home/ec2-user/log/deploy.log
   sudo kill -9 $CURRENT_PID
-  sleep 5
+  sleep 10
 fi
 
 
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/log/deploy.log
-sudo java -jar $DEPLOY_JAR >> /home/ec2-user/log/deploy.log 2>/home/ec2-user/log/deploy_err.log &
+su - ec2-user -c "java -jar $DEPLOY_JAR --spring.profiles.active=prod" >> /home/ec2-user/log/deploy.log 2>/home/ec2-user/log/deploy_err.log &
+

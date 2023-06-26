@@ -51,6 +51,7 @@ public class QuestionDto {
         private String content;
         private int view;
         private long answerCnt;
+        private long vote;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
@@ -69,6 +70,7 @@ public class QuestionDto {
         private String content;
         private int view;
         private long answerCnt;
+        private long vote;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
