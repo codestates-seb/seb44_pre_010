@@ -332,13 +332,6 @@ function MyPage() {
                 })
             )}
           </MyPageInfoPanel>
-          <Pagination
-            total={(userData[`${panel.id}List`] || []).length}
-            limit={5}
-            page={1}
-            setPage={(newPage) => handlePanelPageChange(panel.id, newPage)}
-            setLimit={(newLimit) => handlePanelLimitChange(panel.id, newLimit)}
-          />
         </MyPageInfoPanelContainer>
       ))}
     </MyPageContainer>
