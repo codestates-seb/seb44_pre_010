@@ -349,6 +349,7 @@ function Questions() {
     setSortOptions(type);
   };
 
+  const [TotalQue, setTotalQue] = useState(0);
   useEffect(() => {
     onHandleSelect(1);
     const getAllQuestions = async () => {
@@ -365,6 +366,8 @@ function Questions() {
       }, 3000);
 
       setTotal(jsonData.pageInfo.totalPages);
+      setTotalQue(jsonData.data.length);
+      console.log(TotalQue);
     };
 
     getAllQuestions();

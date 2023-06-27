@@ -13,6 +13,8 @@ import { changeTimeFormat } from '../utils/changeTimeFormat.js';
 import Pagination from '../components/pagenation/Pagenation';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLoginStatus } from '../redux/reducers/loginSlice';
+import answerIcon from '../assets/icons/answer.svg';
+import questionIcon from '../assets/icons/question.svg';
 
 const MyPageContainer = styled.div`
   width: 100%;
@@ -313,26 +315,22 @@ function MyPage() {
                   (panelPage[panel.id] - 1) * panelLimits[panel.id],
                   panelPage[panel.id] * panelLimits[panel.id],
                 )
-                .map((item) => (
-                  <MyPageInfoPanelList key={item[`${panel.id}Id`]}>
-                    <MyPageInfoPanelLink
-                      to={`questions/${item[`${panel.id}Id`]}`}
-                    >
-                      <img src={panel.icon} alt={`${panel.id} icon`} />
-                      {item.title || item.content}
-                    </MyPageInfoPanelLink>
-                    <span>{changeTimeFormat(item.createdAt)}</span>
-                  </MyPageInfoPanelList>
-                ))
+                .map((item) => {
+                  console.log(`${panel.icon}`);
+                  return (
+                    <MyPageInfoPanelList key={item[`${panel.id}Id`]}>
+                      <MyPageInfoPanelLink
+                        to={`questions/${item[`${panel.id}Id`]}`}
+                      >
+                        <img src={questionIcon} alt={`${panel.id} icon`} />
+                        {item.title || item.content}
+                      </MyPageInfoPanelLink>
+                      <span>{changeTimeFormat(item.createdAt)}</span>
+                    </MyPageInfoPanelList>
+                  );
+                })
             )}
           </MyPageInfoPanel>
-          <Pagination
-            total={(userData[`${panel.id}List`] || []).length}
-            limit={panelLimits[panel.id]}
-            page={panelPage[panel.id] || 1}
-            setPage={(newPage) => handlePanelPageChange(panel.id, newPage)}
-            setLimit={(newLimit) => handlePanelLimitChange(panel.id, newLimit)}
-          />
         </MyPageInfoPanelContainer>
       ))}
     </MyPageContainer>

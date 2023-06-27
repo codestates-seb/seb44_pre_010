@@ -35,6 +35,8 @@ const TagCard = styled.div`
   flex-direction: column;
 `;
 
+const TagButton = styled.div``;
+
 export default function Tags() {
   const { onHandleSelect } = useOutletContext();
 
