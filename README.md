@@ -34,6 +34,29 @@
 <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"> <img src="https://img.shields.io/badge/Zoom-2D8CFF?style=for-the-badge&logo=zoom&logoColor=white">
 
 ## Project
+### 회원가입
+<img src="img/회원가입.gif" width="450" height="450">
+
+### 로그인/로그아웃
+<img src="img/로그인-로그아웃.gif" width="450" height="450">
+
+### 마이페이지
+<img src="img/마이페이지.gif" width="450" height="450">
+
+### 회원 정보 수정/삭제
+<img src="img/마이페이지,회원수정,삭제.gif" width="450" height="450">
+
+### 질문 조회
+<img src="img/질문 보기.gif" width="450" height="450">
+
+### 질문 작성
+<img src="img/질문 작성.gif" width="450" height="450">
+
+### 질문 수정/삭제
+<img src="img/질문수정-삭제.gif" width="450" height="450">
+
+### 답변 등록/수정/삭제
+<img src="img/답변, 등록 수정, 삭제.gif" width="450" height="450">
 
 ## Docs
 **Team Page**: [Notion URL](https://www.notion.so/codestates/210e7b108f90477e962f12c5700421eb)
