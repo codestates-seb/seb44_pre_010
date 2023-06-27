@@ -421,14 +421,11 @@ const UserTime = styled.time`
 function Questions() {
   const [questions, setQuestions] = useState([]);
   // ⬇ 페이지 네이션 상태
-  const [limit, setLimit] = useState(15); // 페이지 당 게시물 수 15개로 설정
   const [page, setPage] = useState(1); // 현재 페이지의 번호
-  const offset = (page - 1) * limit; // 페이지네이션 알고리즘, 현재 페이지 번호를 기준으로 표시해줘야할 게시물들의 범위
   const { onHandleSelect } = useOutletContext();
   const [isFetching, setIsFetching] = useState(true);
-  const [sortedQuestions, setSortedQuestions] = useState([]);
   const [Total, setTotal] = useState(0);
-
+  const [TotalQue, setTotalQue] = useState(0);
   useEffect(() => {
     onHandleSelect(1);
     const getAllQuestions = async () => {
@@ -441,27 +438,12 @@ function Questions() {
       setIsFetching(false);
 
       setTotal(jsonData.pageInfo.totalPages);
-
-      console.log(jsonData.data);
+      setTotalQue(jsonData.data.length);
+      console.log(TotalQue);
     };
 
     getAllQuestions();
   }, [page, Total]);
-
-  useEffect(() => {
-    // Questions 페이지 최신순으로 정렬
-    const sorted = [...questions].sort(
-      (a, b) => formatTime(a.createdAt) - formatTime(b.createdAt),
-    );
-    setSortedQuestions(sorted);
-  }, [questions]);
-
-  const formatTime = (createdAt) => {
-    const dateObj = new Date(createdAt);
-    const minutes = dateObj.getMinutes();
-    console.log(minutes);
-    return minutes;
-  };
 
   const handleClick = () => {
     return;
@@ -480,7 +462,7 @@ function Questions() {
             </AQuecontainer>
           </TopQuestions>
           <Category>
-            <Blockitem>23,766,947 questions</Blockitem>
+            <Blockitem>{TotalQue}</Blockitem>
             <Categorylist>
               <Categorylink>
                 <Categoryitem1 to="https://stackoverflow.com/?tab=interesting">

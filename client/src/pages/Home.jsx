@@ -422,7 +422,7 @@ function Home() {
   const [questions, setQuestions] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const { onHandleSelect } = useOutletContext();
-
+  const [questionslength, setQuestionslength] = useState(0);
   useEffect(() => {
     onHandleSelect(0);
     const getAllQuestions = async () => {
@@ -435,6 +435,7 @@ function Home() {
 
       setQuestions(jsonData.data);
       setIsFetching(false);
+      setQuestionslength(jsonData.data.length);
     };
 
     getAllQuestions();
@@ -450,7 +451,8 @@ function Home() {
             </AQuecontainer>
           </TopQuestions>
           <Category>
-            <Blockitem></Blockitem>
+            <Blockitem>{questionslength}</Blockitem>
+
             <Categorylist>
               <Categorylink>
                 <Categoryitem1 to="https://stackoverflow.com/?tab=interesting">
