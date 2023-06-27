@@ -178,8 +178,12 @@ function AskQuestions() {
   };
 
   const handleQuestionsSave = async () => {
-    if (title.length < 10) {
+    if (title.length === 0) {
+      setTitleError('제목을 입력하세요.');
+    } else if (title.length < 10) {
       setTitleError('최소 10자 이상 입력하세요.');
+    } else if (content.length === 0) {
+      setcontentError('내용을 입력하세요.');
     } else if (content.length < 20) {
       setcontentError('최소 20자 이상 입력하세요.');
     } else {
