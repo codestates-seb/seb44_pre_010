@@ -106,6 +106,7 @@ function DeleteProfile() {
 
     try {
       const isSuccess = await deleteUser(userId, accessToken);
+
       if (isSuccess) {
         console.log('회원 탈퇴 성공');
         dispatch(logout());
