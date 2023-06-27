@@ -106,6 +106,7 @@ function DeleteProfile() {
 
     try {
       const isSuccess = await deleteUser(userId, accessToken);
+
       if (isSuccess) {
         dispatch(logout());
         dispatch(
