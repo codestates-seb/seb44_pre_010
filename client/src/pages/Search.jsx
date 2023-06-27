@@ -1,35 +1,34 @@
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import Pagination from '../components/pagenation/Pagenation';
 import BlueButton from '../components/common/BlueButton';
-import { Children, useEffect, useState } from 'react';
-import { Link, useOutletContext, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import profile from '../assets/imgs/profile.png';
+
+const GlobalStyle = createGlobalStyle`
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+`;
 
 const Maincontainer = styled.div`
   max-width: 68.75rem;
   width: calc(100% - 10.25rem);
   background-color: white;
-  border-radius: 0;
   border-left-width: 0.063rem;
-  border-right-width: 0;
   padding: 1.5rem;
-  box-sizing: border-box;
   &::before {
-    box-sizing: border-box;
     color: rgb(35, 38, 41);
     display: table;
     line-height: 1.063rem;
     vertical-align: baseline;
     font-family: 'Segoe UI Adjusted', 'Segoe UI', 'Liberation Sans', sans-serif;
     font-size: 0.813rem;
-    font-stretch: 100%;
-    text-align: left;
   }
 `;
 const Mainbar = styled.div`
-  box-sizing: border-box;
   color: rgb(35, 38, 43);
   display: block;
   font-weight: 25rem;
@@ -37,107 +36,55 @@ const Mainbar = styled.div`
   width: 55rem;
 `;
 const TopQuestions = styled.div`
-  box-sizing: border-box;
   color: rgb(35, 38, 41);
   display: flex;
   line-height: 1.063rem;
-  vertical-align: baseline;
   font-family: 'Segoe UI Adjusted', 'Segoe UI', 'Liberation Sans', sans-serif;
   font-size: 0.813rem;
-  font-stretch: 100%;
-  text-align: left;
   font-weight: 25rem;
   justify-content: center;
   align-items: center;
 `;
 const H1 = styled.h1`
-  box-sizing: border-box;
   color: rgb(35, 38, 42);
   display: block;
-  flex-basis: auto;
   flex-grow: 1;
-  flex-shrink: 1;
   font-family: 'Segoe UI Adjusted', 'Segoe UI', 'Liberation Sans', sans-serif;
   font-size: 1.688rem;
   font-weight: 25rem;
   line-height: 2.194rem;
   margin-block-end: 1.688rem;
   margin-bottom: 1.688rem;
-  text-align: left;
 `;
 const AQuecontainer = styled.div`
-  box-sizing: border-box;
   color: rgb(35, 38, 41);
   display: block;
   line-height: 2.194rem;
   margin-left: 0.75rem;
-  text-align: left;
 `;
-const Askquestion = styled(Link)`
-  background-color: rgb(10, 149, 255);
-  color: white;
-  border-bottom-left-radius: 0.188rem;
-  border-bottom-right-radius: 0.188rem;
-  border-bottom-style: solid;
-  border-bottom-width: 0.063rem;
-  cursor: pointer;
-  display: inline-block;
-  font-weight: 25rem;
-  line-height: 0.938rem;
-  padding-bottom: 0.65rem;
-  padding-left: 0.65rem;
-  padding-right: 0.65rem;
-  padding-top: 0.65rem;
-  position: relative;
-  text-align: center;
-  box-shadow: rgba(255, 255, 255, 0.4) 0rem 0.063rem 0rem 0rem inset;
-  box-sizing: border-box;
-  text-decoration-color: rgb(255, 255, 255);
-  text-decoration-line: none;
-  text-decoration-style: solid;
-  border-top-left-radius: 0.188rem;
-  border-top-right-radius: 0.188rem;
-  &:hover {
-    background-color: rgb(7, 112, 192);
-  }
-`;
+
 const Category = styled.div`
   display: flex;
   line-height: 1.062rem;
   margin-top: 1rem;
-  vertical-align: baseline;
   align-items: center;
-  box-sizing: inherit;
-  text-align: left;
 `;
 const Categorylist = styled.div`
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
   font-size: 100%;
   display: block;
   text-align: left;
 `;
 const Categorylink = styled.div`
-  vertical-align: baseline;
-  text-align: left;
   line-height: 0.938rem;
 `;
 const Categoryitem = styled(Link)`
   margin-right: -0.063rem;
-  z-index: 1.563rem;
   background-color: #f5f4f4;
-  border-radius: 0.313rem 0.313rem 0.313rem 0.313rem;
-
+  border-radius: 0.313rem;
   margin-bottom: -0.063rem;
   white-space: nowrap;
   line-height: 0.938rem;
-  padding-bottom: 0.65rem;
-  padding-left: 0.65rem;
-  padding-right: 0.65rem;
-  padding-top: 0.65rem;
+  padding: 0.65rem;
   position: relative;
   text-align: center;
   span {
@@ -359,51 +306,7 @@ const TagItems = styled.div`
   text-align: left;
   line-height: 1.125rem;
 `;
-const TagItemsList = styled.ul`
-  box-sizing: border-box;
-  color: rgb(35, 38, 41);
-  display: inline;
-  line-height: 1.125rem;
-  text-align: left;
-  vertical-align: baseline;
-  margin-block-end: 0.813rem;
-  margin-bottom: 0.813rem;
-  li {
-    box-sizing: border-box;
-    color: rgb(35, 38, 41);
-    display: inline;
-    line-height: 1.125rem;
-    margin-right: 0.25rem;
-    text-align: left;
-    vertical-align: baseline;
-    a {
-      color: rgb(57, 115, 157);
-      cursor: pointer;
-      display: inline-block;
-      background-color: rgb(225, 236, 244);
-      border-bottom-left-radius: 0.188rem;
-      border-bottom-right-radius: 0.188rem;
-      border-bottom-style: solid;
-      border-left-color: rgba(0, 0, 0, 0);
-      border-left-style: solid;
-      font-size: 0.75rem;
-      line-height: 0.75rem;
-      list-style-position: outside;
-      list-style-type: none;
-      margin-bottom: 0.125rem;
-      margin-right: 0.125rem;
-      opacity: 1;
-      padding-bottom: 0.3rem;
-      padding-left: 0.375rem;
-      padding-right: 0.375rem;
-      padding-top: 0.3rem;
-      text-align: center;
-      text-decoration-color: rgb(57, 115, 157);
-      text-decoration-line: none;
-      text-decoration-style: solid;
-    }
-  }
-`;
+
 const Block2 = styled.div`
   align-items: center;
   background-color: rgba(0, 0, 0, 0);
@@ -480,10 +383,8 @@ const UserId = styled.div`
   display: flex;
   flex-wrap: wrap;
   line-height: 0.75rem;
-  margin-bottom: -0.125rem;
-  margin-left: -0.125rem;
-  margin-right: -0.125rem;
-  margin-top: -0.125rem;
+  margin: -0.125rem;
+
   a {
     box-sizing: border-box;
     color: rgb(0, 116, 204);
@@ -514,200 +415,34 @@ const UserTime = styled.time`
   }
 `;
 
-// function Search() {
-//   const [questions, setQuestions] = useState([]);
-//   // ⬇ 페이지 네이션 상태
-//   const [limit, setLimit] = useState(15); // 페이지 당 게시물 수 15개로 설정
-//   const [page, setPage] = useState(1); // 현재 페이지의 번호
-//   const offset = (page - 1) * limit; // 페이지네이션 알고리즘, 현재 페이지 번호를 기준으로 표시해줘야할 게시물들의 범위
-//   const { onHandleSelect } = useOutletContext();
-//   const [isFetching, setIsFetching] = useState(true);
-//   const [sortedQuestions, setSortedQuestions] = useState([]);
-
-//   useEffect(() => {
-//     onHandleSelect(1);
-//     const getAllQuestions = async () => {
-//       const response = await fetch(
-//         'http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/top',
-//       );
-//       const jsonData = await response.json();
-
-//       setQuestions(jsonData.data);
-//       setIsFetching(false);
-//     };
-
-//     getAllQuestions();
-//   }, []);
-
-//   useEffect(() => {
-//     // Questions 페이지 최신순으로 정렬
-//     const sorted = [...questions].sort(
-//       (a, b) => formatTime(a.createdAt) - formatTime(b.createdAt),
-//     );
-//     setSortedQuestions(sorted);
-//   }, [questions]);
-
-//   const formatTime = (createdAt) => {
-//     const dateObj = new Date(createdAt);
-//     const minutes = dateObj.getMinutes();
-//     console.log(minutes);
-//     return minutes;
-//   };
-
-//   const handleClick = () => {
-//     return;
-//   };
-
-//   return (
-//     <>
-//       <Maincontainer className="Maincontainer">
-//         <Mainbar>
-//           <TopQuestions>
-//             <H1>Search Results</H1>
-//             <AQuecontainer>
-//               <BlueButton onClick={handleClick} link="/askquestions">
-//                 Ask Question
-//               </BlueButton>
-//             </AQuecontainer>
-//           </TopQuestions>
-//           <Category>
-//             <Blockitem>23,766,947 questions</Blockitem>
-//             <Categorylist>
-//               <Categorylink>
-//                 <Categoryitem1 to="https://stackoverflow.com/?tab=interesting">
-//                   Newset
-//                 </Categoryitem1>
-//                 <Categoryitem to="https://stackoverflow.com/?tab=month">
-//                   Active
-//                 </Categoryitem>
-//                 <Categoryitem to="https://stackoverflow.com/?tab=bounties">
-//                   <span>226</span> Bountied
-//                 </Categoryitem>
-//                 <Categoryitem to="https://stackoverflow.com/?tab=hot">
-//                   More
-//                 </Categoryitem>
-//                 <Categoryitem to="https://stackoverflow.com/?tab=week">
-//                   {/* filter는 버튼만 만들고 정렬은 api를 이용해서 최신순으로 정렬 */}
-//                   Filter &nbsp;
-//                   <FontAwesomeIcon icon={faBars} />
-//                 </Categoryitem>
-//               </Categorylink>
-//             </Categorylist>
-//           </Category>
-
-//           <Qlistwrapper>
-//             <Questionminilist>
-//               <Questioncontainer>
-//                 {/* ⬇모든 Question Items를 포함하는 컴포넌트 최상위
-//                  */}
-//                 {Array.isArray(sortedQuestions) &&
-//                   sortedQuestions
-//                     .slice(offset, offset + limit)
-//                     ?.map((question) => {
-//                       const createdMinutes = formatTime(question.createdAt);
-//                       return (
-//                         <Questionlist key={question.questionId}>
-//                           <Qinformation>
-//                             <Votes>
-//                               <span> {question.vote} </span> votes
-//                             </Votes>
-//                             <Answers>
-//                               <span> {question.answerCount} </span> answerd
-//                             </Answers>
-//                             <Views>
-//                               <span> {question.view} </span> views
-//                             </Views>
-//                           </Qinformation>
-//                           <QuelistConatiner>
-//                             <QueTitle>
-//                               <Link to={`/questions/${question.questionId}`}>
-//                                 {question.title}
-//                               </Link>
-//                             </QueTitle>
-//                             <Tag>
-//                               {/* ⬇ 여기가  Tags 컴포넌트 최상위  */}
-//                               <Block2></Block2>
-//                               <Block2>
-//                                 <UserImg>
-//                                   <div>
-//                                     <img
-//                                       src={profile}
-//                                       alt="유저 이미지 사진"
-//                                     ></img>
-//                                   </div>
-//                                 </UserImg>
-//                                 <UserIdList>
-//                                   <UserId>
-//                                     <span>{question.user.name}</span>
-//                                   </UserId>
-//                                   <UserCommit>
-//                                     <li>
-//                                       <span> {2} </span>
-//                                     </li>
-//                                   </UserCommit>
-//                                 </UserIdList>
-//                                 <UserTime>
-//                                   asked <span>{createdMinutes} mins ago</span>
-//                                   {/*분만 출력 */}
-//                                 </UserTime>
-//                               </Block2>
-//                             </Tag>
-//                             PPP
-//                           </QuelistConatiner>
-//                         </Questionlist>
-//                       );
-//                     })}
-//               </Questioncontainer>
-//             </Questionminilist>
-//           </Qlistwrapper>
-//           {/* 여기서 페이지네이션 구현  */}
-//           <Pagination
-//             total={questions.length}
-//             limit={limit}
-//             page={page}
-//             setPage={setPage}
-//             setLimit={setLimit}
-//           ></Pagination>
-//         </Mainbar>
-//       </Maincontainer>
-//     </>
-//   );
-// }
-
-// export default Search;
 function Search() {
   const location = useLocation();
   const { searchResults } = location.state || { searchResults: [] };
   const [limit, setLimit] = useState(15);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
-  console.log('searchResults:', searchResults);
+  const searchData = searchResults.data;
 
   const formatTime = (createdAt) => {
     const dateObj = new Date(createdAt);
-    const hours = dateObj.getHours(); // 시간(hour) 추출
+    const hours = dateObj.getHours();
     return hours;
-  };
-
-  const handleClick = () => {
-    return;
   };
 
   return (
     <>
-      <Maincontainer className="Maincontainer">
+      <GlobalStyle />
+      <Maincontainer>
         <Mainbar>
           <TopQuestions>
             <H1>Search Results</H1>
             <AQuecontainer>
-              <BlueButton onClick={handleClick} link="/askquestions">
-                Ask Question
-              </BlueButton>
+              <BlueButton link="/askquestions">Ask Question</BlueButton>
             </AQuecontainer>
           </TopQuestions>
           <Category>
             <Blockitem>
-              {searchResults && searchResults.length} questions
+              {searchResults && searchData.length} questions
             </Blockitem>
             <Categorylist>
               <Categorylink>
@@ -734,8 +469,8 @@ function Search() {
           <Qlistwrapper>
             <Questionminilist>
               <Questioncontainer>
-                {Array.isArray(searchResults) &&
-                  searchResults.slice(offset, offset + limit)?.map((data) => {
+                {Array.isArray(searchData) &&
+                  searchData.slice(offset, offset + limit)?.map((data) => {
                     const createdMinutes = formatTime(data.createdAt);
                     return (
                       <Questionlist key={data.questionId}>

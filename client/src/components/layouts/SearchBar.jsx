@@ -25,7 +25,6 @@ const SearchInput = styled.input`
   line-height: calc((13 + 2) / 13);
   padding: 0.5rem 0.6rem 0.5rem 2rem;
   width: 100%;
-  margin: 0;
   box-sizing: border-box;
 
   &::placeholder {
@@ -38,7 +37,6 @@ const SearchButton = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
-  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,6 +96,7 @@ export default function SearchBar() {
           const data = await response.json();
           // 검색 결과를 처리하는 로직을 작성해주세요.
           console.log(data);
+          console.log(typeof data);
           navigate('/search', { state: { searchResults: data } });
         } else {
           throw new Error('API 요청이 실패했습니다.');

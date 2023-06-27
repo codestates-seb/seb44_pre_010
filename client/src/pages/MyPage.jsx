@@ -170,7 +170,6 @@ const MyPageEmptyPanel = styled.span`
 function MyPage() {
   const dispatch = useDispatch();
   const userId = localStorage.getItem('userId');
-  console.log(userId);
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const accessToken = localStorage.getItem('accessToken');
   const navigate = useNavigate();
@@ -230,6 +229,7 @@ function MyPage() {
     error,
   } = useUserData(userId, accessToken);
   const userData = fetchedData?.data;
+  console.log(userData);
 
   const getSortedPanelList = (panelId) => {
     const sortFunction = buttonData.find(
