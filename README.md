@@ -35,28 +35,28 @@
 
 ## Project
 ### 회원가입
-<img src="img/회원가입.gif" width="450" height="450">
+<img src="img/회원가입.gif" width="700" height="450">
 
 ### 로그인/로그아웃
-<img src="img/로그인-로그아웃.gif" width="450" height="450">
+<img src="img/로그인-로그아웃.gif" width="700" height="450">
 
 ### 마이페이지
-<img src="img/마이페이지.gif" width="450" height="450">
+<img src="img/마이페이지.gif" width="700" height="450">
 
 ### 회원 정보 수정/삭제
-<img src="img/마이페이지,회원수정,삭제.gif" width="450" height="450">
+<img src="img/마이페이지,회원수정,삭제.gif" width="700" height="450">
 
 ### 질문 조회
-<img src="img/질문 보기.gif" width="450" height="450">
+<img src="img/질문 보기.gif" width="700" height="450">
 
 ### 질문 작성
-<img src="img/질문 작성.gif" width="450" height="450">
+<img src="img/질문 작성.gif" width="700" height="450">
 
 ### 질문 수정/삭제
-<img src="img/질문수정-삭제.gif" width="450" height="450">
+<img src="img/질문수정-삭제.gif" width="700" height="450">
 
 ### 답변 등록/수정/삭제
-<img src="img/답변, 등록 수정, 삭제.gif" width="450" height="450">
+<img src="img/답변, 등록 수정, 삭제.gif" width="700" height="450">
 
 ## Docs
 **Team Page**: [Notion URL](https://www.notion.so/codestates/210e7b108f90477e962f12c5700421eb)
