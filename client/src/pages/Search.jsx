@@ -1,11 +1,12 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import Pagination from '../components/pagenation/Pagenation';
 import BlueButton from '../components/common/BlueButton';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import profile from '../assets/imgs/profile.png';
 import SortButtonGroup from '../components/SortButtonGroup';
 import { buttonData } from '../constants/MyPageConstants';
+import Loading from '../components/Loading';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -327,6 +328,16 @@ function Search() {
   const offset = (page - 1) * limit;
   const searchData = searchResults.data;
   const [sortOptions, setSortOptions] = useState('newest');
+  const [isFetching, setIsFetching] = useState(true);
+
+  useEffect(() => {
+    // 2초 후에 isFetching 값을 false로 업데이트
+    const timer = setTimeout(() => {
+      setIsFetching(false);
+    }, 2000);
+
+    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 제거
+  }, []); // 컴포넌트가 처음 렌더링될 때만 실행
 
   const handleSortOption = (type) => {
     setSortOptions(type);
@@ -350,7 +361,7 @@ function Search() {
             </AQuecontainer>
           </TopQuestions>
           <Category>
-            <Blockitem></Blockitem>
+            <Blockitem>{searchData.length} questions</Blockitem>
             <SortButtonGroup
               buttonData={buttonData}
               activeOption={sortOptions}
@@ -361,7 +372,10 @@ function Search() {
           <Qlistwrapper>
             <Questionminilist>
               <Questioncontainer>
-                {Array.isArray(searchData) &&
+                {isFetching ? (
+                  <Loading /> // 로딩 중에는 로딩 컴포넌트
+                ) : (
+                  Array.isArray(searchData) &&
                   searchData.slice(offset, offset + limit)?.map((data) => {
                     const createdMinutes = formatTime(data.createdAt);
                     return (
@@ -405,7 +419,8 @@ function Search() {
                         </QuelistConatiner>
                       </Questionlist>
                     );
-                  })}
+                  })
+                )}
               </Questioncontainer>
             </Questionminilist>
           </Qlistwrapper>
