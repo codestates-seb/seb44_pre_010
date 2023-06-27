@@ -373,7 +373,7 @@ function Search() {
             <Questionminilist>
               <Questioncontainer>
                 {isFetching ? (
-                  <Loading /> // 로딩 중에는 로딩 컴포넌트를 렌더링합니다.
+                  <Loading /> // 로딩 중에는 로딩 컴포넌트
                 ) : (
                   Array.isArray(searchData) &&
                   searchData.slice(offset, offset + limit)?.map((data) => {
