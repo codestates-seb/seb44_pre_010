@@ -25,7 +25,6 @@ const SearchInput = styled.input`
   line-height: calc((13 + 2) / 13);
   padding: 0.5rem 0.6rem 0.5rem 2rem;
   width: 100%;
-  margin: 0;
   box-sizing: border-box;
 
   &::placeholder {
@@ -38,7 +37,6 @@ const SearchButton = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
-  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
