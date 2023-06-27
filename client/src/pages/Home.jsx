@@ -340,7 +340,6 @@ function Home() {
   const [sortOptions, setSortOptions] = useState('newest');
 
   const { onHandleSelect } = useOutletContext();
-
   const handleSortOption = (type) => {
     setSortOptions(type);
   };
@@ -359,6 +358,7 @@ function Home() {
       }, 3000);
 
       setQuestions(jsonData.data);
+      setIsFetching(false);
     };
 
     getAllQuestions();
