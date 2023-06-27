@@ -321,7 +321,7 @@ function MyPage() {
                   return (
                     <MyPageInfoPanelList key={item[`${panel.id}Id`]}>
                       <MyPageInfoPanelLink
-                        to={`questions/${item[`${panel.id}Id`]}`}
+                        to={`/questions/${item[`${panel.id}Id`]}`}
                       >
                         <img src={questionIcon} alt={`${panel.id} icon`} />
                         {item.title || item.content}
