@@ -225,7 +225,6 @@ export default function SignUp() {
 
               localStorage.setItem('user', JSON.stringify(userData));
               setModalOpen(true);
-              console.log('회원가입에 성공했습니다!', userData);
             });
           } else if (response.status === 409) {
             // 로그인 실패 했을 경우

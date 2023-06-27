@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 import Pagination from '../components/pagenation/Pagenation';
 import BlueButton from '../components/common/BlueButton';
+import profile from '../assets/imgs/profile.png';
+import SortButtonGroup from '../components/SortButtonGroup';
+
 import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import profile from '../assets/imgs/profile.png';
+import { buttonData } from '../constants/MyPageConstants';
 import { formatAgo } from '../utils/date';
+import UserAvatar from '../components/UserAvatar';
+import Loading from '../components/Loading';
 
 const Maincontainer = styled.div`
   max-width: 68.75rem;
@@ -82,49 +85,6 @@ const Category = styled.div`
   align-items: center;
   box-sizing: inherit;
   text-align: left;
-`;
-const Categorylist = styled.div`
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  font-size: 100%;
-  display: block;
-  text-align: left;
-`;
-const Categorylink = styled.div`
-  vertical-align: baseline;
-  text-align: left;
-  line-height: 0.938rem;
-`;
-const Categoryitem = styled(Link)`
-  margin-right: -0.063rem;
-  z-index: 1.563rem;
-  background-color: #f5f4f4;
-  border-radius: 0.313rem 0.313rem 0.313rem 0.313rem;
-
-  margin-bottom: -0.063rem;
-  white-space: nowrap;
-  line-height: 0.938rem;
-  padding-bottom: 0.65rem;
-  padding-left: 0.65rem;
-  padding-right: 0.65rem;
-  padding-top: 0.65rem;
-  position: relative;
-  text-align: center;
-  span {
-    background-color: rgb(10, 149, 255);
-    color: white;
-    border-radius: 0.313rem 0.313rem 0.313rem 0.313rem;
-    margin: 0.125rem;
-  }
-  &:hover {
-    background-color: gray;
-  }
-`;
-const Categoryitem1 = styled(Categoryitem)`
-  background-color: hsl(210, 10.416666666666693%, 81.17647058823529%);
 `;
 const Blockitem = styled.div`
   color: rgb(35, 38, 41);
@@ -323,51 +283,6 @@ const Block2 = styled.div`
   row-gap: 0.25rem;
   text-align: left;
 `;
-const UserImg = styled(Link)`
-  div {
-    box-sizing: border-box;
-    color: rgb(0, 116, 204);
-    cursor: pointer;
-    display: block;
-    height: 1rem;
-    line-height: 0.813rem;
-    position: relative;
-    text-align: left;
-    width: 1rem;
-    img {
-      aspect-ratio: auto 16 / 16;
-      color: rgb(0, 116, 204);
-      cursor: pointer;
-      display: block;
-      height: 1rem;
-      line-height: 0.813rem;
-      text-align: left;
-      width: 1rem;
-    }
-  }
-`;
-const UserCommit = styled.ul`
-  align-items: center;
-  box-sizing: border-box;
-  color: rgb(35, 38, 41);
-  column-gap: 0.375rem;
-  display: flex;
-  line-height: 0.813rem;
-  row-gap: 0.375rem;
-  text-align: left;
-  vertical-align: baseline;
-  li {
-    box-sizing: border-box;
-    color: rgb(82, 89, 96);
-    display: list-item;
-    span {
-      box-sizing: border-box;
-      color: rgb(82, 89, 96);
-      direction: ltr;
-      text-align: left;
-    }
-  }
-`;
 const UserIdList = styled.div`
   align-items: center;
   box-sizing: border-box;
@@ -420,11 +335,20 @@ const UserTime = styled.time`
 
 function Questions() {
   const [questions, setQuestions] = useState([]);
+  const [pageInfo, setPageInfo] = useState({});
+
   // ⬇ 페이지 네이션 상태
   const [page, setPage] = useState(1); // 현재 페이지의 번호
   const { onHandleSelect } = useOutletContext();
   const [isFetching, setIsFetching] = useState(true);
   const [Total, setTotal] = useState(0);
+
+  const [sortOptions, setSortOptions] = useState('newest');
+
+  const handleSortOption = (type) => {
+    setSortOptions(type);
+  };
+
   const [TotalQue, setTotalQue] = useState(0);
   useEffect(() => {
     onHandleSelect(1);
@@ -435,7 +359,11 @@ function Questions() {
       const jsonData = await response.json();
 
       setQuestions(jsonData.data);
-      setIsFetching(false);
+      setPageInfo(jsonData.pageInfo);
+
+      setTimeout(() => {
+        setIsFetching(false);
+      }, 3000);
 
       setTotal(jsonData.pageInfo.totalPages);
       setTotalQue(jsonData.data.length);
@@ -462,28 +390,12 @@ function Questions() {
             </AQuecontainer>
           </TopQuestions>
           <Category>
-            <Blockitem>{TotalQue}</Blockitem>
-            <Categorylist>
-              <Categorylink>
-                <Categoryitem1 to="https://stackoverflow.com/?tab=interesting">
-                  Newset
-                </Categoryitem1>
-                <Categoryitem to="https://stackoverflow.com/?tab=month">
-                  Active
-                </Categoryitem>
-                <Categoryitem to="https://stackoverflow.com/?tab=bounties">
-                  <span>226</span> Bountied
-                </Categoryitem>
-                <Categoryitem to="https://stackoverflow.com/?tab=hot">
-                  More
-                </Categoryitem>
-                <Categoryitem to="https://stackoverflow.com/?tab=week">
-                  {/* filter는 버튼만 만들고 정렬은 api를 이용해서 최신순으로 정렬 */}
-                  Filter &nbsp;
-                  <FontAwesomeIcon icon={faBars} />
-                </Categoryitem>
-              </Categorylink>
-            </Categorylist>
+            <Blockitem>{pageInfo.totalElements || 0} questions</Blockitem>
+            <SortButtonGroup
+              buttonData={buttonData}
+              activeOption={sortOptions}
+              onClick={handleSortOption}
+            />
           </Category>
 
           <Qlistwrapper>
@@ -491,55 +403,48 @@ function Questions() {
               <Questioncontainer>
                 {/* ⬇모든 Question Items를 포함하는 컴포넌트 최상위
                  */}
-                {questions.map((question) => {
-                  return (
-                    <Questionlist key={question.questionId}>
-                      <Qinformation>
-                        <Votes>
-                          <span> {question.vote} </span> votes
-                        </Votes>
-                        <Answers>
-                          <span> {question.answerCount} </span> answerd
-                        </Answers>
-                        <Views>
-                          <span> {question.view} </span> views
-                        </Views>
-                      </Qinformation>
-                      <QuelistConatiner>
-                        <QueTitle>
-                          <Link to={`/questions/${question.questionId}`}>
-                            {question.title}
-                          </Link>
-                        </QueTitle>
-                        <Tag>
-                          {/* ⬇ 여기가  Tags 컴포넌트 최상위  */}
-                          <Block2></Block2>
-                          <Block2>
-                            <UserImg>
-                              <div>
-                                <img src={profile} alt="유저 이미지 사진"></img>
-                              </div>
-                            </UserImg>
-                            <UserIdList>
-                              <UserId>
-                                <span>{question.user.name}</span>
-                              </UserId>
-                              <UserCommit>
-                                <li>
-                                  <span> {2} </span>
-                                </li>
-                              </UserCommit>
-                            </UserIdList>
-                            <UserTime>
-                              asked <span>{formatAgo(question.createdAt)}</span>
-                              {/*분만 출력 */}
-                            </UserTime>
-                          </Block2>
-                        </Tag>
-                      </QuelistConatiner>
-                    </Questionlist>
-                  );
-                })}
+                {isFetching && <Loading />}
+                {!isFetching &&
+                  questions.map((question) => {
+                    return (
+                      <Questionlist key={question.questionId}>
+                        <Qinformation>
+                          <Votes>
+                            <span> {question.vote} </span> votes
+                          </Votes>
+                          <Answers>
+                            <span> {question.answerCnt} </span> answerd
+                          </Answers>
+                          <Views>
+                            <span> {question.view} </span> views
+                          </Views>
+                        </Qinformation>
+                        <QuelistConatiner>
+                          <QueTitle>
+                            <Link to={`/questions/${question.questionId}`}>
+                              {question.title}
+                            </Link>
+                          </QueTitle>
+                          <Tag>
+                            {/* ⬇ 여기가  Tags 컴포넌트 최상위  */}
+                            <Block2></Block2>
+                            <Block2>
+                              <UserAvatar size={16} hasShadow={true} />
+                              <UserIdList>
+                                <UserId>
+                                  <span>{question.user.name}</span>
+                                </UserId>
+                              </UserIdList>
+                              <UserTime>
+                                asked{' '}
+                                <span>{formatAgo(question.createdAt)}</span>
+                              </UserTime>
+                            </Block2>
+                          </Tag>
+                        </QuelistConatiner>
+                      </Questionlist>
+                    );
+                  })}
               </Questioncontainer>
             </Questionminilist>
           </Qlistwrapper>
