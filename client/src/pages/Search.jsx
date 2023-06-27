@@ -3,9 +3,9 @@ import Pagination from '../components/pagenation/Pagenation';
 import BlueButton from '../components/common/BlueButton';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import profile from '../assets/imgs/profile.png';
+import SortButtonGroup from '../components/SortButtonGroup';
+import { buttonData } from '../constants/MyPageConstants';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -69,47 +69,14 @@ const Category = styled.div`
   margin-top: 1rem;
   align-items: center;
 `;
-const Categorylist = styled.div`
-  font-size: 100%;
-  display: block;
-  text-align: left;
-`;
-const Categorylink = styled.div`
-  line-height: 0.938rem;
-`;
-const Categoryitem = styled(Link)`
-  margin-right: -0.063rem;
-  background-color: #f5f4f4;
-  border-radius: 0.313rem;
-  margin-bottom: -0.063rem;
-  white-space: nowrap;
-  line-height: 0.938rem;
-  padding: 0.65rem;
-  position: relative;
-  text-align: center;
-  span {
-    background-color: rgb(10, 149, 255);
-    color: white;
-    border-radius: 0.313rem 0.313rem 0.313rem 0.313rem;
-    margin: 0.125rem;
-  }
-  &:hover {
-    background-color: gray;
-  }
-`;
-const Categoryitem1 = styled(Categoryitem)`
-  background-color: hsl(210, 10.416666666666693%, 81.17647058823529%);
-`;
+
 const Blockitem = styled.div`
   color: rgb(35, 38, 41);
   display: block;
-  flex-basis: auto;
   flex-grow: 1;
-  flex-shrink: 1;
   line-height: 1.389rem;
-  text-align: left;
-  box-sizing: border-box;
 `;
+
 const Qlistwrapper = styled.div`
   box-sizing: border-box;
   clear: both;
@@ -122,6 +89,7 @@ const Qlistwrapper = styled.div`
   width: 56.25rem;
   margin-top: 1.875rem;
 `;
+
 const Questionminilist = styled.div`
   box-sizing: border-box;
   color: rgb(35, 38, 41);
@@ -194,15 +162,13 @@ const Votes = styled.div`
   line-height: 1.063rem;
   opacity: 1;
   row-gap: 0.244rem;
-  text-align: left;
-  vertical-align: baseline;
+
   span {
-    box-sizing: border-box;
     color: rgb(12, 13, 14);
     line-height: 1.063rem;
-    text-align: left;
   }
 `;
+
 const Answers = styled.div`
   align-items: center;
   color: gray;
@@ -212,13 +178,9 @@ const Answers = styled.div`
   line-height: 1.063rem;
   opacity: 1;
   row-gap: 0.244rem;
-  text-align: left;
-  vertical-align: baseline;
   span {
-    box-sizing: border-box;
     color: gray;
     line-height: 1.063rem;
-    text-align: left;
   }
 `;
 const Views = styled.div`
@@ -230,13 +192,9 @@ const Views = styled.div`
   line-height: 1.063rem;
   opacity: 1;
   row-gap: 0.244rem;
-  text-align: left;
-  vertical-align: baseline;
   span {
-    box-sizing: border-box;
     color: gray;
     line-height: 1.063rem;
-    text-align: left;
   }
 `;
 const QuelistConatiner = styled.div`
@@ -244,10 +202,8 @@ const QuelistConatiner = styled.div`
   flex-grow: 1;
   line-height: 1.063rem;
   max-width: 100%;
-  text-align: left;
 `;
 const QueTitle = styled.h3`
-  box-sizing: border-box;
   color: rgb(35, 38, 41);
   display: block;
   line-height: 1.389rem;
@@ -256,21 +212,17 @@ const QueTitle = styled.h3`
   margin-bottom: 0.312rem;
   margin-top: -0.122rem;
   padding-right: 1.5rem;
-  text-align: left;
 
   a {
-    box-sizing: border-box;
     color: rgb(0, 116, 204);
     cursor: pointer;
     line-height: 1.389rem;
     text-decoration-color: rgb(0, 116, 204);
     text-decoration-style: solid;
-    vertical-align: baseline;
   }
 `;
 const Tag = styled.div`
   align-items: center;
-  box-sizing: border-box;
   color: rgb(35, 38, 41);
   column-gap: 0.375rem;
   display: flex;
@@ -278,60 +230,29 @@ const Tag = styled.div`
   justify-content: space-between;
   line-height: 1.063rem;
   row-gap: 0.5rem;
-  text-align: left;
-  vertical-align: baseline;
   word-wrap: break-word;
-`;
-const TagItems = styled.div`
-  box-sizing: border-box;
-  color: rgb(35, 38, 41);
-  column-gap: 0.25rem;
-  display: block;
-  flex-wrap: wrap;
-  float: left;
-  border-bottom-color: rgb(35, 38, 41);
-  border-bottom-style: none;
-  border-left-color: rgb(35, 38, 41);
-  border-left-style: none;
-  border-left-width: 0rem;
-  border-right-color: rgb(35, 38, 41);
-  border-right-style: none;
-  border-right-width: rem;
-  border-top-color: rgb(35, 38, 41);
-  border-top-style: none;
-  border-top-width: 0rem;
-  box-sizing: border-box;
-  color: rgb(35, 38, 41);
-  row-gap: 0.25rem;
-  text-align: left;
-  line-height: 1.125rem;
 `;
 
 const Block2 = styled.div`
   align-items: center;
   background-color: rgba(0, 0, 0, 0);
-  box-sizing: border-box;
   color: content-box rgb(35, 38, 41);
   column-gap: 0.25rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   line-height: 0.813rem;
-  margin-bottom: 0px;
   margin-left: 4.375rem;
   row-gap: 0.25rem;
-  text-align: left;
 `;
 const UserImg = styled(Link)`
   div {
-    box-sizing: border-box;
     color: rgb(0, 116, 204);
     cursor: pointer;
     display: block;
     height: 1rem;
     line-height: 0.813rem;
     position: relative;
-    text-align: left;
     width: 1rem;
     img {
       aspect-ratio: auto 16 / 16;
@@ -340,36 +261,28 @@ const UserImg = styled(Link)`
       display: block;
       height: 1rem;
       line-height: 0.813rem;
-      text-align: left;
       width: 1rem;
     }
   }
 `;
 const UserCommit = styled.ul`
   align-items: center;
-  box-sizing: border-box;
   color: rgb(35, 38, 41);
   column-gap: 0.375rem;
   display: flex;
   line-height: 0.813rem;
   row-gap: 0.375rem;
-  text-align: left;
-  vertical-align: baseline;
   li {
-    box-sizing: border-box;
     color: rgb(82, 89, 96);
     display: list-item;
     span {
-      box-sizing: border-box;
       color: rgb(82, 89, 96);
       direction: ltr;
-      text-align: left;
     }
   }
 `;
 const UserIdList = styled.div`
   align-items: center;
-  box-sizing: border-box;
   color: rgb(35, 38, 41);
   column-gap: 0.25rem;
   display: flex;
@@ -378,7 +291,6 @@ const UserIdList = styled.div`
 `;
 const UserId = styled.div`
   align-items: center;
-  box-sizing: border-box;
   color: rgb(35, 38, 41);
   display: flex;
   flex-wrap: wrap;
@@ -386,7 +298,6 @@ const UserId = styled.div`
   margin: -0.125rem;
 
   a {
-    box-sizing: border-box;
     color: rgb(0, 116, 204);
     cursor: pointer;
     line-height: 0.75rem;
@@ -394,22 +305,15 @@ const UserId = styled.div`
   }
 `;
 const UserTime = styled.time`
-  box-sizing: border-box;
   color: rgb(106, 115, 124);
   grid-column-end: 3;
   grid-column-start: 1;
   grid-row-end: 2;
   grid-row-start: 1;
   line-height: 0.75rem;
-  a {
-    box-sizing: border-box;
-    color: rgb(59, 64, 68);
-    cursor: pointer;
-    line-height: 0.75rem;
-  }
+  a,
   span {
-    box-sizing: border-box;
-    color: rgb(59, 64, 69);
+    color: rgb(59, 64, 68);
     cursor: pointer;
     line-height: 0.75rem;
   }
@@ -422,6 +326,11 @@ function Search() {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
   const searchData = searchResults.data;
+  const [sortOptions, setSortOptions] = useState('newest');
+
+  const handleSortOption = (type) => {
+    setSortOptions(type);
+  };
 
   const formatTime = (createdAt) => {
     const dateObj = new Date(createdAt);
@@ -437,33 +346,16 @@ function Search() {
           <TopQuestions>
             <H1>Search Results</H1>
             <AQuecontainer>
-              <BlueButton link="/askquestions">Ask Question</BlueButton>
+              <BlueButton link="/askquestions"> Ask Question </BlueButton>
             </AQuecontainer>
           </TopQuestions>
           <Category>
-            <Blockitem>
-              {searchResults && searchData.length} questions
-            </Blockitem>
-            <Categorylist>
-              <Categorylink>
-                <Categoryitem1 to="https://stackoverflow.com/?tab=interesting">
-                  Newset
-                </Categoryitem1>
-                <Categoryitem to="https://stackoverflow.com/?tab=month">
-                  Active
-                </Categoryitem>
-                <Categoryitem to="https://stackoverflow.com/?tab=bounties">
-                  <span>226</span> Bountied
-                </Categoryitem>
-                <Categoryitem to="https://stackoverflow.com/?tab=hot">
-                  More
-                </Categoryitem>
-                <Categoryitem to="https://stackoverflow.com/?tab=week">
-                  Filter &nbsp;
-                  <FontAwesomeIcon icon={faBars} />
-                </Categoryitem>
-              </Categorylink>
-            </Categorylist>
+            <Blockitem></Blockitem>
+            <SortButtonGroup
+              buttonData={buttonData}
+              activeOption={sortOptions}
+              onClick={handleSortOption}
+            />
           </Category>
 
           <Qlistwrapper>
@@ -503,11 +395,7 @@ function Search() {
                                 <UserId>
                                   <span>{data.user.name}</span>
                                 </UserId>
-                                <UserCommit>
-                                  <li>
-                                    <span> {2} </span>
-                                  </li>
-                                </UserCommit>
+                                <UserCommit></UserCommit>
                               </UserIdList>
                               <UserTime>
                                 asked <span>{createdMinutes} mins ago</span>

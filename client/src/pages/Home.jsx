@@ -1,9 +1,13 @@
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import BlueButton from '../components/common/BlueButton';
-
-import { useEffect, useState } from 'react';
-import { Link, useOutletContext } from 'react-router-dom';
 import UserAvatar from '../components/UserAvatar';
+import SortButtonGroup from '../components/SortButtonGroup';
+
+import { Link, useOutletContext } from 'react-router-dom';
+import { buttonData } from '../constants/MyPageConstants';
+import { formatAgo } from '../utils/date';
+import Loading from '../components/Loading';
 
 const Maincontainer = styled.div`
   max-width: 68.75rem;
@@ -79,49 +83,6 @@ const Category = styled.div`
   align-items: center;
   box-sizing: inherit;
   text-align: left;
-`;
-const Categorylist = styled.div`
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  font-size: 100%;
-  display: block;
-  text-align: left;
-`;
-const Categorylink = styled.div`
-  vertical-align: baseline;
-  text-align: left;
-  line-height: 0.938rem;
-`;
-const Categoryitem = styled(Link)`
-  margin-right: -0.063rem;
-  z-index: 1.563rem;
-  background-color: #f5f4f4;
-  border-radius: 0.313rem 0.313rem 0.313rem 0.313rem;
-
-  margin-bottom: -0.063rem;
-  white-space: nowrap;
-  line-height: 0.938rem;
-  padding-bottom: 0.65rem;
-  padding-left: 0.65rem;
-  padding-right: 0.65rem;
-  padding-top: 0.65rem;
-  position: relative;
-  text-align: center;
-  span {
-    background-color: rgb(10, 149, 255);
-    color: white;
-    border-radius: 0.313rem 0.313rem 0.313rem 0.313rem;
-    margin: 0.125rem;
-  }
-  &:hover {
-    background-color: gray;
-  }
-`;
-const Categoryitem1 = styled(Categoryitem)`
-  background-color: hsl(210, 10.416666666666693%, 81.17647058823529%);
 `;
 const Blockitem = styled.div`
   color: rgb(35, 38, 41);
@@ -320,51 +281,6 @@ const Block2 = styled.div`
   row-gap: 0.25rem;
   text-align: left;
 `;
-const UserImg = styled(Link)`
-  div {
-    box-sizing: border-box;
-    color: rgb(0, 116, 204);
-    cursor: pointer;
-    display: block;
-    height: 1rem;
-    line-height: 0.813rem;
-    position: relative;
-    text-align: left;
-    width: 1rem;
-    img {
-      aspect-ratio: auto 16 / 16;
-      color: rgb(0, 116, 204);
-      cursor: pointer;
-      display: block;
-      height: 1rem;
-      line-height: 0.813rem;
-      text-align: left;
-      width: 1rem;
-    }
-  }
-`;
-const UserCommit = styled.ul`
-  align-items: center;
-  box-sizing: border-box;
-  color: rgb(35, 38, 41);
-  column-gap: 0.375rem;
-  display: flex;
-  line-height: 0.813rem;
-  row-gap: 0.375rem;
-  text-align: left;
-  vertical-align: baseline;
-  li {
-    box-sizing: border-box;
-    color: rgb(82, 89, 96);
-    display: list-item;
-    span {
-      box-sizing: border-box;
-      color: rgb(82, 89, 96);
-      direction: ltr;
-      text-align: left;
-    }
-  }
-`;
 const UserIdList = styled.div`
   align-items: center;
   box-sizing: border-box;
@@ -421,17 +337,25 @@ const UserTime = styled.time`
 function Home() {
   const [questions, setQuestions] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [sortOptions, setSortOptions] = useState('newest');
+
   const { onHandleSelect } = useOutletContext();
+  const handleSortOption = (type) => {
+    setSortOptions(type);
+  };
 
   useEffect(() => {
     onHandleSelect(0);
     const getAllQuestions = async () => {
       setIsFetching(true);
-      // const response = await fetch('/data/questions.json');
       const response = await fetch(
         'http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/top',
       );
       const jsonData = await response.json();
+
+      setTimeout(() => {
+        setIsFetching(false);
+      }, 3000);
 
       setQuestions(jsonData.data);
       setIsFetching(false);
@@ -451,32 +375,20 @@ function Home() {
           </TopQuestions>
           <Category>
             <Blockitem></Blockitem>
-            <Categorylist>
-              <Categorylink>
-                <Categoryitem1 to="https://stackoverflow.com/?tab=interesting">
-                  Interesting
-                </Categoryitem1>
-                <Categoryitem to="https://stackoverflow.com/?tab=bounties">
-                  <span>226</span> Bountied
-                </Categoryitem>
-                <Categoryitem to="https://stackoverflow.com/?tab=hot">
-                  Hot
-                </Categoryitem>
-                <Categoryitem to="https://stackoverflow.com/?tab=week">
-                  Week
-                </Categoryitem>
-                <Categoryitem to="https://stackoverflow.com/?tab=month">
-                  Month
-                </Categoryitem>
-              </Categorylink>
-            </Categorylist>
+            <SortButtonGroup
+              buttonData={buttonData}
+              activeOption={sortOptions}
+              onClick={handleSortOption}
+            />
           </Category>
 
           <Qlistwrapper>
             <Questionminilist>
               <Questioncontainer>
                 {/* ⬇모든 Question Items를 포함하는 컴포넌트 최상위 */}
+                {isFetching && <Loading />}
                 {Array.isArray(questions) &&
+                  !isFetching &&
                   questions?.map((question) => {
                     return (
                       <Questionlist key={question.questionId}>
@@ -508,17 +420,13 @@ function Home() {
                                     <span>{question.user.name}</span>
                                   </Link>
                                 </UserId>
-                                <UserCommit>
-                                  <li>
-                                    <span> {question.ask} </span>
-                                  </li>
-                                </UserCommit>
                               </UserIdList>
                               <UserTime>
                                 <Link
                                   to={`https://stackoverflow.com/questions/${question.questionId}/${question.title}`}
                                 >
-                                  asked <span>2 mins ago</span>
+                                  asked{' '}
+                                  <span>{formatAgo(question.createAt)}</span>
                                 </Link>
                               </UserTime>
                             </Block2>

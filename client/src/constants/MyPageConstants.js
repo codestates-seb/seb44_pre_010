@@ -6,17 +6,17 @@ export const buttonData = [
 
 export const panelData = [
   {
-    id: 'answers',
+    id: 'answer',
     text: 'Answers',
     emptyMessage: ' answered any questions',
   },
   {
-    id: 'questions',
+    id: 'question',
     text: 'Questions',
     emptyMessage: ' asked any questions',
   },
   {
-    id: 'tags',
+    id: 'tag',
     text: 'Tags',
     emptyMessage: ' participated in any tags',
   },

@@ -56,7 +56,7 @@ export default function EditPage({ title, content, qid, aid }) {
           );
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   };
 
   useEffect(() => {

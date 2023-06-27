@@ -21,10 +21,10 @@ public class QuestionDto {
     @Getter
     public static class Post{
         @NotSpace(message = "질문 제목은 공백이 아니어야 합니다.")
-        @Size(min= 20, max= 100)
+        @Size(min= 10, max= 100)
         private String title;
         @NotSpace(message = "질문 세부내용은 공백이 아니어야 합니다.")
-        @Size(min= 2, max= 220)
+        @Size(min= 20, max= 500)
         private String content;
     }
 
@@ -33,10 +33,10 @@ public class QuestionDto {
     @Getter
     public static class Patch{
         @NotSpace(message = "질문 제목은 공백이 아니어야 합니다.")
-        @Size(min= 20, max= 100)
+        @Size(min= 10, max= 100)
         private String title;
         @NotSpace(message = "질문 세부내용은 공백이 아니어야 합니다.")
-        @Size(min= 2, max= 220)
+        @Size(min= 20, max= 500)
         private String content;
     }
 

@@ -213,7 +213,6 @@ export default function QuestionDetail() {
   const { id } = useParams();
 
   useEffect(() => {
-    console.log(id);
     setIsFetching(true);
     fetch(
       `http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080/api/v1/questions/${id}`,
@@ -307,9 +306,7 @@ export default function QuestionDetail() {
       }
 
       if (res.status === 201) {
-        console.log(`vote ${status}!`);
         setQuestionVote(status);
-        console.log(questionVote);
       } else if (res.status >= 400) {
         onHandleVoteCancel();
         // onHandleVote(status);
@@ -331,6 +328,7 @@ export default function QuestionDetail() {
       if (res.status === 200) {
         console.log('cancel vote!');
         console.log(res);
+        setQuestionVote('');
       }
     });
   };

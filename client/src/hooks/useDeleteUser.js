@@ -5,7 +5,6 @@ const useDeleteUser = () => {
   const [error, setError] = useState(null);
 
   const deleteUser = async (userId, accessToken) => {
-    console.log(userId);
     setIsLoading(true);
 
     try {
@@ -22,7 +21,7 @@ const useDeleteUser = () => {
 
       if (response.ok) {
         setIsLoading(false);
-        return response.json();
+        return true;
       } else {
         throw new Error('Failed to delete user');
       }
