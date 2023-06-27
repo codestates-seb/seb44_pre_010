@@ -35,7 +35,7 @@
 
 ## Project
 ### 회원가입
-<img src="img/회원가입.gif" width="700" height="450">
+<img src="img/회원가입.gif" width="800" height="450">
 
 ### 로그인/로그아웃
 <img src="img/로그인-로그아웃.gif" width="700" height="450">
