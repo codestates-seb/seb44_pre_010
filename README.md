@@ -15,7 +15,7 @@
 |--------------------------------------------------|-----------------------------------------------------|-----------------------------------------------------|----------------------------------------------------|
 | [@KimSuSung0326](https://github.com/KimSuSung0326) | [@erirumble](https://github.com/erirumble)          | [@1abme](https://github.com/1abme)                  | [@22yuu](https://github.com/22yuu)                 |
 | <img src="img/red.png" width="100" height="100"> | <img src="img/orange.png" width="100" height="100"> | <img src="img/yellow.png" width="100" height="100"> | <img src="img/green.png" width="100" height="100"> |
-|                                                  |        Login, SignUp, SearchBar, SearchPage         |                                                     |                                                    |
+|                                                  | Login<br/>SignUp<br/>SearchBar<br/>SearchPage       |                                                     |                                                    |
 ### Backend
 | 신영호                                               | 박경민                                                   | 윤다영<br>(Team Reader)                                |
 |---------------------------------------------------|-------------------------------------------------------|-----------------------------------------------------|
