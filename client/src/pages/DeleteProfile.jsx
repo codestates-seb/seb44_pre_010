@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import useDeleteUser from '../hooks/useDeleteUser';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { open } from '../redux/reducers/modalSlice';
 import { logout } from '../redux/reducers/loginSlice';
 
@@ -107,7 +107,6 @@ function DeleteProfile() {
     try {
       const isSuccess = await deleteUser(userId, accessToken);
       if (isSuccess) {
-        console.log('회원 탈퇴 성공');
         dispatch(logout());
         dispatch(
           open({
@@ -120,7 +119,6 @@ function DeleteProfile() {
         throw new Error('회원 탈퇴 실패');
       }
     } catch (error) {
-      console.log('회원 탈퇴 실패');
       dispatch(open({ modalType: 'deleteUserfail', isOpen: true }));
     }
   };

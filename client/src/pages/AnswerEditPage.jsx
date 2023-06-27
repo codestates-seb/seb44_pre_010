@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
 import EditPage from './EditPage';
-
-const Title = styled.h2`
-  font-size: 0.813rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-`;
 
 export default function AnswerEditPage() {
   const [answer, setAnswer] = useState({});

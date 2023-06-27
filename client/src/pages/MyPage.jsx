@@ -229,7 +229,6 @@ function MyPage() {
     error,
   } = useUserData(userId, accessToken);
   const userData = fetchedData?.data;
-  console.log(userData);
 
   const getSortedPanelList = (panelId) => {
     const sortFunction = buttonData.find(

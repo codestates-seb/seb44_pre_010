@@ -120,7 +120,6 @@ function EditProfile() {
     e.preventDefault();
 
     const accessToken = localStorage.getItem('accessToken');
-    console.log('accessToken:', accessToken);
 
     if (!name) {
       setErrors('Displayname_empty');
